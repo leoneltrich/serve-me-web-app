@@ -2,6 +2,13 @@
   import { onMount } from 'svelte';
 
   let isDarkMode = $state(false);
+  let mouseX = $state(0);
+  let mouseY = $state(0);
+
+  function handleMouseMove(e: MouseEvent) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }
 
   onMount(() => {
     // Check initial OS preference
@@ -35,7 +42,12 @@
   }
 </script>
 
+<svelte:window onmousemove={handleMouseMove} />
+
 <div class="login-wrapper">
+  <!-- Interactive Mouse Glow -->
+  <div class="mouse-glow" style="--mouse-x: {mouseX}px; --mouse-y: {mouseY}px;"></div>
+
   <!-- Ambient background orbs for depth -->
   <div class="ambient-orb orb-1"></div>
   <div class="ambient-orb orb-2"></div>
@@ -136,8 +148,8 @@
     --bg-base: #f8fafc;
     --bg-orb-1: rgba(59, 130, 246, 0.15); /* Soft blue */
     --bg-orb-2: rgba(147, 51, 234, 0.1);  /* Soft purple */
+    --mouse-glow: rgba(59, 130, 246, 0.05); /* Extremely subtle soft blue glow */
     --card-bg: rgba(255, 255, 255, 0.85);
-    --card-border: rgba(255, 255, 255, 0.8);
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.05);
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -159,6 +171,7 @@
     --bg-base: #09090b; /* Very dark rich background */
     --bg-orb-1: rgba(56, 189, 248, 0.08); /* Dark mode blue glow */
     --bg-orb-2: rgba(168, 85, 247, 0.06); /* Dark mode purple glow */
+    --mouse-glow: rgba(56, 189, 248, 0.05); /* Extremely subtle dark mode blue glow */
     --card-bg: rgba(24, 24, 27, 0.65);
     --card-border: rgba(255, 255, 255, 0.08);
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -203,6 +216,24 @@
   }
 
   /* --- Depth & Texture Elements --- */
+  .mouse-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(
+      circle,
+      var(--mouse-glow) 0%,
+      transparent 80%
+    );
+    transform: translate(calc(var(--mouse-x, 0px) - 50%), calc(var(--mouse-y, 0px) - 50%));
+    transition: transform 2s cubic-bezier(0.05, 0.9, 0.1, 1);
+    opacity: 0.2;
+  }
   .ambient-orb {
     position: absolute;
     border-radius: 50%;
