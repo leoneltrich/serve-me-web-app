@@ -493,8 +493,17 @@
     @media (max-width: 640px) {
       .login-card {
         padding: 2rem 1.5rem;
-        border-radius: 12px;
+        border-radius: 0;
         max-width: 100%;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .card-highlight {
+        display: none;
       }
 
       .brand-mark {
