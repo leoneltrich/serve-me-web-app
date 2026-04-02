@@ -395,14 +395,6 @@
         gap: 0.25rem;
     }
 
-    .form-label {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--text-main);
-        transition: color 0.3s ease;
-        padding-left: 0.25rem;
-    }
-
     .input-wrapper {
         position: relative;
         display: flex;
@@ -494,6 +486,53 @@
     }
 
     .submit-button:hover .btn-icon {
-        transform: translateX(3px);
+      transform: translateX(3px);
     }
-</style>
+
+    /* --- Responsive Breakpoints --- */
+    @media (max-width: 640px) {
+      .login-card {
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
+        max-width: 100%;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
+      }
+
+      .brand-mark svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .login-title {
+        font-size: 1.375rem;
+      }
+
+      .login-header {
+        margin-bottom: 2rem;
+      }
+
+      /* Set minimum font size for inputs to prevent iOS Safari auto-zoom */
+      .form-input {
+        font-size: 1rem;
+        padding: 0.875rem 1rem 0.875rem 2.5rem;
+      }
+
+      .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 36px;
+        height: 36px;
+      }
+
+      .mouse-glow {
+        /* Reduce size on smaller screens, or hide completely if preferred */
+        width: 250px;
+        height: 250px;
+      }
+    }
+    </style>
