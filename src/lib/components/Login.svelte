@@ -276,8 +276,8 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
-    max-width: 380px;
-    padding: 2.5rem 2rem;
+    max-width: 450px;
+    padding: 2rem 1.8rem;
     border-radius: 16px;
     border: 1px solid var(--card-border);
     box-shadow: var(--card-shadow);
@@ -349,7 +349,7 @@
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 
   .form-label {
