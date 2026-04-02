@@ -119,7 +119,7 @@
 
       <button type="submit" class="submit-button">
         <span>Sign In</span>
-        <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
@@ -276,9 +276,9 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
-    max-width: 420px;
-    padding: 3rem 2.5rem;
-    border-radius: 20px;
+    max-width: 380px;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
     border: 1px solid var(--card-border);
     box-shadow: var(--card-shadow);
     box-sizing: border-box;
@@ -341,7 +341,7 @@
   .login-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
     position: relative;
     z-index: 2;
   }
@@ -417,15 +417,15 @@
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    padding: 1rem;
+    padding: 0.75rem;
     margin-top: 0.5rem;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: #ffffff;
     background: var(--primary-gradient);
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--primary-shadow);
