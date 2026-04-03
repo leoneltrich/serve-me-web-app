@@ -1,20 +1,23 @@
 <script lang="ts">
   import Sidebar from '$lib/components/dashboard/Sidebar.svelte';
   import Header from '$lib/components/dashboard/Header.svelte';
+  import { authState } from '$lib/services/auth/auth.state.svelte';
 
   let { children } = $props();
 </script>
 
-<div class="dashboard-layout">
-  <Sidebar />
-  
-  <div class="main-container">
-    <Header />
-    <main class="content">
-      {@render children()}
-    </main>
+{#if authState.isAuthenticated}
+  <div class="dashboard-layout">
+    <Sidebar />
+    
+    <div class="main-container">
+      <Header />
+      <main class="content">
+        {@render children()}
+      </main>
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
   .dashboard-layout {
