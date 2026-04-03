@@ -73,7 +73,7 @@
 
     <div class="user-menu-container">
       <button class="user-badge" onclick={toggleUserMenu} aria-expanded={isUserMenuOpen}>
-        <div class="user-avatar">
+        <div class="user-avatar-small">
           {authState.user?.username?.charAt(0).toUpperCase() ?? '?'}
         </div>
         <span class="username">{authState.user?.username ?? 'Loading...'}</span>
@@ -85,16 +85,29 @@
       {#if isUserMenuOpen && authState.user}
         <div class="dropdown-menu">
           <div class="dropdown-header">
-            <p class="user-label">Signed in as</p>
-            <p class="user-email">{authState.user.username}</p>
+            <div class="dropdown-user-info">
+              <div class="user-avatar-large">
+                {authState.user.username.charAt(0).toUpperCase()}
+              </div>
+              <div class="user-text">
+                <p class="user-name">{authState.user.username}</p>
+                <p class="user-role">Administrator</p>
+              </div>
+            </div>
           </div>
+          
           <div class="dropdown-divider"></div>
-          <button class="dropdown-item logout" onclick={handleLogout}>
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path>
-            </svg>
-            <span>Sign Out</span>
-          </button>
+          
+          <div class="dropdown-content">
+            <button class="dropdown-item logout" onclick={handleLogout}>
+              <div class="item-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path>
+                </svg>
+              </div>
+              <span>Sign Out</span>
+            </button>
+          </div>
         </div>
         <!-- Click outside to close -->
         <button class="menu-overlay" onclick={() => isUserMenuOpen = false} aria-label="Close menu"></button>
@@ -215,7 +228,7 @@
     background: none;
     border: 1px solid transparent;
     padding: 0.375rem 0.75rem;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     color: var(--text-main);
     font-family: inherit;
@@ -232,17 +245,18 @@
     border-color: rgba(255, 255, 255, 0.05);
   }
 
-  .user-avatar {
+  .user-avatar-small {
     width: 28px;
     height: 28px;
     background: var(--primary-gradient);
     color: white;
-    border-radius: 50%;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     font-size: 0.75rem;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.2);
   }
 
   .username {
@@ -261,40 +275,68 @@
 
   .dropdown-menu {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + 0.75rem);
     right: 0;
-    width: 200px;
-    background: var(--bg-base); /* Using base background for more solid feel */
+    width: 240px;
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
     overflow: hidden;
     z-index: 200;
     color: var(--text-main);
+    animation: dropdown-fade 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  :global(.dark-mode) .dropdown-menu {
-    background: #18181b; /* Solid dark background */
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  @keyframes dropdown-fade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .dropdown-header {
-    padding: 1rem;
+    padding: 1.25rem;
   }
 
-  .user-label {
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .dropdown-user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-avatar-large {
+    width: 44px;
+    height: 44px;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  }
+
+  .user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .user-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-main);
+  }
+
+  .user-role {
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--text-muted);
     margin: 0;
-  }
-
-  .user-email {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin: 0.125rem 0 0;
-    color: var(--text-main);
   }
 
   .dropdown-divider {
@@ -302,36 +344,54 @@
     background: var(--card-border);
   }
 
+  .dropdown-content {
+    padding: 0.5rem;
+  }
+
   .dropdown-item {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.875rem;
     background: none;
     border: none;
     color: inherit;
     font-family: inherit;
     font-size: 0.875rem;
+    font-weight: 500;
     cursor: pointer;
     text-align: left;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    border-radius: 10px;
   }
 
   .dropdown-item:hover {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(0, 0, 0, 0.04);
   }
 
   :global(.dark-mode) .dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: color 0.2s;
   }
 
   .dropdown-item.logout {
     color: #ef4444;
   }
 
+  .dropdown-item.logout .item-icon {
+    color: #ef4444;
+  }
+
   .dropdown-item.logout:hover {
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.08);
   }
 
   .menu-overlay {
