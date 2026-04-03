@@ -106,7 +106,7 @@
     padding: 0 2rem;
     position: sticky;
     top: 0;
-    z-index: 90;
+    z-index: 150;
     color: var(--text-main);
     transition: all 0.3s ease;
   }
@@ -122,6 +122,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    position: relative;
   }
 
   .theme-toggle {
@@ -204,15 +205,18 @@
     top: calc(100% + 0.5rem);
     right: 0;
     width: 200px;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--bg-base); /* Using base background for more solid feel */
     border: 1px solid var(--card-border);
     border-radius: 12px;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    z-index: 100;
+    z-index: 200;
     color: var(--text-main);
+  }
+
+  :global(.dark-mode) .dropdown-menu {
+    background: #18181b; /* Solid dark background */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
   }
 
   .dropdown-header {

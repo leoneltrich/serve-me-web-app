@@ -44,7 +44,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 100;
+    z-index: 300;
     transition: all 0.3s ease;
   }
 
