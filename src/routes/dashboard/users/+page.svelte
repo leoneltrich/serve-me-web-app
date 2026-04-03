@@ -3,6 +3,7 @@
   import { getAdminService } from '$lib/services/context';
   import type { AdminUser } from '$lib/services/interfaces';
   import Modal from '$lib/components/dashboard/Modal.svelte';
+  import UserCard from '$lib/components/dashboard/UserCard.svelte';
 
   const adminService = getAdminService();
 
@@ -122,60 +123,75 @@
   </div>
 {/if}
 
-<div class="users-card">
+<div class="users-container">
   {#if isLoading}
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Loading users...</p>
+    <div class="loading-grid">
+      {#each Array(3) as _}
+        <div class="card-skeleton"></div>
+      {/each}
     </div>
   {:else if users.length === 0}
     <div class="empty-state">
       <p>No users found.</p>
     </div>
   {:else}
-    <div class="table-container">
-      <table class="users-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th class="actions-cell">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each users as user}
+    <!-- Mobile Grid View -->
+    <div class="users-grid mobile-only">
+      {#each users as user}
+        <UserCard 
+          {user} 
+          onedit={() => openEditModal(user)} 
+          ondelete={() => handleDelete(user.username)}
+        />
+      {/each}
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="users-card desktop-only">
+      <div class="table-container">
+        <table class="users-table">
+          <thead>
             <tr>
-              <td class="name-cell" data-label="Username">
-                <div class="user-avatar-small">
-                  {user.username.charAt(0).toUpperCase()}
-                </div>
-                {user.username}
-              </td>
-              <td data-label="Role">
-                <span class="badge" class:admin={user.is_admin}>
-                  {user.is_admin ? 'Admin' : 'User'}
-                </span>
-              </td>
-              <td class="actions-cell" data-label="Actions">
-                <div class="action-group">
-                  <button class="action-btn edit" onclick={() => openEditModal(user)} title="Edit">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                  </button>
-                  <button class="action-btn delete" onclick={() => handleDelete(user.username)} title="Delete">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                  </button>
-                </div>
-              </td>
+              <th>Username</th>
+              <th>Role</th>
+              <th class="actions-cell">Actions</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {#each users as user}
+              <tr>
+                <td class="name-cell">
+                  <div class="user-avatar-small">
+                    {user.username.charAt(0).toUpperCase()}
+                  </div>
+                  {user.username}
+                </td>
+                <td>
+                  <span class="badge" class:admin={user.is_admin}>
+                    {user.is_admin ? 'Admin' : 'User'}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <div class="action-group">
+                    <button class="action-btn edit" onclick={() => openEditModal(user)} title="Edit">
+                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                    </button>
+                    <button class="action-btn delete" onclick={() => handleDelete(user.username)} title="Delete">
+                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
   {/if}
 </div>
@@ -327,6 +343,49 @@
     border: 1px solid rgba(16, 185, 129, 0.2);
   }
 
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-only {
+      display: grid;
+    }
+    .desktop-only {
+      display: none;
+    }
+  }
+
+  .loading-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card-skeleton {
+    height: 160px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    animation: pulse-bg 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse-bg {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.3; }
+  }
+
   .users-card {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
@@ -339,95 +398,19 @@
 
   .table-container {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-.users-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-@media (max-width: 640px) {
-  .users-card {
-    background: none;
-    border: none;
-    box-shadow: none;
   }
 
-  .table-container {
-    overflow-x: visible;
-  }
-
-  .users-table, .users-table thead, .users-table tbody, .users-table th, .users-table td, .users-table tr {
-    display: block;
-  }
-
-  .users-table thead {
-    display: none;
-  }
-
-  .users-table tr {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    box-shadow: var(--card-shadow);
-  }
-
-  .users-table td {
-    border-bottom: none;
-    padding: 0.5rem 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: right;
-    font-size: 0.9375rem;
-  }
-
-  .users-table td::before {
-    content: attr(data-label);
-    font-weight: 500;
-    text-transform: none;
-    font-size: 0.8125rem;
-    color: var(--text-muted);
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
     text-align: left;
   }
 
-  .name-cell {
-    border-bottom: 1px solid var(--card-border) !important;
-    margin-bottom: 0.25rem;
-    padding: 0.75rem !important;
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: 8px 8px 0 0;
-  }
-
-  :global(.dark-mode) .name-cell {
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  .user-avatar-small {
-    width: 28px;
-    height: 28px;
-  }
-  .name-cell::before {
-    display: none;
-  }
-
-  .action-group {
-    justify-content: flex-end;
-    width: 100%;
-  }
-}
-
-.users-table th {
-  padding: 1rem 1.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-...
+  .users-table th {
+    padding: 1rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
     border-bottom: 1px solid var(--card-border);
