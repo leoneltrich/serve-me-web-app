@@ -8,7 +8,7 @@
 	import { BackendAuthService } from '$lib/services/auth/backend-auth.service';
 	import { BackendAdminService } from '$lib/services/auth/backend-admin.service';
 	import { BackendServerService } from '$lib/services/auth/backend-server.service';
-	import { MockHealthService } from '$lib/services/mock-health.service.svelte';
+	import { BackendHealthService } from '$lib/services/auth/backend-health.service';
 	import { authState } from '$lib/services/auth/auth.state.svelte';
 
 	let { data, children } = $props();
@@ -16,17 +16,16 @@
 	// Composition Root
 	const apiClient = new FetchApiClient(); // Defaults to /api/v1 from .env
 	const authApiClient = new FetchApiClient(''); // Uses root for /auth endpoints
-	
+
 	const authService = new BackendAuthService(authApiClient);
 	const adminService = new BackendAdminService(apiClient);
 	const serverService = new BackendServerService(apiClient);
-	const healthService = new MockHealthService();
+	const healthService = new BackendHealthService(apiClient);
 
 	setAuthService(authService);
 	setAdminService(adminService);
 	setServerService(serverService);
 	setHealthService(healthService);
-
 	// SYNC: Keep global state in sync with server-provided data
 	$effect.pre(() => {
 		authState.setUser(data.user);
