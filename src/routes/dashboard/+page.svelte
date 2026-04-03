@@ -69,11 +69,12 @@
     align-items: center;
     gap: 1.25rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    transition: background-color 0.2s, border-color 0.2s;
   }
 
+  /* Remove hover transform */
   .stat-card:hover {
-    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   :global(.dark-mode) .stat-card {
