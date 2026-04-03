@@ -46,10 +46,29 @@
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+	:global(:root) {
+		--bg-base: #eff6ff; /* Matches the soft blue/brighter parts of the login background */
+		--text-main: #0f172a;
+		--text-muted: #64748b;
+		--primary-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
+		--brand-color: #2563eb;
+	}
+
+	:global(:root.dark-mode) {
+		--bg-base: #09090b;
+		--text-main: #f8fafc;
+		--text-muted: #94a3b8;
+		--primary-gradient: linear-gradient(135deg, #0ea5e9, #38bdf8);
+		--brand-color: #38bdf8;
+	}
+
 	:global(body) {
 		margin: 0;
 		padding: 0;
 		overflow-x: hidden;
 		font-family: 'Poppins', sans-serif;
+		background-color: var(--bg-base);
+		color: var(--text-main);
+		transition: background-color 0.3s ease, color 0.3s ease;
 	}
 </style>

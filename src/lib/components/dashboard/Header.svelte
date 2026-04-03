@@ -97,6 +97,8 @@
     position: sticky;
     top: 0;
     z-index: 90;
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   :global(.dark-mode) .header {
@@ -107,7 +109,7 @@
   .breadcrumb {
     font-size: 0.8125rem;
     font-weight: 500;
-    color: #64748b;
+    color: var(--text-muted);
     letter-spacing: 0.02em;
   }
 
@@ -120,7 +122,7 @@
   .theme-toggle {
     background: none;
     border: none;
-    color: #64748b;
+    color: var(--text-muted);
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 50%;
@@ -130,12 +132,11 @@
 
   .theme-toggle:hover {
     background: rgba(0, 0, 0, 0.05);
-    color: #0f172a;
+    color: var(--text-main);
   }
 
   :global(.dark-mode) .theme-toggle:hover {
     background: rgba(255, 255, 255, 0.05);
-    color: #f8fafc;
   }
 
   .user-menu-container {
@@ -151,7 +152,7 @@
     padding: 0.375rem 0.75rem;
     border-radius: 8px;
     cursor: pointer;
-    color: inherit;
+    color: var(--text-main);
     font-family: inherit;
     transition: all 0.2s;
   }
@@ -169,7 +170,7 @@
   .user-avatar {
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    background: var(--primary-gradient);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -185,7 +186,7 @@
   }
 
   .chevron {
-    color: #94a3b8;
+    color: var(--text-muted);
     transition: transform 0.2s;
   }
 
@@ -204,6 +205,7 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     z-index: 100;
+    color: var(--text-main);
   }
 
   :global(.dark-mode) .dropdown-menu {
@@ -220,7 +222,7 @@
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #94a3b8;
+    color: var(--text-muted);
     margin: 0;
   }
 
@@ -228,6 +230,7 @@
     font-size: 0.875rem;
     font-weight: 600;
     margin: 0.125rem 0 0;
+    color: var(--text-main);
   }
 
   .dropdown-divider {
