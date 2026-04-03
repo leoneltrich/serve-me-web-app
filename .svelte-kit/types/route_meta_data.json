@@ -7,6 +7,9 @@
 		"src/routes/+layout.server.ts",
 		"src/routes/+layout.server.ts"
 	],
+	"/dashboard/servers": [
+		"src/routes/+layout.server.ts"
+	],
 	"/login": [
 		"src/routes/+layout.server.ts"
 	]
