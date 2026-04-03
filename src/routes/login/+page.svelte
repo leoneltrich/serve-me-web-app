@@ -122,7 +122,6 @@
             {/if}
 
             <div class="form-group">
-                <label class="form-label" for="username">Username</label>
                 <div class="input-wrapper">
           <span class="input-icon">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
@@ -145,7 +144,6 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="password">Password</label>
                 <div class="input-wrapper">
           <span class="input-icon">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
