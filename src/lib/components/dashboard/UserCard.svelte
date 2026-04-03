@@ -69,7 +69,6 @@
   }
 
   .user-card:hover {
-    transform: translateY(-4px);
     background: rgba(255, 255, 255, 0.95);
     border-color: rgba(37, 99, 235, 0.2);
     box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
@@ -198,7 +197,6 @@
 
   .action-btn.edit:hover {
     filter: brightness(0.95);
-    transform: scale(1.02);
   }
 
   .action-btn.delete:hover {
