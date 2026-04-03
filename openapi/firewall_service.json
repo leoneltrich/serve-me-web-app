@@ -1,0 +1,1074 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "firewall_service",
+    "description": "",
+    "license": {
+      "name": ""
+    },
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/url": {
+      "get": {
+        "description": "New endpoint",
+        "responses": {
+          "200": {
+            "description": "New response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/url": {
+      "get": {
+        "description": "New endpoint",
+        "responses": {
+          "200": {
+            "description": "New response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/servers": {
+      "get": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "list_servers",
+        "responses": {
+          "200": {
+            "description": "List of servers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServerResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "create_server",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Server created"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Server already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/servers/{name}": {
+      "get": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "get_server",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the server",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Server details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "update_server",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the server to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Server updated"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Server already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "delete_server",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name of the server to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Server deleted"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "operationId": "health_check",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/access": {
+      "post": {
+        "tags": [
+          "Access"
+        ],
+        "operationId": "request_access",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Access granted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/access/{server}/status": {
+      "get": {
+        "tags": [
+          "Access"
+        ],
+        "operationId": "check_access_status",
+        "parameters": [
+          {
+            "name": "server",
+            "in": "path",
+            "description": "Server name to check",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/servers/{name}/exists": {
+      "get": {
+        "tags": [
+          "Servers"
+        ],
+        "operationId": "check_server_exists",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Server name to check",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerExistsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessAuthError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An internal server error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessAuthError": {
+        "$ref": "#/components/schemas/ErrorResponse_AccessAuthErrorCodes",
+        "description": "Documentation schema for a 401 Unauthorized response on protected routes."
+      },
+      "AccessRequest": {
+        "type": "object",
+        "required": [
+          "server_id"
+        ],
+        "properties": {
+          "server_id": {
+            "type": "string",
+            "example": "media-server-01"
+          }
+        }
+      },
+      "AccessResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "message",
+          "expires_in"
+        ],
+        "properties": {
+          "expires_in": {
+            "type": "string",
+            "example": "12h"
+          },
+          "message": {
+            "type": "string",
+            "example": "IP 192.168.1.5 has been whitelisted."
+          },
+          "status": {
+            "type": "string",
+            "example": "success"
+          }
+        }
+      },
+      "AccessStatusResponse": {
+        "type": "object",
+        "required": [
+          "server",
+          "ip",
+          "is_active"
+        ],
+        "properties": {
+          "expiration": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "example": 1735689600
+          },
+          "ip": {
+            "type": "string",
+            "example": "192.168.1.50"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
+          "server": {
+            "type": "string",
+            "example": "minecraft-survival"
+          },
+          "time_remaining": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "2h 30m"
+          }
+        }
+      },
+      "BadRequestError": {
+        "$ref": "#/components/schemas/ErrorResponse_BadRequestErrorCodes",
+        "description": "Documentation schema for a 400 Bad Request response."
+      },
+      "ConflictError": {
+        "$ref": "#/components/schemas/ErrorResponse_ConflictErrorCodes",
+        "description": "Documentation schema for a 409 Conflict response."
+      },
+      "CreateServerRequest": {
+        "type": "object",
+        "required": [
+          "servername",
+          "port",
+          "protocol"
+        ],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "format": "int32",
+            "example": 8080,
+            "minimum": 0
+          },
+          "protocol": {
+            "type": "string",
+            "example": "TCP, UDP, TCP/UDP"
+          },
+          "servername": {
+            "type": "string",
+            "example": "media-server-01"
+          }
+        }
+      },
+      "ErrorResponse_AccessAuthErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error codes for 401 Unauthorized on generic protected routes.",
+            "enum": [
+              "invalid_access_token",
+              "token_expired"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "ErrorResponse_BadRequestErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code for 400 Bad Request.",
+            "enum": [
+              "bad_request"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "ErrorResponse_ConflictErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code for 409 Conflict.",
+            "enum": [
+              "conflict"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "ErrorResponse_InternalServerErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code for 500 Internal Server Error.",
+            "enum": [
+              "internal_server_error"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "ErrorResponse_NotFoundErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code for 404 Not Found.",
+            "enum": [
+              "resource_not_found"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "ErrorResponse_PermissionErrorCodes": {
+        "type": "object",
+        "description": "A generic error response structure used across all services.\n\nThis structure ensures that all error responses follow the same format,\nmaking it easier for clients to handle errors consistently.",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code for 403 Forbidden.",
+            "enum": [
+              "permission_denied"
+            ]
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A human-readable message providing more context.\nThis is intended for developers and can be used for logging or debugging.",
+            "example": "Detailed explanation of the error"
+          }
+        }
+      },
+      "HealthResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "version"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "healthy"
+          },
+          "version": {
+            "type": "string",
+            "example": "0.1.0"
+          }
+        }
+      },
+      "InternalServerError": {
+        "$ref": "#/components/schemas/ErrorResponse_InternalServerErrorCodes",
+        "description": "Documentation schema for a 500 Internal Server Error response."
+      },
+      "NotFoundError": {
+        "$ref": "#/components/schemas/ErrorResponse_NotFoundErrorCodes",
+        "description": "Documentation schema for a 404 Not Found response."
+      },
+      "PermissionError": {
+        "$ref": "#/components/schemas/ErrorResponse_PermissionErrorCodes",
+        "description": "Documentation schema for a 403 Forbidden response."
+      },
+      "ServerExistsResponse": {
+        "type": "object",
+        "required": [
+          "exists"
+        ],
+        "properties": {
+          "exists": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "ServerResponse": {
+        "type": "object",
+        "required": [
+          "servername",
+          "port"
+        ],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "format": "int32",
+            "example": 8080,
+            "minimum": 0
+          },
+          "servername": {
+            "type": "string",
+            "example": "media-server-01"
+          }
+        }
+      },
+      "UpdateServerRequest": {
+        "type": "object",
+        "required": [
+          "servername",
+          "port",
+          "protocol"
+        ],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "format": "int32",
+            "example": 8080,
+            "minimum": 0
+          },
+          "protocol": {
+            "type": "string",
+            "example": "TCP, UDP, TCP/UDP"
+          },
+          "servername": {
+            "type": "string",
+            "example": "media-server-01"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Servers",
+      "description": "Manage servers (CRUD)"
+    },
+    {
+      "name": "Access",
+      "description": "Set and get access to servers"
+    }
+  ]
+}
