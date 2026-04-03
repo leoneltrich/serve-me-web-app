@@ -7,5 +7,6 @@ export interface ApiResponse<T> {
 export interface ApiClient {
   post<T>(path: string, body: unknown): Promise<ApiResponse<T>>;
   get<T>(path: string): Promise<ApiResponse<T>>;
-  // We can add put, delete, etc. as needed
+  put<T>(path: string, body: unknown): Promise<ApiResponse<T>>;
+  delete<T>(path: string): Promise<ApiResponse<T>>;
 }

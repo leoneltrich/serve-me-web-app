@@ -45,6 +45,42 @@ export class FetchApiClient implements ApiClient {
     }
   }
 
+  async put<T>(path: string, body: unknown): Promise<ApiResponse<T>> {
+    try {
+      const response = await fetch(`${this.baseUrl}${path}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+        credentials: 'include',
+      });
+
+      return this.handleResponse<T>(response);
+    } catch (error) {
+      return {
+        status: 500,
+        error: error instanceof Error ? error.message : 'Network connection failed',
+      };
+    }
+  }
+
+  async delete<T>(path: string): Promise<ApiResponse<T>> {
+    try {
+      const response = await fetch(`${this.baseUrl}${path}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      return this.handleResponse<T>(response);
+    } catch (error) {
+      return {
+        status: 500,
+        error: error instanceof Error ? error.message : 'Network connection failed',
+      };
+    }
+  }
+
   private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
     const status = response.status;
     

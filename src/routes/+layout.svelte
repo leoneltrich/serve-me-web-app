@@ -6,8 +6,8 @@
 	import { setAuthService, setAdminService, setServerService } from '$lib/services/context';
 	import { FetchApiClient } from '$lib/services/api/fetch-api-client';
 	import { BackendAuthService } from '$lib/services/auth/backend-auth.service';
-	import { MockAdminService } from '$lib/services/mock-admin.service.svelte';
-	import { MockServerService } from '$lib/services/mock-server.service.svelte';
+	import { BackendAdminService } from '$lib/services/auth/backend-admin.service';
+	import { BackendServerService } from '$lib/services/auth/backend-server.service';
 	import { authState } from '$lib/services/auth/auth.state.svelte';
 
 	let { data, children } = $props();
@@ -15,8 +15,8 @@
 	// Composition Root
 	const apiClient = new FetchApiClient();
 	const authService = new BackendAuthService(apiClient);
-	const adminService = new MockAdminService();
-	const serverService = new MockServerService();
+	const adminService = new BackendAdminService(apiClient);
+	const serverService = new BackendServerService(apiClient);
 
 	setAuthService(authService);
 	setAdminService(adminService);

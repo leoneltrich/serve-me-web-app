@@ -1,0 +1,149 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "health_service",
+    "description": "",
+    "license": {
+      "name": ""
+    },
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Quick system health check.\nReturns 200 if operational, 503 if major failure.",
+        "operationId": "health_check",
+        "responses": {
+          "200": {
+            "description": "System Operational",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemHealth"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "System Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemHealth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/services": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Get detailed status of all monitored services.",
+        "operationId": "get_all_services",
+        "responses": {
+          "200": {
+            "description": "List of all services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemHealth"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthStatus": {
+        "type": "string",
+        "enum": [
+          "UP",
+          "DOWN",
+          "DEGRADED",
+          "STARTING",
+          "UNKNOWN"
+        ]
+      },
+      "ServiceHealth": {
+        "type": "object",
+        "required": [
+          "name",
+          "status",
+          "url",
+          "last_checked"
+        ],
+        "properties": {
+          "last_checked": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "latency_ms": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "int64",
+            "minimum": 0
+          },
+          "message": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HealthStatus"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "SystemHealth": {
+        "type": "object",
+        "required": [
+          "status",
+          "services",
+          "last_updated"
+        ],
+        "properties": {
+          "last_updated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "services": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ServiceHealth"
+            },
+            "propertyNames": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/HealthStatus"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health Monitoring Endpoints"
+    }
+  ]
+}
