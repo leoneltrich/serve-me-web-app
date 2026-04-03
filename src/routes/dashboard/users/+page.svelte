@@ -371,36 +371,47 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
-    border-radius: 16px;
-    margin-bottom: 1.25rem;
-    padding: 0.75rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
     box-shadow: var(--card-shadow);
   }
 
   .users-table td {
     border-bottom: none;
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-align: right;
+    font-size: 0.9375rem;
   }
 
   .users-table td::before {
     content: attr(data-label);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: none;
+    font-size: 0.8125rem;
     color: var(--text-muted);
     text-align: left;
   }
 
   .name-cell {
     border-bottom: 1px solid var(--card-border) !important;
-    margin-bottom: 0.5rem;
-    padding-bottom: 1rem !important;
+    margin-bottom: 0.25rem;
+    padding: 0.75rem !important;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px 8px 0 0;
   }
 
+  :global(.dark-mode) .name-cell {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .user-avatar-small {
+    width: 28px;
+    height: 28px;
+  }
   .name-cell::before {
     display: none;
   }

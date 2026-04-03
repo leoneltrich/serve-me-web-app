@@ -3,6 +3,7 @@
   import { getServerService } from '$lib/services/context';
   import type { Server, AccessStatus } from '$lib/services/interfaces';
   import Modal from '$lib/components/dashboard/Modal.svelte';
+  import ServerCard from '$lib/components/dashboard/ServerCard.svelte';
 
   const serverService = getServerService();
 
@@ -148,70 +149,24 @@
   </div>
 {/if}
 
-<div class="servers-card">
+<div class="servers-grid">
   {#if isLoading}
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Loading servers...</p>
-    </div>
+    {#each Array(3) as _}
+      <div class="card-skeleton"></div>
+    {/each}
   {:else if servers.length === 0}
     <div class="empty-state">
       <p>No servers found. Add your first server to get started.</p>
     </div>
   {:else}
-    <div class="table-container">
-      <table class="servers-table">
-        <thead>
-          <tr>
-            <th>Server Name</th>
-            <th>Port</th>
-            <th>Protocol</th>
-            <th class="actions-cell">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each servers as server}
-            <tr>
-              <td class="name-cell" data-label="Server Name">
-                <div class="server-icon">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
-                  </svg>
-                </div>
-                {server.servername}
-              </td>
-              <td data-label="Port"><code>{server.port}</code></td>
-              <td data-label="Protocol"><span class="badge">{server.protocol}</span></td>
-              <td class="actions-cell" data-label="Actions">
-                <div class="action-group">
-                  <button class="action-btn access" onclick={() => openAccessModal(server.servername)} title="Access Status">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                  </button>
-                  <button class="action-btn edit" onclick={() => openEditModal(server)} title="Edit">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                  </button>
-                  <button class="action-btn delete" onclick={() => handleDelete(server.servername)} title="Delete">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
+    {#each servers as server}
+      <ServerCard 
+        {server} 
+        onaccess={() => openAccessModal(server.servername)} 
+        onedit={() => openEditModal(server)} 
+        ondelete={() => handleDelete(server.servername)}
+      />
+    {/each}
   {/if}
 </div>
 
@@ -397,196 +352,33 @@
     border: 1px solid rgba(16, 185, 129, 0.2);
   }
 
-  .servers-card {
+  .servers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .servers-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .card-skeleton {
+    height: 200px;
     background: var(--card-bg);
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
     border: 1px solid var(--card-border);
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
+    border-radius: 16px;
+    animation: pulse-bg 2s infinite ease-in-out;
   }
 
-  .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  @keyframes pulse-bg {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.3; }
   }
 
-  .servers-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-
-  @media (max-width: 768px) {
-    .servers-card {
-      background: none;
-      border: none;
-      box-shadow: none;
-    }
-
-    .table-container {
-      overflow-x: visible;
-    }
-
-    .servers-table, .servers-table thead, .servers-table tbody, .servers-table th, .servers-table td, .servers-table tr {
-      display: block;
-    }
-
-    .servers-table thead {
-      display: none;
-    }
-
-    .servers-table tr {
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      margin-bottom: 1.25rem;
-      padding: 0.75rem;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.2s ease;
-    }
-
-    .servers-table td {
-      border-bottom: none;
-      padding: 0.75rem 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      text-align: right;
-    }
-
-    .servers-table td::before {
-      content: attr(data-label);
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.6875rem;
-      color: var(--text-muted);
-      text-align: left;
-    }
-
-    .name-cell {
-      border-bottom: 1px solid var(--card-border) !important;
-      margin-bottom: 0.5rem;
-      padding-bottom: 1rem !important;
-    }
-
-    .name-cell::before {
-      display: none;
-    }
-
-    .action-group {
-      justify-content: flex-end;
-      width: 100%;
-    }
-  }
-
-  .servers-table th {
-    padding: 1rem 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--card-border);
-  }
-
-  .servers-table td {
-    padding: 1rem 1.5rem;
-    font-size: 0.875rem;
-    color: var(--text-main);
-    border-bottom: 1px solid var(--card-border);
-  }
-
-  .servers-table tr:last-child td {
-    border-bottom: none;
-  }
-
-  .name-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-weight: 500;
-  }
-
-  .server-icon {
-    width: 32px;
-    height: 32px;
-    background: var(--brand-bg);
-    color: var(--brand-color);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  code {
-    background: rgba(0, 0, 0, 0.05);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 0.8125rem;
-  }
-
-  :global(.dark-mode) code {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .badge {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    background: rgba(37, 99, 235, 0.1);
-    color: #2563eb;
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-  }
-
-  :global(.dark-mode) .badge {
-    background: rgba(56, 189, 248, 0.1);
-    color: #38bdf8;
-  }
-
-  .actions-cell {
-    text-align: right;
-  }
-
-  .action-group {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-
-  .action-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s;
-    display: flex;
-  }
-
-  .action-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-main);
-  }
-
-  :global(.dark-mode) .action-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .action-btn.delete:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-  }
-
-  .action-btn.access:hover {
-    color: var(--brand-color);
-    background: var(--brand-bg);
-  }
 
   .loading-state, .empty-state {
     padding: 4rem 2rem;
