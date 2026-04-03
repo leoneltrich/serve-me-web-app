@@ -1,12 +1,6 @@
 export interface User {
-  id: string;
   username: string;
-  role?: string;
-}
-
-export interface AuthResponse {
-  user: User;
-  // Note: Session is handled via HttpOnly cookie automatically by the browser
+  // Add other fields if the backend returns them later (id, role, etc)
 }
 
 export interface AuthError {

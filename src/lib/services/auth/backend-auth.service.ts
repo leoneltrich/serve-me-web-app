@@ -1,6 +1,6 @@
 import type { ApiClient } from '../api/api-client.interface';
 import type { AuthService } from './auth-service.interface';
-import type { User, AuthResponse } from './auth.types';
+import type { User } from './auth.types';
 
 export class BackendAuthService implements AuthService {
   private readonly client: ApiClient;
@@ -10,7 +10,7 @@ export class BackendAuthService implements AuthService {
   }
 
   async login(username: string, password: string): Promise<User> {
-    const response = await this.client.post<AuthResponse>('/auth/login', {
+    const response = await this.client.post<User>('/auth/login', {
       username,
       password,
     });
@@ -19,7 +19,7 @@ export class BackendAuthService implements AuthService {
       throw new Error(response.error || 'Authentication failed');
     }
 
-    return response.data.user;
+    return response.data;
   }
 
   async logout(): Promise<void> {
@@ -27,10 +27,10 @@ export class BackendAuthService implements AuthService {
   }
 
   async getCurrentUser(): Promise<User | null> {
-    const response = await this.client.get<AuthResponse>('/auth/me');
+    const response = await this.client.get<User>('/auth/me');
     
     if (response.status === 200 && response.data) {
-      return response.data.user;
+      return response.data;
     }
     
     return null;

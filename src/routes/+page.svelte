@@ -1,8 +1,1 @@
-<script>
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		goto('/login');
-	});
-</script>
+<!-- This page is handled by the redirect logic in +layout.svelte -->

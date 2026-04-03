@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getAuthService } from '$lib/services/context';
+    import { authState } from '$lib/services/auth/auth.state.svelte';
     import { goto } from '$app/navigation';
 
     // 1. Inject the service
@@ -20,15 +21,15 @@
         mouseX = e.clientX;
         mouseY = e.clientY;
     }
-
     async function handleLogin(e: Event) {
         e.preventDefault();
         isLoading = true;
         errorMessage = null;
 
         try {
-            await authService.login(username, password);
-            goto('/');
+            const user = await authService.login(username, password);
+            authState.setUser(user);
+            // The $effect in +layout.svelte will handle the redirect automatically
         } catch (err) {
             errorMessage = err instanceof Error ? err.message : 'Invalid credentials';
         } finally {
