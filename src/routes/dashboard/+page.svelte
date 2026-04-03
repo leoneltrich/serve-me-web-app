@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { getAdminService, getServerService } from '$lib/services/context';
+  import { authState } from '$lib/services/auth/auth.state.svelte';
   import type { AdminUser, Server } from '$lib/services/interfaces';
 
   const adminService = getAdminService();
@@ -21,10 +22,15 @@
   });
 </script>
 
+<div class="dashboard-header-row">
+  <h1>Dashboard</h1>
+  <p class="welcome-text">Welcome back, <strong>{authState.user?.username ?? 'User'}</strong>!</p>
+</div>
+
 <div class="overview-grid">
   <div class="stat-card">
     <div class="stat-icon users">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
     </div>
     <div class="stat-info">
       <h3>Total Users</h3>
@@ -34,7 +40,7 @@
 
   <div class="stat-card">
     <div class="stat-icon servers">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
     </div>
     <div class="stat-info">
       <h3>Active Servers</h3>
@@ -44,7 +50,7 @@
 
   <div class="stat-card">
     <div class="stat-icon system">
-      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
     </div>
     <div class="stat-info">
       <h3>System Load</h3>
@@ -54,6 +60,27 @@
 </div>
 
 <style>
+  .dashboard-header-row {
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a;
+  }
+
+  :global(.dark-mode) h1 {
+    color: #f8fafc;
+  }
+
+  .welcome-text {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0.25rem 0 0;
+  }
+
   .overview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -72,7 +99,6 @@
     transition: background-color 0.2s, border-color 0.2s;
   }
 
-  /* Remove hover transform */
   .stat-card:hover {
     border-color: rgba(0, 0, 0, 0.1);
   }

@@ -55,19 +55,19 @@
     <div class="user-menu-container">
       <button class="user-badge" onclick={toggleUserMenu} aria-expanded={isUserMenuOpen}>
         <div class="user-avatar">
-          {authState.user?.username.charAt(0).toUpperCase()}
+          {authState.user?.username?.charAt(0).toUpperCase() ?? '?'}
         </div>
-        <span class="username">{authState.user?.username}</span>
+        <span class="username">{authState.user?.username ?? 'Loading...'}</span>
         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" class="chevron" class:open={isUserMenuOpen}>
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
 
-      {#if isUserMenuOpen}
+      {#if isUserMenuOpen && authState.user}
         <div class="dropdown-menu">
           <div class="dropdown-header">
             <p class="user-label">Signed in as</p>
-            <p class="user-email">{authState.user?.username}</p>
+            <p class="user-email">{authState.user.username}</p>
           </div>
           <div class="dropdown-divider"></div>
           <button class="dropdown-item logout" onclick={handleLogout}>
