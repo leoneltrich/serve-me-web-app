@@ -1,12 +1,17 @@
 <script lang="ts">
   import { page } from '$app/state';
   import { uiState } from '$lib/services/ui.svelte';
+  import { authState } from '$lib/services/auth/auth.state.svelte';
 
   const navItems = [
     { name: 'Overview', path: '/dashboard', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
     { name: 'Servers', path: '/dashboard/servers', icon: 'M2 20h20M5 20V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12M9 13h6' },
     { name: 'Users', path: '/dashboard/users', icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' }
   ];
+
+  function handleLogout() {
+    uiState.openLogoutConfirmation();
+  }
 </script>
 
 <aside class="sidebar" class:open={uiState.isSidebarOpen}>
@@ -37,6 +42,27 @@
       </a>
     {/each}
   </nav>
+
+  {#if authState.user}
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="user-avatar">
+          {authState.user.username.charAt(0).toUpperCase()}
+        </div>
+        <div class="user-info">
+          <span class="user-name">{authState.user.username}</span>
+          <span class="user-role">Administrator</span>
+        </div>
+      </div>
+      <button class="logout-button" onclick={handleLogout} title="Sign Out">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+  {/if}
 </aside>
 
 <style>
@@ -182,5 +208,83 @@
 
   :global(:root:not(.dark-mode)) .nav-link.active {
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+  }
+
+  .sidebar-footer {
+    padding: 1.5rem;
+    margin-top: auto;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0; /* Allow text truncation if needed */
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .user-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .logout-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .logout-button:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  @media (max-height: 500px) {
+    .sidebar-footer {
+        padding: 0.75rem 1.5rem;
+    }
   }
 </style>

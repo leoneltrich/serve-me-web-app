@@ -1,6 +1,7 @@
 <script lang="ts">
   import Sidebar from '$lib/components/dashboard/Sidebar.svelte';
   import Header from '$lib/components/dashboard/Header.svelte';
+  import LogoutModal from '$lib/components/dashboard/LogoutModal.svelte';
   import { authState } from '$lib/services/auth/auth.state.svelte';
   import { uiState } from '$lib/services/ui.svelte';
 
@@ -21,6 +22,8 @@
         {@render children()}
       </main>
     </div>
+
+    <LogoutModal />
   </div>
 {/if}
 
