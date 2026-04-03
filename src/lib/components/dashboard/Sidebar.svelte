@@ -88,22 +88,46 @@
     font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
   .nav-link:hover {
     color: var(--text-main);
     background: rgba(255, 255, 255, 0.05);
-    transform: translateX(4px);
   }
 
   :global(:root:not(.dark-mode)) .nav-link:hover {
     background: rgba(0, 0, 0, 0.03);
   }
 
+  /* Subtle indicator on the left for premium feel */
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 3px;
+    height: 16px;
+    background: var(--brand-color);
+    border-radius: 0 4px 4px 0;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-link:hover::before {
+    transform: translateY(-50%) scaleY(1);
+  }
+
   .nav-link.active {
     color: var(--brand-color);
     background: var(--brand-bg);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link.active::before {
+    transform: translateY(-50%) scaleY(1);
+    height: 20px;
   }
 
   :global(:root:not(.dark-mode)) .nav-link.active {
