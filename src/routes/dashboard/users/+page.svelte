@@ -145,18 +145,18 @@
         <tbody>
           {#each users as user}
             <tr>
-              <td class="name-cell">
+              <td class="name-cell" data-label="Username">
                 <div class="user-avatar-small">
                   {user.username.charAt(0).toUpperCase()}
                 </div>
                 {user.username}
               </td>
-              <td>
+              <td data-label="Role">
                 <span class="badge" class:admin={user.is_admin}>
                   {user.is_admin ? 'Admin' : 'User'}
                 </span>
               </td>
-              <td class="actions-cell">
+              <td class="actions-cell" data-label="Actions">
                 <div class="action-group">
                   <button class="action-btn edit" onclick={() => openEditModal(user)} title="Edit">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
@@ -341,19 +341,82 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
 
-  .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    min-width: 500px;
+@media (max-width: 640px) {
+  .users-card {
+    background: none;
+    border: none;
+    box-shadow: none;
   }
 
-  .users-table th {
-    padding: 1rem 1.5rem;
-    font-size: 0.75rem;
+  .table-container {
+    overflow-x: visible;
+  }
+
+  .users-table, .users-table thead, .users-table tbody, .users-table th, .users-table td, .users-table tr {
+    display: block;
+  }
+
+  .users-table thead {
+    display: none;
+  }
+
+  .users-table tr {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+    padding: 0.75rem;
+    box-shadow: var(--card-shadow);
+  }
+
+  .users-table td {
+    border-bottom: none;
+    padding: 0.75rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
+
+  .users-table td::before {
+    content: attr(data-label);
     font-weight: 600;
     text-transform: uppercase;
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  .name-cell {
+    border-bottom: 1px solid var(--card-border) !important;
+    margin-bottom: 0.5rem;
+    padding-bottom: 1rem !important;
+  }
+
+  .name-cell::before {
+    display: none;
+  }
+
+  .action-group {
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+
+.users-table th {
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+...
     letter-spacing: 0.05em;
     color: var(--text-muted);
     border-bottom: 1px solid var(--card-border);

@@ -172,7 +172,7 @@
         <tbody>
           {#each servers as server}
             <tr>
-              <td class="name-cell">
+              <td class="name-cell" data-label="Server Name">
                 <div class="server-icon">
                   <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
                     <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
@@ -183,9 +183,9 @@
                 </div>
                 {server.servername}
               </td>
-              <td><code>{server.port}</code></td>
-              <td><span class="badge">{server.protocol}</span></td>
-              <td class="actions-cell">
+              <td data-label="Port"><code>{server.port}</code></td>
+              <td data-label="Protocol"><span class="badge">{server.protocol}</span></td>
+              <td class="actions-cell" data-label="Actions">
                 <div class="action-group">
                   <button class="action-btn access" onclick={() => openAccessModal(server.servername)} title="Access Status">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
@@ -416,7 +416,71 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    min-width: 600px;
+  }
+
+  @media (max-width: 768px) {
+    .servers-card {
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+
+    .table-container {
+      overflow-x: visible;
+    }
+
+    .servers-table, .servers-table thead, .servers-table tbody, .servers-table th, .servers-table td, .servers-table tr {
+      display: block;
+    }
+
+    .servers-table thead {
+      display: none;
+    }
+
+    .servers-table tr {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      margin-bottom: 1.25rem;
+      padding: 0.75rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .servers-table td {
+      border-bottom: none;
+      padding: 0.75rem 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: right;
+    }
+
+    .servers-table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    .name-cell {
+      border-bottom: 1px solid var(--card-border) !important;
+      margin-bottom: 0.5rem;
+      padding-bottom: 1rem !important;
+    }
+
+    .name-cell::before {
+      display: none;
+    }
+
+    .action-group {
+      justify-content: flex-end;
+      width: 100%;
+    }
   }
 
   .servers-table th {
