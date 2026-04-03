@@ -20,11 +20,9 @@
   .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    background-color: #f8fafc;
-  }
-
-  :global(.dark-mode) .dashboard-layout {
-    background-color: #09090b;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
   }
 
   .main-container {
@@ -32,6 +30,7 @@
     margin-left: 240px; /* Width of Sidebar */
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
   }
 
   .content {
@@ -41,6 +40,8 @@
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
+    position: relative;
+    z-index: 2;
   }
 
   @media (max-width: 1024px) {

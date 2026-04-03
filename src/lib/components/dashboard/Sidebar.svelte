@@ -10,9 +10,11 @@
 
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-    </svg>
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+    </div>
     <span>SERVE_ME</span>
   </div>
 
@@ -32,30 +34,39 @@
   .sidebar {
     width: 240px;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.9);
-    backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
-    color: #94a3b8;
+    color: var(--text-muted);
     position: fixed;
     left: 0;
     top: 0;
     z-index: 100;
-  }
-
-  :global(.dark-mode) .sidebar {
-    background: rgba(9, 9, 11, 0.95);
+    transition: all 0.3s ease;
   }
 
   .sidebar-brand {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: #f8fafc;
+    color: var(--text-main);
     font-weight: 700;
     letter-spacing: 0.05em;
+  }
+
+  .brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--brand-bg);
+    color: var(--brand-color);
+    border-radius: 10px;
   }
 
   .sidebar-nav {
@@ -70,22 +81,32 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
     text-decoration: none;
     color: inherit;
     font-size: 0.875rem;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .nav-link:hover {
-    color: #f8fafc;
+    color: var(--text-main);
     background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+  }
+
+  :global(:root:not(.dark-mode)) .nav-link:hover {
+    background: rgba(0, 0, 0, 0.03);
   }
 
   .nav-link.active {
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.1);
+    color: var(--brand-color);
+    background: var(--brand-bg);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  :global(:root:not(.dark-mode)) .nav-link.active {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
   }
 </style>

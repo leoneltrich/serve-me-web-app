@@ -87,9 +87,10 @@
 <style>
   .header {
     height: 64px;
-    background: rgba(248, 250, 252, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background: var(--header-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -98,12 +99,7 @@
     top: 0;
     z-index: 90;
     color: var(--text-main);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  :global(.dark-mode) .header {
-    background: rgba(9, 9, 11, 0.8);
-    border-bottom-color: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
   }
 
   .breadcrumb {
@@ -199,19 +195,15 @@
     top: calc(100% + 0.5rem);
     right: 0;
     width: 200px;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     overflow: hidden;
     z-index: 100;
     color: var(--text-main);
-  }
-
-  :global(.dark-mode) .dropdown-menu {
-    background: #18181b;
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   }
 
   .dropdown-header {
@@ -235,11 +227,7 @@
 
   .dropdown-divider {
     height: 1px;
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  :global(.dark-mode) .dropdown-divider {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--card-border);
   }
 
   .dropdown-item {
@@ -259,7 +247,7 @@
   }
 
   .dropdown-item:hover {
-    background: #f8fafc;
+    background: rgba(0, 0, 0, 0.03);
   }
 
   :global(.dark-mode) .dropdown-item:hover {
@@ -271,10 +259,6 @@
   }
 
   .dropdown-item.logout:hover {
-    background: #fef2f2;
-  }
-
-  :global(.dark-mode) .dropdown-item.logout:hover {
     background: rgba(239, 68, 68, 0.1);
   }
 

@@ -2,25 +2,17 @@
     import { onMount } from 'svelte';
     import { getAuthService } from '$lib/services/context';
     import { authState } from '$lib/services/auth/auth.state.svelte';
-    import { goto } from '$app/navigation';
+    import { themeState } from '$lib/services/theme.svelte.ts';
 
     // 1. Inject the service
     const authService = getAuthService();
 
-    // 2. Reactive State (Svelte 5 Runes)
-    let isDarkMode = $state(false);
-    let mouseX = $state(0);
-    let mouseY = $state(0);
-
+    // 2. State (Svelte 5 Runes)
     let username = $state('');
     let password = $state('');
     let isLoading = $state(false);
     let errorMessage = $state<string | null>(null);
 
-    function handleMouseMove(e: MouseEvent) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    }
     async function handleLogin(e: Event) {
         e.preventDefault();
         isLoading = true;
@@ -37,48 +29,15 @@
         }
     }
 
-    onMount(() => {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        isDarkMode = prefersDark.matches;
-        updateTheme(isDarkMode);
-
-        const handler = (e: MediaQueryListEvent) => {
-            isDarkMode = e.matches;
-            updateTheme(isDarkMode);
-        };
-
-        prefersDark.addEventListener('change', handler);
-        return () => prefersDark.removeEventListener('change', handler);
-    });
-
     function toggleTheme() {
-        isDarkMode = !isDarkMode;
-        updateTheme(isDarkMode);
-    }
-
-    function updateTheme(dark: boolean) {
-        if (dark) {
-            document.documentElement.classList.add('dark-mode');
-        } else {
-            document.documentElement.classList.remove('dark-mode');
-        }
+        themeState.toggle();
     }
 </script>
 
-<svelte:window onmousemove={handleMouseMove}/>
-
 <div class="login-wrapper">
-    <!-- Interactive Mouse Glow -->
-    <div class="mouse-glow" style="transform: translate(calc({mouseX}px - 50%), calc({mouseY}px - 50%));"></div>
-
-    <!-- Ambient background orbs for depth -->
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-texture"></div>
-
     <!-- Theme Toggle Button -->
     <button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle dark mode">
-        {#if isDarkMode}
+        {#if themeState.isDarkMode}
             <!-- Sun Icon for Light Mode -->
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -180,68 +139,6 @@
 </div>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-    /* CSS Variables for Theming */
-    :global(:root) {
-        --bg-base: #f8fafc;
-        --bg-orb-1: rgba(59, 130, 246, 0.15); /* Soft blue */
-        --bg-orb-2: rgba(147, 51, 234, 0.1); /* Soft purple */
-        --mouse-glow: rgba(59, 130, 246, 0.05); /* Extremely subtle soft blue glow */
-        --card-bg: rgba(255, 255, 255, 0.85);
-        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --input-bg: #ffffff;
-        --input-border: #e2e8f0;
-        --input-border-focus: #3b82f6;
-        --input-text: #1e293b;
-        --input-icon: #94a3b8;
-        --primary-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
-        --primary-hover: linear-gradient(135deg, #1d4ed8, #2563eb);
-        --primary-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-        --brand-bg: #eff6ff;
-        --brand-color: #2563eb;
-        --toggle-bg: #ffffff;
-        --toggle-border: #e2e8f0;
-    }
-
-    :global(:root.dark-mode) {
-        --bg-base: #09090b; /* Very dark rich background */
-        --bg-orb-1: rgba(56, 189, 248, 0.08); /* Dark mode blue glow */
-        --bg-orb-2: rgba(168, 85, 247, 0.06); /* Dark mode purple glow */
-        --mouse-glow: rgba(56, 189, 248, 0.05); /* Extremely subtle dark mode blue glow */
-        --card-bg: rgba(24, 24, 27, 0.65);
-        --card-border: rgba(255, 255, 255, 0.08);
-        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        --text-main: #f8fafc;
-        --text-muted: #94a3b8;
-        --input-bg: rgba(9, 9, 11, 0.5);
-        --input-border: #27272a;
-        --input-border-focus: #38bdf8;
-        --input-text: #f1f5f9;
-        --input-icon: #52525b;
-        --primary-gradient: linear-gradient(135deg, #0ea5e9, #38bdf8);
-        --primary-hover: linear-gradient(135deg, #0284c7, #0ea5e9);
-        --primary-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
-        --brand-bg: rgba(56, 189, 248, 0.1);
-        --brand-color: #38bdf8;
-        --toggle-bg: #18181b;
-        --toggle-border: #27272a;
-    }
-
-    :global(body) {
-        background-color: var(--bg-base);
-        color: var(--text-main);
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        transition: background-color 0.4s ease, color 0.4s ease;
-        overflow-x: hidden;
-    }
-
     .login-wrapper {
         display: flex;
         justify-content: center;
@@ -253,74 +150,6 @@
         position: relative;
         z-index: 1;
     }
-
-    /* --- Depth & Texture Elements --- */
-    .mouse-glow {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 400px;
-        height: 400px;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: -1;
-        background: radial-gradient(
-                circle closest-side,
-                var(--mouse-glow) 0%,
-                var(--mouse-glow) 20%,
-                transparent 100%
-        );
-        transform: translate(calc(var(--mouse-x, 0px) - 50%), calc(var(--mouse-y, 0px) - 50%));
-        transition: transform 2s cubic-bezier(0.05, 0.9, 0.1, 1);
-        opacity: 0.7;
-    }
-
-    .ambient-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(80px);
-        z-index: -2;
-        pointer-events: none;
-        transition: background-color 0.6s ease;
-    }
-
-    .orb-1 {
-        top: 10%;
-        left: 20%;
-        width: 40vw;
-        height: 40vw;
-        background: var(--bg-orb-1);
-        animation: float 20s ease-in-out infinite alternate;
-    }
-
-    .orb-2 {
-        bottom: 10%;
-        right: 15%;
-        width: 35vw;
-        height: 35vw;
-        background: var(--bg-orb-2);
-        animation: float 25s ease-in-out infinite alternate-reverse;
-    }
-
-    .ambient-texture {
-        position: absolute;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
-        z-index: -1;
-        pointer-events: none;
-        mix-blend-mode: overlay;
-    }
-
-    @keyframes float {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-        100% {
-            transform: translate(30px, 50px) scale(1.1);
-        }
-    }
-
-    /* -------------------------------- */
 
     .theme-toggle {
         position: absolute;
@@ -363,7 +192,6 @@
         overflow: hidden;
     }
 
-    /* Subtle top highlight on the card to simulate light hitting the edge */
     .card-highlight {
         position: absolute;
         top: 0;
@@ -540,7 +368,6 @@
       transform: translateX(3px);
     }
 
-    /* --- Responsive Breakpoints --- */
     @media (max-width: 640px) {
       .login-card {
         padding: 2rem 1.5rem;
@@ -552,47 +379,20 @@
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
       }
-
       .card-highlight {
         display: none;
       }
-
-      .brand-mark {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 1rem;
-      }
-
-      .brand-mark svg {
-        width: 24px;
-        height: 24px;
-      }
-
       .login-title {
         font-size: 1.375rem;
       }
-
-      .login-header {
-        margin-bottom: 2rem;
-      }
-
-      /* Set minimum font size for inputs to prevent iOS Safari auto-zoom */
       .form-input {
         font-size: 1rem;
-        padding: 0.875rem 1rem 0.875rem 2.5rem;
       }
-
       .theme-toggle {
         top: 1rem;
         right: 1rem;
         width: 36px;
         height: 36px;
       }
-
-      .mouse-glow {
-        /* Reduce size on smaller screens, or hide completely if preferred */
-        width: 250px;
-        height: 250px;
-      }
     }
-    </style>
+</style>

@@ -61,24 +61,21 @@
 
 <style>
   .dashboard-header-row {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.875rem;
+    font-weight: 700;
     margin: 0;
-    color: #0f172a;
-  }
-
-  :global(.dark-mode) h1 {
-    color: #f8fafc;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
   }
 
   .welcome-text {
-    font-size: 0.875rem;
-    color: #64748b;
-    margin: 0.25rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0 0;
   }
 
   .overview-grid {
@@ -88,60 +85,54 @@
   }
 
   .stat-card {
-    background: white;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s, border-color 0.2s;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
   .stat-card:hover {
-    border-color: rgba(0, 0, 0, 0.1);
-  }
-
-  :global(.dark-mode) .stat-card {
-    background: #18181b;
-    border-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-4px);
+    border-color: var(--brand-color);
   }
 
   .stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
   }
 
-  .stat-icon.users { background: #eff6ff; color: #3b82f6; }
-  .stat-icon.servers { background: #f0fdf4; color: #10b981; }
-  .stat-icon.system { background: #faf5ff; color: #8b5cf6; }
-
-  :global(.dark-mode) .stat-icon.users { background: rgba(59, 130, 246, 0.1); }
-  :global(.dark-mode) .stat-icon.servers { background: rgba(16, 185, 129, 0.1); }
-  :global(.dark-mode) .stat-icon.system { background: rgba(139, 92, 246, 0.1); }
+  .stat-icon.users { background: var(--brand-bg); color: var(--brand-color); }
+  .stat-icon.servers { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+  .stat-icon.system { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
 
   .stat-info h3 {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
   .stat-number {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     margin: 0.25rem 0 0;
-    color: #0f172a;
-  }
-
-  :global(.dark-mode) .stat-number {
-    color: #f8fafc;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
   }
 </style>
