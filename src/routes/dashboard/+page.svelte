@@ -1,36 +1,50 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { getAdminService, getServerService } from '$lib/services/context';
+  import { getAdminService, getServerService, getHealthService } from '$lib/services/context';
   import { authState } from '$lib/services/auth/auth.state.svelte';
   import StatCard from '$lib/components/dashboard/StatCard.svelte';
+  import HealthStatusList from '$lib/components/dashboard/HealthStatusList.svelte';
 
   const adminService = getAdminService();
   const serverService = getServerService();
+  const healthService = getHealthService();
 
   let userCount = $state(0);
   let serverCount = $state(0);
+  let systemHealth = $state('UNKNOWN');
+  let servicesHealth = $state<Record<string, any>>({});
   let isLoading = $state(true);
 
+  const healthColorMap = {
+    'UP': 'health-up',
+    'DOWN': 'health-down',
+    'DEGRADED': 'health-degraded',
+    'STARTING': 'health-starting',
+    'UNKNOWN': 'health-unknown'
+  } as const;
+
   onMount(async () => {
-    const [users, servers] = await Promise.all([
+    const [users, servers, health] = await Promise.all([
       adminService.getUsers(),
-      serverService.getServers()
+      serverService.getServers(),
+      healthService.getHealth()
     ]);
     userCount = users.length;
     serverCount = servers.length;
+    systemHealth = health.status;
+    servicesHealth = health.services;
     isLoading = false;
   });
-</script>
-
-<div class="dashboard-header-row">
+  </script>
+  <div class="dashboard-header-row">
   <h1>Dashboard</h1>
   <p class="welcome-text">Welcome back, <strong>{authState.user?.username ?? 'User'}</strong>!</p>
-</div>
+  </div>
 
-<div class="overview-grid">
-  <StatCard 
-    title="Total Users" 
-    value={userCount} 
+  <div class="overview-grid">
+  <StatCard
+    title="Total Users"
+    value={userCount}
     colorClass="users"
     loading={isLoading}
   >
@@ -39,9 +53,9 @@
     {/snippet}
   </StatCard>
 
-  <StatCard 
-    title="Active Servers" 
-    value={serverCount} 
+  <StatCard
+    title="Active Servers"
+    value={serverCount}
     colorClass="servers"
     loading={isLoading}
   >
@@ -50,17 +64,19 @@
     {/snippet}
   </StatCard>
 
-  <StatCard 
-    title="System Load" 
-    value="Normal" 
-    colorClass="system"
-    loading={false}
+  <StatCard
+    title="System Health"
+    value={systemHealth}
+    colorClass={healthColorMap[systemHealth as keyof typeof healthColorMap] || 'health-unknown'}
+    loading={isLoading}
   >
     {#snippet icon()}
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
     {/snippet}
-  </StatCard>
-</div>
+    </StatCard>
+    </div>
+
+    <HealthStatusList services={servicesHealth} loading={isLoading} />
 
 <style>
   .dashboard-header-row {

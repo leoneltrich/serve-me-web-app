@@ -23,6 +23,23 @@ export interface AccessResponse {
   expires_in: string;
 }
 
+export type HealthStatus = 'UP' | 'DOWN' | 'DEGRADED' | 'STARTING' | 'UNKNOWN';
+
+export interface ServiceHealth {
+  name: string;
+  status: HealthStatus;
+  url: string;
+  last_checked: string;
+  latency_ms: number | null;
+  message: string | null;
+}
+
+export interface SystemHealth {
+  status: HealthStatus;
+  services: Record<string, ServiceHealth>;
+  last_updated: string;
+}
+
 export interface IAdminService {
   getUsers(): Promise<AdminUser[]>;
   createUser(user: AdminUser & { password?: string }): Promise<void>;
@@ -38,4 +55,9 @@ export interface IServerService {
   deleteServer(name: string): Promise<void>;
   requestAccess(serverId: string): Promise<AccessResponse>;
   checkAccessStatus(server: string): Promise<AccessStatus>;
+}
+
+export interface IHealthService {
+  getHealth(): Promise<SystemHealth>;
+  getServicesHealth(): Promise<SystemHealth>;
 }

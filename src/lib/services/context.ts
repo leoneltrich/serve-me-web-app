@@ -1,10 +1,11 @@
 import { getContext, setContext } from 'svelte';
 import type { AuthService } from './auth/auth-service.interface';
-import type { IAdminService, IServerService } from './interfaces';
+import type { IAdminService, IServerService, IHealthService } from './interfaces';
 
 const AUTH_KEY = Symbol('auth-service');
 const ADMIN_KEY = Symbol('admin-service');
 const SERVER_KEY = Symbol('server-service');
+const HEALTH_KEY = Symbol('health-service');
 
 export function setAuthService(service: AuthService) {
   setContext(AUTH_KEY, service);
@@ -28,4 +29,12 @@ export function setServerService(service: IServerService) {
 
 export function getServerService(): IServerService {
   return getContext(SERVER_KEY);
+}
+
+export function setHealthService(service: IHealthService) {
+  setContext(HEALTH_KEY, service);
+}
+
+export function getHealthService(): IHealthService {
+  return getContext(HEALTH_KEY);
 }

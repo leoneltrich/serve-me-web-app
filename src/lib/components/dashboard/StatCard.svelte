@@ -97,6 +97,11 @@
   .stat-icon.users { background: var(--brand-bg); color: var(--brand-color); }
   .stat-icon.servers { background: rgba(16, 185, 129, 0.1); color: #10b981; }
   .stat-icon.system { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+  .stat-icon.health-up { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+  .stat-icon.health-down { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+  .stat-icon.health-degraded { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+  .stat-icon.health-starting { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+  .stat-icon.health-unknown { background: rgba(156, 163, 175, 0.1); color: #9ca3af; }
 
   .stat-info {
     position: relative;

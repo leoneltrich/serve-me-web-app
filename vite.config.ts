@@ -4,15 +4,22 @@ import { defineConfig, loadEnv } from 'vite';
 export default defineConfig(({ mode }) => {
 
     const env = loadEnv(mode, process.cwd(), '');
+    const backendUrl = env.BACKEND_API_URL || 'http://localhost:2000';
 
     return {
         plugins: [sveltekit()],
         server: {
             proxy: {
-                '/api': {
-                    target: env.BACKEND_API_URL || 'http://localhost:2000',
+                // Auth endpoints handled directly by the BFF
+                '/auth': {
+                    target: backendUrl,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/api/, ''),
+                },
+                // Backend endpoints forwarded by the BFF
+                '/api': {
+                    target: backendUrl,
+                    changeOrigin: true,
+                    // No rewrite: preserve /api/v1 so it matches OpenAPI paths
                 }
             }
         }

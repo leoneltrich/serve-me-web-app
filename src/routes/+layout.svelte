@@ -3,24 +3,29 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { setAuthService, setAdminService, setServerService } from '$lib/services/context';
+	import { setAuthService, setAdminService, setServerService, setHealthService } from '$lib/services/context';
 	import { FetchApiClient } from '$lib/services/api/fetch-api-client';
 	import { BackendAuthService } from '$lib/services/auth/backend-auth.service';
 	import { BackendAdminService } from '$lib/services/auth/backend-admin.service';
 	import { BackendServerService } from '$lib/services/auth/backend-server.service';
+	import { MockHealthService } from '$lib/services/mock-health.service.svelte';
 	import { authState } from '$lib/services/auth/auth.state.svelte';
 
 	let { data, children } = $props();
 
 	// Composition Root
-	const apiClient = new FetchApiClient();
-	const authService = new BackendAuthService(apiClient);
+	const apiClient = new FetchApiClient(); // Defaults to /api/v1 from .env
+	const authApiClient = new FetchApiClient(''); // Uses root for /auth endpoints
+	
+	const authService = new BackendAuthService(authApiClient);
 	const adminService = new BackendAdminService(apiClient);
 	const serverService = new BackendServerService(apiClient);
+	const healthService = new MockHealthService();
 
 	setAuthService(authService);
 	setAdminService(adminService);
 	setServerService(serverService);
+	setHealthService(healthService);
 
 	// SYNC: Keep global state in sync with server-provided data
 	$effect.pre(() => {

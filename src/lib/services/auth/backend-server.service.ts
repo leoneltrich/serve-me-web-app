@@ -9,7 +9,7 @@ export class BackendServerService implements IServerService {
   }
 
   async getServers(): Promise<Server[]> {
-    const response = await this.client.get<Server[]>('/api/v1/admin/servers');
+    const response = await this.client.get<Server[]>('/admin/servers');
     
     if (response.error || !response.data) {
       throw new Error(response.error || 'Failed to fetch servers');
@@ -19,7 +19,7 @@ export class BackendServerService implements IServerService {
   }
 
   async getServer(name: string): Promise<Server> {
-    const response = await this.client.get<Server>(`/api/v1/admin/servers/${name}`);
+    const response = await this.client.get<Server>(`/admin/servers/${name}`);
     
     if (response.error || !response.data) {
       throw new Error(response.error || 'Failed to fetch server');
@@ -29,7 +29,7 @@ export class BackendServerService implements IServerService {
   }
 
   async createServer(server: Server): Promise<void> {
-    const response = await this.client.post('/api/v1/admin/servers', server);
+    const response = await this.client.post('/admin/servers', server);
     
     if (response.error) {
       throw new Error(response.error);
@@ -37,7 +37,7 @@ export class BackendServerService implements IServerService {
   }
 
   async updateServer(name: string, server: Server): Promise<void> {
-    const response = await this.client.put(`/api/v1/admin/servers/${name}`, server);
+    const response = await this.client.put(`/admin/servers/${name}`, server);
     
     if (response.error) {
       throw new Error(response.error);
@@ -45,7 +45,7 @@ export class BackendServerService implements IServerService {
   }
 
   async deleteServer(name: string): Promise<void> {
-    const response = await this.client.delete(`/api/v1/admin/servers/${name}`);
+    const response = await this.client.delete(`/admin/servers/${name}`);
     
     if (response.error) {
       throw new Error(response.error);
@@ -53,7 +53,7 @@ export class BackendServerService implements IServerService {
   }
 
   async requestAccess(serverId: string): Promise<AccessResponse> {
-    const response = await this.client.post<AccessResponse>('/api/v1/users/access', {
+    const response = await this.client.post<AccessResponse>('/users/access', {
       server_id: serverId
     });
     
@@ -65,7 +65,7 @@ export class BackendServerService implements IServerService {
   }
 
   async checkAccessStatus(server: string): Promise<AccessStatus> {
-    const response = await this.client.get<AccessStatus>(`/api/v1/users/access/${server}/status`);
+    const response = await this.client.get<AccessStatus>(`/users/access/${server}/status`);
     
     if (response.error || !response.data) {
       throw new Error(response.error || 'Failed to check access status');
