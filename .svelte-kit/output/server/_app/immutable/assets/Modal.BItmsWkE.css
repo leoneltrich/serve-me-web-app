@@ -1,0 +1,101 @@
+
+  .modal-backdrop.svelte-990e9y {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .modal-backdrop.svelte-990e9y {
+      padding: 0;
+      align-items: flex-end;
+    }
+  }
+
+  .modal-container.svelte-990e9y {
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    animation: svelte-990e9y-modal-appear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (max-width: 640px) {
+    .modal-container.svelte-990e9y {
+      border-radius: 20px 20px 0 0;
+      max-width: 100%;
+      animation: svelte-990e9y-modal-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  @keyframes svelte-990e9y-modal-appear {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes svelte-990e9y-modal-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .modal-header.svelte-990e9y {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  @media (max-width: 640px) {
+    .modal-header.svelte-990e9y {
+      padding: 1rem 1.25rem;
+    }
+
+    .modal-content.svelte-990e9y {
+      padding: 1.25rem !important;
+    }
+  }
+
+  .modal-header.svelte-990e9y h2:where(.svelte-990e9y) {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-main);
+  }
+
+  .close-button.svelte-990e9y {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+  }
+
+  .close-button.svelte-990e9y:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-main);
+  }
+
+  .dark-mode .close-button.svelte-990e9y:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .modal-content.svelte-990e9y {
+    padding: 1.5rem;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
