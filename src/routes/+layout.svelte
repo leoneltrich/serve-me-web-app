@@ -22,8 +22,10 @@
 	setAdminService(adminService);
 	setServerService(serverService);
 
-	// SYNC: Immediately set state from server data to prevent flash
-	authState.setUser(data.user);
+	// SYNC: Keep global state in sync with server-provided data
+	$effect.pre(() => {
+		authState.setUser(data.user);
+	});
 
 	// Reactive Redirects
 	$effect(() => {

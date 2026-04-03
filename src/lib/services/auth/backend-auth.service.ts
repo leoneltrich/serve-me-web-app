@@ -19,7 +19,8 @@ export class BackendAuthService implements AuthService {
       throw new Error(response.error || 'Authentication failed');
     }
 
-    return response.data;
+    // Combine username from the login request with any other data returned
+    return { ...response.data, username };
   }
 
   async logout(): Promise<void> {

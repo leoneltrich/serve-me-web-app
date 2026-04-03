@@ -1,8 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getAuthService } from '$lib/services/context';
+    import { invalidateAll } from '$app/navigation';
     import { authState } from '$lib/services/auth/auth.state.svelte';
-    import { themeState } from '$lib/services/theme.svelte.ts';
+    import { themeState } from '$lib/services/theme.svelte';
 
     // 1. Inject the service
     const authService = getAuthService();
@@ -21,6 +22,7 @@
         try {
             const user = await authService.login(username, password);
             authState.setUser(user);
+            await invalidateAll();
             // The $effect in +layout.svelte will handle the redirect automatically
         } catch (err) {
             errorMessage = err instanceof Error ? err.message : 'Invalid credentials';

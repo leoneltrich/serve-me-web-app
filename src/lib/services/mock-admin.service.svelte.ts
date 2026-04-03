@@ -1,6 +1,6 @@
-import type { AdminService, AdminUser } from './interfaces';
+import type { IAdminService, AdminUser } from './interfaces';
 
-export class MockAdminService implements AdminService {
+export class MockAdminService implements IAdminService {
   private users = $state<AdminUser[]>([
     { username: 'admin', is_admin: true },
     { username: 'jdoe', is_admin: false },

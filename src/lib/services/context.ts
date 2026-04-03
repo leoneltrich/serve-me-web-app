@@ -1,16 +1,16 @@
 import { getContext, setContext } from 'svelte';
-import type { IAuthService } from './auth/auth-service.interface';
+import type { AuthService } from './auth/auth-service.interface';
 import type { IAdminService, IServerService } from './interfaces';
 
 const AUTH_KEY = Symbol('auth-service');
 const ADMIN_KEY = Symbol('admin-service');
 const SERVER_KEY = Symbol('server-service');
 
-export function setAuthService(service: IAuthService) {
+export function setAuthService(service: AuthService) {
   setContext(AUTH_KEY, service);
 }
 
-export function getAuthService(): IAuthService {
+export function getAuthService(): AuthService {
   return getContext(AUTH_KEY);
 }
 
