@@ -293,6 +293,19 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .primary-button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   h1 {
@@ -396,12 +409,14 @@
 
   .table-container {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .servers-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    min-width: 600px;
   }
 
   .servers-table th {
@@ -612,6 +627,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .info-item label {

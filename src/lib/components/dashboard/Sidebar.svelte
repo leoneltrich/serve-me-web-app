@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import { uiState } from '$lib/services/ui.svelte';
 
   const navItems = [
     { name: 'Overview', path: '/dashboard', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
@@ -8,19 +9,27 @@
   ];
 </script>
 
-<aside class="sidebar">
+<aside class="sidebar" class:open={uiState.isSidebarOpen}>
   <div class="sidebar-brand">
-    <div class="brand-icon">
-      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
+    <div class="brand-info">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+      </div>
+      <span>SERVE_ME</span>
     </div>
-    <span>SERVE_ME</span>
+    <button class="close-sidebar" onclick={() => uiState.closeSidebar()} aria-label="Close sidebar">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
   </div>
 
   <nav class="sidebar-nav">
     {#each navItems as item}
-      <a href={item.path} class="nav-link" class:active={page.url.pathname === item.path}>
+      <a href={item.path} class="nav-link" class:active={page.url.pathname === item.path} onclick={() => uiState.closeSidebar()}>
         <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path d={item.icon}></path>
         </svg>
@@ -45,17 +54,58 @@
     left: 0;
     top: 0;
     z-index: 300;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sidebar-brand {
     padding: 2rem 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: space-between;
     color: var(--text-main);
     font-weight: 700;
     letter-spacing: 0.05em;
+  }
+
+  .brand-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .close-sidebar {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .close-sidebar:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-main);
+  }
+
+  :global(.dark-mode) .close-sidebar:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  @media (max-width: 1024px) {
+    .sidebar {
+      transform: translateX(-100%);
+      box-shadow: 20px 0 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .close-sidebar {
+      display: flex;
+    }
   }
 
   .brand-icon {

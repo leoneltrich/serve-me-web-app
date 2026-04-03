@@ -42,6 +42,13 @@
     padding: 1rem;
   }
 
+  @media (max-width: 640px) {
+    .modal-backdrop {
+      padding: 0;
+      align-items: flex-end;
+    }
+  }
+
   .modal-container {
     background: var(--card-bg);
     backdrop-filter: blur(25px);
@@ -55,9 +62,22 @@
     animation: modal-appear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  @media (max-width: 640px) {
+    .modal-container {
+      border-radius: 20px 20px 0 0;
+      max-width: 100%;
+      animation: modal-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
   @keyframes modal-appear {
     from { opacity: 0; transform: scale(0.95) translateY(10px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes modal-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
   }
 
   .modal-header {
@@ -66,6 +86,16 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--card-border);
+  }
+
+  @media (max-width: 640px) {
+    .modal-header {
+      padding: 1rem 1.25rem;
+    }
+
+    .modal-content {
+      padding: 1.25rem !important;
+    }
   }
 
   .modal-header h2 {
@@ -97,5 +127,7 @@
 
   .modal-content {
     padding: 1.5rem;
+    max-height: 85vh;
+    overflow-y: auto;
   }
 </style>

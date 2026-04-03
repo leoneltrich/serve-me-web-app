@@ -4,6 +4,7 @@
   import { getAuthService } from '$lib/services/context';
   import { page } from '$app/state';
   import { goto } from '$app/navigation';
+  import { uiState } from '$lib/services/ui.svelte';
 
   const authService = getAuthService();
   let isUserMenuOpen = $state(false);
@@ -27,8 +28,17 @@
 </script>
 
 <header class="header">
-  <div class="breadcrumb">
-    {breadcrumb()}
+  <div class="header-left">
+    <button class="menu-button" onclick={() => uiState.toggleSidebar()} aria-label="Toggle Menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <div class="breadcrumb">
+      {breadcrumb()}
+    </div>
   </div>
 
   <div class="header-actions">
@@ -111,6 +121,31 @@
     transition: all 0.3s ease;
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .menu-button:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  :global(.dark-mode) .menu-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
   .breadcrumb {
     font-size: 0.8125rem;
     font-weight: 500;
@@ -123,6 +158,30 @@
     align-items: center;
     gap: 1rem;
     position: relative;
+  }
+
+  @media (max-width: 1024px) {
+    .header {
+      padding: 0 1rem;
+    }
+    
+    .menu-button {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .breadcrumb {
+      display: none;
+    }
+
+    .username {
+      display: none;
+    }
+
+    .user-badge {
+      padding: 0.375rem;
+    }
   }
 
   .theme-toggle {

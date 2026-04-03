@@ -108,6 +108,16 @@
     gap: 1rem;
   }
 
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .health-container {
+      padding: 1rem;
+    }
+  }
+
   .service-item {
     background: rgba(0, 0, 0, 0.02);
     border: 1px solid var(--card-border);

@@ -223,6 +223,19 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .primary-button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   h1 {
@@ -326,12 +339,14 @@
 
   .table-container {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .users-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    min-width: 500px;
   }
 
   .users-table th {
@@ -516,4 +531,14 @@
     gap: 0.75rem;
     margin-top: 1rem;
   }
-</style>
+
+  @media (max-width: 480px) {
+    .form-actions {
+      flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+      width: 100%;
+    }
+  }
+  </style>

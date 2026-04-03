@@ -102,4 +102,18 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
   }
+
+  @media (max-width: 640px) {
+    .dashboard-header-row {
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
