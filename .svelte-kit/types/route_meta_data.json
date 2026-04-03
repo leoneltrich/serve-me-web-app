@@ -10,6 +10,9 @@
 	"/dashboard/servers": [
 		"src/routes/+layout.server.ts"
 	],
+	"/dashboard/users": [
+		"src/routes/+layout.server.ts"
+	],
 	"/login": [
 		"src/routes/+layout.server.ts"
 	]
