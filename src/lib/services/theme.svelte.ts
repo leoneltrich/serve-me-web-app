@@ -1,27 +1,61 @@
+export type ThemeMode = 'system' | 'light' | 'dark';
+
 export class ThemeState {
+  themeMode = $state<ThemeMode>('system');
   isDarkMode = $state(false);
 
   constructor() {
     if (typeof window !== 'undefined') {
+      // Load saved mode
+      const savedMode = localStorage.getItem('theme-mode') as ThemeMode;
+      if (savedMode) {
+        this.themeMode = savedMode;
+      }
+
+      // Initialize system listener
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      this.isDarkMode = prefersDark.matches;
-      this.updateBody();
+      
+      // Set initial state
+      this.updateResolvedTheme();
+
+      // Listen for system changes
+      prefersDark.addEventListener('change', () => {
+        if (this.themeMode === 'system') {
+          this.updateResolvedTheme();
+        }
+      });
     }
   }
 
   get dark() { return this.isDarkMode; }
+  get mode() { return this.themeMode; }
+
+  setMode(mode: ThemeMode) {
+    this.themeMode = mode;
+    localStorage.setItem('theme-mode', mode);
+    this.updateResolvedTheme();
+  }
 
   toggle() {
-    this.isDarkMode = !this.isDarkMode;
-    this.updateBody();
+    // Cycle: system -> light -> dark -> system
+    if (this.themeMode === 'system') {
+      this.setMode('light');
+    } else if (this.themeMode === 'light') {
+      this.setMode('dark');
+    } else {
+      this.setMode('system');
+    }
   }
 
-  set(val: boolean) {
-    this.isDarkMode = val;
-    this.updateBody();
-  }
+  private updateResolvedTheme() {
+    if (typeof window === 'undefined') return;
 
-  private updateBody() {
+    if (this.themeMode === 'system') {
+      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } else {
+      this.isDarkMode = this.themeMode === 'dark';
+    }
+
     if (typeof document !== 'undefined') {
       if (this.isDarkMode) {
         document.documentElement.classList.add('dark-mode');
