@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { title, value, icon, colorClass = 'users' } = $props();
+  let { title, value, icon, colorClass = 'users', loading = false } = $props();
 
   let cardRef: HTMLDivElement;
   let mouseX = $state(0);
@@ -40,7 +40,11 @@
   </div>
   <div class="stat-info">
     <h3>{title}</h3>
-    <p class="stat-number">{value}</p>
+    {#if loading}
+      <div class="value-spinner"></div>
+    {:else}
+      <p class="stat-number">{value}</p>
+    {/if}
   </div>
 </div>
 
@@ -114,5 +118,19 @@
     margin: 0.25rem 0 0;
     color: var(--text-main);
     letter-spacing: -0.01em;
+  }
+
+  .value-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--brand-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 </style>

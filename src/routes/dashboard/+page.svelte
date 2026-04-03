@@ -30,8 +30,9 @@
 <div class="overview-grid">
   <StatCard 
     title="Total Users" 
-    value={isLoading ? '...' : userCount} 
+    value={userCount} 
     colorClass="users"
+    loading={isLoading}
   >
     {#snippet icon()}
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -40,8 +41,9 @@
 
   <StatCard 
     title="Active Servers" 
-    value={isLoading ? '...' : serverCount} 
+    value={serverCount} 
     colorClass="servers"
+    loading={isLoading}
   >
     {#snippet icon()}
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
@@ -52,6 +54,7 @@
     title="System Load" 
     value="Normal" 
     colorClass="system"
+    loading={false}
   >
     {#snippet icon()}
       <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
