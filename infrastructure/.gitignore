@@ -1,0 +1,9 @@
+/.env
+/nginx.conf
+/private.pem
+/public.pem
+/services.json
+/data/auth.db
+/data/firewall.db
+/data/firewall.db.old
+/data/notes.db

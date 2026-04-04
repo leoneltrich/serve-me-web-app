@@ -1,0 +1,121 @@
+services:
+  # --- IP-Whitelist-API Services ---
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "1080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth_service
+      - firewall_service
+      - health_service
+      - notes_service
+    networks:
+      - app-network
+
+  auth_service:
+    image: ip-whitelist-api-auth_service:latest
+    ports:
+      - "3003:3000"
+    environment:
+      - DATABASE_PATH=${AUTH_DB_PATH}
+      - PRIVATE_KEY_PATH=${AUTH_PRIVATE_KEY}
+      - PUBLIC_KEY_PATH=${AUTH_PUBLIC_KEY}
+      - LOG_LEVEL=${AUTH_LOG_LEVEL}
+      - LOG_FORMAT=${AUTH_LOG_FORMAT}
+      - LOG_ROTATION=${AUTH_LOG_ROTATION}
+      - LOG_FILE_PATH=${AUTH_LOG_FILE_PATH}
+      - LOG_MAX_FILES=${AUTH_LOG_MAX_FILES}
+    volumes:
+      - ./data/auth.db:${AUTH_DB_PATH}
+      - ./private.pem:${AUTH_PRIVATE_KEY}:ro
+      - ./public.pem:${AUTH_PUBLIC_KEY}:ro
+    labels:
+      - "mesh1.proxy.enable=true"
+      - "mesh1.proxy.port=3000"
+      - "mesh1.proxy.spec_path=/api/v1/api-docs/openapi.json"
+    networks:
+      - app-network
+
+  health_service:
+    image: ip-whitelist-api-health_service:latest
+    ports:
+      - "3002:3002"
+    environment:
+      - HEALTH_CONFIG_PATH=${HEALTH_CONFIG_PATH}
+      - HEALTH_PORT=${HEALTH_PORT}
+    volumes:
+      - ./services.json:${HEALTH_CONFIG_PATH}:ro
+    labels:
+      - "mesh1.proxy.enable=true"
+      - "mesh1.proxy.port=3002"
+      - "mesh1.proxy.spec_path=/api/v1/api-docs/openapi.json"
+    networks:
+      - app-network
+
+  firewall_service:
+    image: ip-whitelist-api-firewall_service:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_PATH=${FIREWALL_DB_PATH}
+      - PUBLIC_KEY_PATH=${AUTH_PUBLIC_KEY}
+      - FIREWALL_BACKEND=${FIREWALL_BACKEND}
+    volumes:
+      - ./data/firewall.db:${FIREWALL_DB_PATH}
+      - ./public.pem:${AUTH_PUBLIC_KEY}:ro
+    labels:
+      - "mesh1.proxy.enable=true"
+      - "mesh1.proxy.port=3000"
+      - "mesh1.proxy.spec_path=/api/v1/api-docs/openapi.json"
+    networks:
+      - app-network
+
+  notes_service:
+    image: ip-whitelist-api-notes_service:latest
+    ports:
+      - "3000:3003"
+    environment:
+      - DATABASE_PATH=${NOTES_DB_PATH}
+      - PUBLIC_KEY_PATH=${AUTH_PUBLIC_KEY}
+      - LISTEN_PORT=${NOTES_LISTEN_PORT}
+    volumes:
+      - ./data/notes.db:${NOTES_DB_PATH}
+      - ./public.pem:${AUTH_PUBLIC_KEY}:ro
+    labels:
+      - "mesh1.proxy.enable=true"
+      - "mesh1.proxy.port=3003"
+      - "mesh1.proxy.spec_path=/api/v1/api-docs/openapi.json"
+    networks:
+      - app-network
+
+  # --- Backend For Frontend ---
+  bff:
+    image: serve-me-bff-bff:latest
+    ports:
+      - "${BFF_PORT:-3000}:3000"
+    environment:
+      - BFF_PORT=3000
+      - BACKEND_URL=${BACKEND_URL}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # --- Admin Panel Frontend ---
+  app:
+    image: serve-me-admin-panel-app:latest
+    ports:
+      - "5000:3000"
+    environment:
+      - BACKEND_API_URL=${BACKEND_API_URL}
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

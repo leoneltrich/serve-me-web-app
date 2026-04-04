@@ -4,12 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve }) => {
     const { pathname } = event.url;
 
-    // Only proxy in production (or when not using Vite dev server proxy)
-    // In SvelteKit, we can check if we're in dev mode using import.meta.env.DEV
-    // However, the hooks run in both dev and prod.
-    // If we want to avoid double proxying in dev, we should be careful.
-    // Vite proxy usually takes precedence for requests it handles.
-
+    // Proxy authentication and API requests to the BFF
     if (pathname.startsWith('/auth') || pathname.startsWith('/api')) {
         const backendUrl = env.BACKEND_API_URL || 'http://localhost:2000';
         
@@ -17,15 +12,29 @@ export const handle: Handle = async ({ event, resolve }) => {
         const targetUrl = new URL(pathname + event.url.search, backendUrl);
 
         try {
+            // Clone headers and remove those that shouldn't be forwarded
+            const headers = new Headers(event.request.headers);
+            headers.delete('host');
+            headers.delete('connection');
+            
+            // Add forwarding headers for the backend to know the real client
+            const clientAddress = event.getClientAddress();
+            if (clientAddress) {
+                headers.set('x-forwarded-for', clientAddress);
+            }
+            headers.set('x-forwarded-host', event.url.host);
+            headers.set('x-forwarded-proto', event.url.protocol.replace(':', ''));
+
             // Forward the request to the backend
             const response = await fetch(targetUrl.toString(), {
                 method: event.request.method,
-                headers: event.request.headers,
+                headers: headers,
                 body: event.request.method !== 'GET' && event.request.method !== 'HEAD' 
                     ? await event.request.arrayBuffer() 
                     : undefined,
                 // @ts-ignore - SvelteKit's fetch handles this
-                duplex: 'half'
+                duplex: 'half',
+                redirect: 'manual'
             });
 
             return response;
