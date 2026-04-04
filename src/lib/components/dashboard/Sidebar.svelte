@@ -68,8 +68,8 @@
     width: 240px;
     height: 100vh;
     background: var(--sidebar-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
     border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
@@ -79,6 +79,15 @@
     top: 0;
     z-index: 300;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Glass effect with higher opacity for visibility */
+  :global(:root:not(.dark-mode)) .sidebar {
+      background: rgba(255, 255, 255, 0.9);
+  }
+
+  :global(.dark-mode) .sidebar {
+      background: rgba(15, 15, 20, 0.9);
   }
 
   .sidebar-brand {
@@ -122,7 +131,15 @@
   @media (max-width: 1024px) {
     .sidebar {
       transform: translateX(-100%);
-      box-shadow: 20px 0 50px rgba(0, 0, 0, 0.1);
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
+    }
+
+      :global(:root:not(.dark-mode)) .sidebar {
+          background: rgba(255, 255, 255, 0.95);
+      }
+
+      :global(.dark-mode) .sidebar {
+          background: rgba(15, 15, 20, 0.98);
     }
 
     .sidebar.open {
