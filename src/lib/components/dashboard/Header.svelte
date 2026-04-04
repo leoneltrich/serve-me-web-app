@@ -1,32 +1,25 @@
 <script lang="ts">
     import {themeState} from '$lib/services/theme.svelte';
-    import {page} from '$app/state';
     import {uiState} from '$lib/services/ui.svelte';
-    import {getBreadcrumb} from '$lib/config/navigation';
     import {Menu, Monitor, Moon, Sun} from 'lucide-svelte';
-
-    let breadcrumb = $derived(getBreadcrumb(page.url.pathname));
 </script>
 
 <header class="header">
   <div class="header-left">
     <button class="menu-button" onclick={() => uiState.toggleSidebar()} aria-label="Toggle Menu">
-        <Menu size={22}/>
+        <Menu size={20}/>
     </button>
-    <div class="breadcrumb">
-        {breadcrumb}
-    </div>
   </div>
 
   <div class="header-actions">
     <button class="theme-toggle" onclick={() => themeState.toggle()} aria-label="Toggle theme mode" title="Current: {themeState.mode}">
       {#if themeState.mode === 'system'}
-          <Monitor size={18}/>
+          <Monitor size={20}/>
       {:else}
         {#if themeState.dark}
-            <Sun size={18}/>
+            <Sun size={20}/>
         {:else}
-            <Moon size={18}/>
+            <Moon size={20}/>
         {/if}
       {/if}
     </button>
@@ -36,9 +29,7 @@
 <style>
   .header {
     height: 64px;
-    background: var(--header-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+      background: transparent;
       border-bottom: none;
     display: flex;
     align-items: center;
@@ -59,28 +50,25 @@
 
   .menu-button {
     display: none;
-    background: none;
+      background: var(--bg-base);
     border: none;
     color: var(--text-main);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: background 0.2s;
+      width: 44px;
+      height: 44px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, filter 0.2s;
   }
 
   .menu-button:hover {
-    background: rgba(0, 0, 0, 0.05);
+      filter: brightness(0.95);
   }
 
   :global(.dark-mode) .menu-button:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .breadcrumb {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
+      filter: brightness(1.1);
   }
 
   .header-actions {
@@ -97,24 +85,17 @@
     
     .menu-button {
       display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .breadcrumb {
-      display: none;
     }
   }
 
   .theme-toggle {
-    background: none;
+      background: var(--bg-base);
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      border-radius: 50px;
     display: flex;
       align-items: center;
       justify-content: center;
@@ -122,11 +103,12 @@
   }
 
   .theme-toggle:hover {
-    background: rgba(0, 0, 0, 0.05);
+      filter: brightness(0.95);
     color: var(--text-main);
   }
 
   :global(.dark-mode) .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.05);
+      filter: brightness(1.1);
+      color: var(--text-main);
   }
 </style>
