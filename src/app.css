@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-base: #f8fafc;
+    --bg-base: #edf1f6;
     --bg-orb-1: rgba(59, 130, 246, 0.15); /* Soft blue */
     --bg-orb-2: rgba(147, 51, 234, 0.1); /* Soft purple */
     --mouse-glow: rgba(59, 130, 246, 0.05); /* Extremely subtle soft blue glow */
@@ -31,7 +31,7 @@
     --bg-orb-1: rgba(56, 189, 248, 0.08); /* Dark mode blue glow */
     --bg-orb-2: rgba(168, 85, 247, 0.06); /* Dark mode purple glow */
     --mouse-glow: rgba(56, 189, 248, 0.05); /* Extremely subtle dark mode blue glow */
-    --card-bg: rgba(24, 24, 27, 0.65);
+    --card-bg: #1f1f23;
     --card-border: transparent;
     --card-shadow: none;
     --text-main: #f8fafc;
@@ -48,8 +48,8 @@
     --brand-color: #38bdf8;
     --toggle-bg: #18181b;
     --toggle-border: #27272a;
-    --sidebar-bg: rgba(24, 24, 27, 0.4);
-    --header-bg: rgba(24, 24, 27, 0.4);
+    --sidebar-bg: #1f1f23;
+    --header-bg: #1f1f23;
 }
 
 body {
