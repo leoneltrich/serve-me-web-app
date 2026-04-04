@@ -52,13 +52,12 @@
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
+    border: none;
     border-radius: 16px;
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--card-shadow);
     position: relative;
     overflow: hidden;
@@ -70,16 +69,6 @@
       gap: 0.75rem;
       border-radius: 12px;
     }
-  }
-
-  .server-card:hover {
-    background: rgba(255, 255, 255, 0.95);
-      border-color: rgba(37, 99, 235, 0.4);
-  }
-
-  :global(.dark-mode) .server-card:hover {
-    background: rgba(24, 24, 27, 0.85);
-    border-color: rgba(56, 189, 248, 0.3);
   }
 
   .card-header {
@@ -205,7 +194,7 @@
     align-items: center;
     gap: 0.75rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--card-border);
+    border-top: none;
   }
 
   @media (max-width: 640px) {

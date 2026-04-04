@@ -39,7 +39,7 @@
     background: var(--header-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--card-border);
+      border-bottom: none;
     display: flex;
     align-items: center;
     justify-content: space-between;

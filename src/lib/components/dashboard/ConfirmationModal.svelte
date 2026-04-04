@@ -106,7 +106,7 @@
     .confirm-card {
         background: var(--card-bg);
         background-color: rgba(255, 255, 255, 0.98);
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        border: none;
         border-radius: 24px;
         width: 100%;
         max-width: 400px;
@@ -121,7 +121,7 @@
 
     :global(.dark-mode) .confirm-card {
         background-color: rgba(24, 24, 27, 0.98);
-        border-color: rgba(255, 255, 255, 0.1);
+        border: none;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 

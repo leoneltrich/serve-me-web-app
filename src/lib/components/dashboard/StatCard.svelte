@@ -22,19 +22,8 @@
 <div 
   bind:this={cardRef}
   class="stat-card" 
-  onmousemove={handleMouseMove} 
-  onmouseleave={handleMouseLeave}
   role="presentation"
 >
-  <!-- Ripple/Spotlight Effect -->
-  <div 
-    class="ripple-effect" 
-    style="
-      background: radial-gradient(600px circle at {mouseX}px {mouseY}px, rgba(255,255,255,0.06), transparent 40%);
-      opacity: {opacity};
-    "
-  ></div>
-
   <div class="stat-icon {colorClass}">
     {@render icon()}
   </div>
@@ -55,14 +44,13 @@
     -webkit-backdrop-filter: blur(20px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid var(--card-border);
+    border: none;
     display: flex;
     align-items: center;
     gap: 1.25rem;
     box-shadow: var(--card-shadow);
     position: relative;
     overflow: hidden;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
   @media (max-width: 640px) {
@@ -71,24 +59,6 @@
       gap: 0.75rem;
       border-radius: 12px;
     }
-  }
-
-  /* No translation or border change on hover for a cleaner feel */
-  .stat-card:hover {
-    background: rgba(255, 255, 255, 0.9);
-  }
-
-  :global(.dark-mode) .stat-card:hover {
-    background: rgba(24, 24, 27, 0.75);
-    border-color: rgba(255, 255, 255, 0.12);
-  }
-
-  .ripple-effect {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-    z-index: 1;
   }
 
   .stat-icon {

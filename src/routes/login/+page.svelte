@@ -132,7 +132,7 @@
         right: 2rem;
         background: var(--toggle-bg);
         color: var(--text-main);
-        border: 1px solid var(--toggle-border);
+        border: none;
         border-radius: 50%;
         width: 44px;
         height: 44px;
@@ -145,7 +145,6 @@
     }
 
     .theme-toggle:hover {
-        border-color: var(--brand-color);
         color: var(--brand-color);
     }
 
@@ -158,7 +157,7 @@
         max-width: 450px;
         padding: 2rem 1.8rem;
         border-radius: 16px;
-        border: 1px solid var(--card-border);
+        border: none;
         box-shadow: var(--card-shadow);
         box-sizing: border-box;
         transition: all 0.4s ease;
@@ -171,13 +170,13 @@
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         z-index: 2;
         opacity: 0.5;
     }
 
     :global(:root.dark-mode) .card-highlight {
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     }
 
     .login-header {

@@ -2,7 +2,7 @@
   import type {ServiceHealth} from '$lib/services/interfaces';
   import {Activity} from 'lucide-svelte';
 
-  let { services = {}, loading = false } = $props();
+  let {services = {}, loading = false} = $props();
 
   const servicesList = $derived(Object.values(services as Record<string, ServiceHealth>));
 
@@ -71,7 +71,7 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 16px;
-    border: 1px solid var(--card-border);
+    border: none;
     padding: 1.5rem;
     box-shadow: var(--card-shadow);
   }
@@ -121,10 +121,9 @@
 
   .service-item {
     background: rgba(0, 0, 0, 0.02);
-    border: 1px solid var(--card-border);
+    border: none;
     border-radius: 12px;
     padding: 1rem;
-    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -132,16 +131,6 @@
 
   :global(.dark-mode) .service-item {
     background: rgba(255, 255, 255, 0.02);
-  }
-
-  .service-item:hover {
-    border-color: rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.03);
-  }
-
-  :global(.dark-mode) .service-item:hover {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.03);
   }
 
   .service-main {
@@ -212,7 +201,7 @@
     font-size: 0.8125rem;
     color: var(--text-muted);
     padding-top: 0.5rem;
-    border-top: 1px dashed var(--card-border);
+    border-top: none;
     line-height: 1.4;
   }
 

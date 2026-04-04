@@ -86,8 +86,8 @@
               rgba(255, 255, 255, 0.85),
               rgba(255, 255, 255, 0.75)
       );
-      border-right: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 1px 0 0 rgba(0, 0, 0, 0.05);
+      border-right: none;
+      box-shadow: none;
   }
 
   :global(.dark-mode) .sidebar {
@@ -96,8 +96,8 @@
               rgba(15, 15, 20, 0.85),
               rgba(10, 10, 15, 0.75)
       );
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 1px 0 0 rgba(0, 0, 0, 0.3);
+      border-right: none;
+      box-shadow: none;
   }
 
   .sidebar-brand {
@@ -141,7 +141,7 @@
   @media (max-width: 1024px) {
     .sidebar {
       transform: translateX(-100%);
-        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: none;
     }
 
       :global(:root:not(.dark-mode)) .sidebar {
@@ -218,13 +218,12 @@
   .sidebar-footer {
     padding: 1.5rem;
     margin-top: auto;
-    border-top: 1px solid var(--card-border);
+      border-top: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
   }
-
   .user-profile {
     display: flex;
     align-items: center;

@@ -52,7 +52,7 @@
     background: var(--card-bg);
       /* Make modal slightly more opaque than standard cards for better contrast */
       background-color: rgba(255, 255, 255, 0.98);
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: none;
       border-radius: 20px;
     width: 100%;
     max-width: 500px;
@@ -65,7 +65,7 @@
 
   :global(.dark-mode) .modal-container {
       background-color: rgba(24, 24, 27, 0.95);
-      border-color: rgba(255, 255, 255, 0.15);
+      border: none;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   }
 
@@ -79,7 +79,7 @@
           max-width: 100%;
           border-radius: 24px 24px 0 0;
           border-bottom: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          border-top: none;
           animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
   }
@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--card-border);
+      border-bottom: none;
   }
 
   @media (max-width: 640px) {

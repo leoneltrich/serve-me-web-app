@@ -469,7 +469,7 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 16px;
-    border: 1px solid var(--card-border);
+    border: none;
     box-shadow: var(--card-shadow);
     overflow: hidden;
   }
@@ -491,14 +491,14 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: none;
   }
 
   .servers-table td {
     padding: 1rem 1.5rem;
     font-size: 0.875rem;
     color: var(--text-main);
-    border-bottom: 1px solid var(--card-border);
+    border-bottom: none;
   }
 
   .servers-table tr:last-child td {
