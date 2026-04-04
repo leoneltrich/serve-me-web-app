@@ -3,7 +3,7 @@
   import {authState} from '$lib/services/auth/auth.state.svelte';
   import {getAuthService} from '$lib/services/context';
   import {goto} from '$app/navigation';
-  import {fade, scale} from 'svelte/transition';
+  import {fade} from 'svelte/transition';
   import {LogOut} from 'lucide-svelte';
 
   const authService = getAuthService();
@@ -50,7 +50,6 @@
       aria-modal="true"
       aria-labelledby="logout-title"
       tabindex="-1"
-      transition:scale={{ duration: 300, start: 0.9, opacity: 0 }}
     >
       <div class="logout-header">
         <div class="logout-icon-wrapper">
@@ -96,7 +95,7 @@
   .logout-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     display: flex;
@@ -105,22 +104,47 @@
     z-index: 2000;
     padding: 1.5rem;
     cursor: default;
+      animation: fadeIn 0.25s ease-out;
   }
 
   .logout-card {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
+      background-color: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 28px;
     width: 100%;
     max-width: 420px;
     padding: 3rem 2.5rem 2.5rem;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     position: relative;
     overflow: hidden;
+      animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  :global(.dark-mode) .logout-card {
+      background-color: rgba(24, 24, 27, 0.95);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 640px) {
+      .logout-backdrop {
+          align-items: flex-end;
+          padding: 0;
+      }
+
+      .logout-card {
+          max-width: 100%;
+          border-radius: 28px 28px 0 0;
+          border-bottom: none;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 2.5rem 1.5rem 2rem;
+          animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
   }
 
   .logout-header {
@@ -251,12 +275,36 @@
     to { transform: rotate(360deg); }
   }
 
-  @media (max-width: 480px) {
-    .logout-card {
-      padding: 2.5rem 1.5rem 2rem;
-      border-radius: 24px;
-    }
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+      to {
+          opacity: 1;
+      }
+  }
 
+  @keyframes scaleIn {
+      from {
+          opacity: 0;
+          transform: scale(0.9);
+      }
+      to {
+          opacity: 1;
+          transform: scale(1);
+      }
+  }
+
+  @keyframes slideUp {
+      from {
+          transform: translateY(100%);
+      }
+      to {
+          transform: translateY(0);
+      }
+  }
+
+  @media (max-width: 480px) {
     .logout-actions {
       flex-direction: column-reverse;
       gap: 0.75rem;

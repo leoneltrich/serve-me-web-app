@@ -36,7 +36,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-    background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     display: flex;
@@ -50,15 +50,38 @@
 
   .modal-container {
     background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      /* Make modal slightly more opaque than standard cards for better contrast */
+      background-color: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 20px;
     width: 100%;
     max-width: 500px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45);
       display: flex;
       flex-direction: column;
     overflow: hidden;
       animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :global(.dark-mode) .modal-container {
+      background-color: rgba(24, 24, 27, 0.95);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 640px) {
+      .modal-backdrop {
+          align-items: flex-end;
+          padding: 0;
+      }
+
+      .modal-container {
+          max-width: 100%;
+          border-radius: 24px 24px 0 0;
+          border-bottom: none;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
   }
 
   .modal-header {
@@ -67,6 +90,12 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--card-border);
+  }
+
+  @media (max-width: 640px) {
+      .modal-header {
+          padding: 1.25rem 1.5rem;
+      }
   }
 
   .modal-header h2 {
@@ -122,6 +151,15 @@
       to {
           transform: translateY(0);
           opacity: 1;
+      }
+  }
+
+  @keyframes slideUpMobile {
+      from {
+          transform: translateY(100%);
+      }
+      to {
+          transform: translateY(0);
       }
   }
 </style>
