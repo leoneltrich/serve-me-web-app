@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { getAuthService } from '$lib/services/context';
-    import { invalidateAll } from '$app/navigation';
-    import { authState } from '$lib/services/auth/auth.state.svelte';
-    import { themeState } from '$lib/services/theme.svelte';
+    import {getAuthService} from '$lib/services/context';
+    import {invalidateAll} from '$app/navigation';
+    import {authState} from '$lib/services/auth/auth.state.svelte';
+    import {themeState} from '$lib/services/theme.svelte';
 
     // 1. Inject the service
     const authService = getAuthService();
@@ -48,7 +47,7 @@
                 <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
         {:else}
-            {#if themeState.isDarkMode}
+            {#if themeState.dark}
                 <!-- Sun Icon for Light Mode -->
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
                      stroke-linecap="round" stroke-linejoin="round">

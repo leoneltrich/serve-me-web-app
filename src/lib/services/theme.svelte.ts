@@ -1,15 +1,15 @@
 export type ThemeMode = 'system' | 'light' | 'dark';
 
 export class ThemeState {
-  themeMode = $state<ThemeMode>('system');
-  isDarkMode = $state(false);
+    private _themeMode = $state<ThemeMode>('system');
+    private _isDarkMode = $state(false);
 
   constructor() {
     if (typeof window !== 'undefined') {
       // Load saved mode
       const savedMode = localStorage.getItem('theme-mode') as ThemeMode;
       if (savedMode) {
-        this.themeMode = savedMode;
+          this._themeMode = savedMode;
       }
 
       // Initialize system listener
@@ -20,27 +20,32 @@ export class ThemeState {
 
       // Listen for system changes
       prefersDark.addEventListener('change', () => {
-        if (this.themeMode === 'system') {
+          if (this._themeMode === 'system') {
           this.updateResolvedTheme();
         }
       });
     }
   }
 
-  get dark() { return this.isDarkMode; }
-  get mode() { return this.themeMode; }
+    get dark() {
+        return this._isDarkMode;
+    }
+
+    get mode() {
+        return this._themeMode;
+    }
 
   setMode(mode: ThemeMode) {
-    this.themeMode = mode;
+      this._themeMode = mode;
     localStorage.setItem('theme-mode', mode);
     this.updateResolvedTheme();
   }
 
   toggle() {
     // Cycle: system -> light -> dark -> system
-    if (this.themeMode === 'system') {
+      if (this._themeMode === 'system') {
       this.setMode('light');
-    } else if (this.themeMode === 'light') {
+      } else if (this._themeMode === 'light') {
       this.setMode('dark');
     } else {
       this.setMode('system');
@@ -50,14 +55,14 @@ export class ThemeState {
   private updateResolvedTheme() {
     if (typeof window === 'undefined') return;
 
-    if (this.themeMode === 'system') {
-      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (this._themeMode === 'system') {
+          this._isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     } else {
-      this.isDarkMode = this.themeMode === 'dark';
+          this._isDarkMode = this._themeMode === 'dark';
     }
 
     if (typeof document !== 'undefined') {
-      if (this.isDarkMode) {
+        if (this._isDarkMode) {
         document.documentElement.classList.add('dark-mode');
       } else {
         document.documentElement.classList.remove('dark-mode');

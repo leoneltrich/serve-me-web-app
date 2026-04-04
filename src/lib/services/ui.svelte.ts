@@ -1,16 +1,30 @@
-export const uiState = $state({
-  isSidebarOpen: false,
-  isLogoutConfirmationOpen: false,
+export class UIState {
+    private _isSidebarOpen = $state(false);
+    private _isLogoutConfirmationOpen = $state(false);
+
+    get isSidebarOpen() {
+        return this._isSidebarOpen;
+    }
+
+    get isLogoutConfirmationOpen() {
+        return this._isLogoutConfirmationOpen;
+    }
+
   toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-  },
-  closeSidebar() {
-    this.isSidebarOpen = false;
-  },
-  openLogoutConfirmation() {
-    this.isLogoutConfirmationOpen = true;
-  },
-  closeLogoutConfirmation() {
-    this.isLogoutConfirmationOpen = false;
+      this._isSidebarOpen = !this._isSidebarOpen;
   }
-});
+
+  closeSidebar() {
+      this._isSidebarOpen = false;
+  }
+
+  openLogoutConfirmation() {
+      this._isLogoutConfirmationOpen = true;
+  }
+
+  closeLogoutConfirmation() {
+      this._isLogoutConfirmationOpen = false;
+  }
+}
+
+export const uiState = new UIState();
