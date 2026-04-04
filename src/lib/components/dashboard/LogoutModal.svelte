@@ -19,7 +19,7 @@
       authState.setUser(null);
       uiState.closeLogoutConfirmation();
       isLoggingOut = false;
-      goto('/login');
+      await goto('/login');
     }
   }
 

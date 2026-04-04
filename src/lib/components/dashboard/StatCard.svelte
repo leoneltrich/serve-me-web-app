@@ -5,18 +5,6 @@
   let mouseX = $state(0);
   let mouseY = $state(0);
   let opacity = $state(0);
-
-  function handleMouseMove(e: MouseEvent) {
-    if (!cardRef) return;
-    const rect = cardRef.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    opacity = 1;
-  }
-
-  function handleMouseLeave() {
-    opacity = 0;
-  }
 </script>
 
 <div 

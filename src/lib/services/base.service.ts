@@ -3,7 +3,7 @@ import type {ApiClient} from './api/api-client.interface';
 export abstract class BaseService {
     protected readonly client: ApiClient;
 
-    constructor(client: ApiClient) {
+    protected constructor(client: ApiClient) {
         this.client = client;
     }
 

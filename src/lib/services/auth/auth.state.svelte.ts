@@ -1,4 +1,4 @@
-import { type User } from './auth.types';
+import {type User} from './auth.types';
 
 export class AuthState {
   private _user = $state<User | null>(null);
@@ -6,8 +6,6 @@ export class AuthState {
 
   get user() { return this._user; }
   get isAuthenticated() { return !!this._user; }
-  get isInitialized() { return this._initialized; }
-
   setUser(user: User | null) {
     this._user = user;
     this._initialized = true;

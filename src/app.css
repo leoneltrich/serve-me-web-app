@@ -169,11 +169,6 @@ body {
     padding: 1rem 1.5rem;
     font-size: 0.875rem;
     color: var(--text-main);
-    border-bottom: 0px solid rgba(0, 0, 0, 0.04);
-}
-
-.dark-mode .glass-list td {
-    border-bottom: 0px solid rgba(255, 255, 255, 0.04);
 }
 
 .glass-list tr:last-child td {
@@ -250,12 +245,7 @@ body {
     color: white;
 }
 
-.modal-btn-confirm.btn-danger {
-    background: #ef4444;
-    color: white;
-}
-
-.dark-mode .modal-btn-confirm.btn-danger {
+.dark-mode .modal-btn-confirm {
     background: #ef4444;
     color: white;
 }
@@ -303,7 +293,7 @@ body {
 /* Card Style (Mobile) */
 .action-btn-card {
     padding: 0.625rem;
-    border-radius: 12px;
+    border-radius: 50px;
     gap: 0.5rem;
 }
 

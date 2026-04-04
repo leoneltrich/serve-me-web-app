@@ -121,7 +121,7 @@
       height: 14px;
       bottom: -2px;
       right: -2px;
-      border-width: 1.5px;
+      border-width: 2px;
     }
 
     :global(.admin-indicator svg) {
