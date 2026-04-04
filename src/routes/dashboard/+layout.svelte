@@ -1,15 +1,15 @@
 <script lang="ts">
-  import Sidebar from '$lib/components/dashboard/Sidebar.svelte';
-  import Header from '$lib/components/dashboard/Header.svelte';
-  import LogoutModal from '$lib/components/dashboard/LogoutModal.svelte';
-  import { authState } from '$lib/services/auth/auth.state.svelte';
-  import { uiState } from '$lib/services/ui.svelte';
+    import Sidebar from '$lib/components/dashboard/Sidebar.svelte';
+    import Header from '$lib/components/dashboard/Header.svelte';
+    import LogoutModal from '$lib/components/dashboard/LogoutModal.svelte';
+    import {authState} from '$lib/services/auth/auth.state.svelte';
+    import {uiState} from '$lib/services/ui.svelte';
 
-  let { children } = $props();
+    let { children } = $props();
 </script>
 
 {#if authState.isAuthenticated}
-  <div class="dashboard-layout">
+    <div class="dashboard-layout" class:sidebar-open={uiState.isSidebarOpen}>
     <Sidebar />
     
     {#if uiState.isSidebarOpen}
@@ -28,6 +28,10 @@
 {/if}
 
 <style>
+    :root {
+        --sidebar-width: 240px;
+    }
+
   .dashboard-layout {
     display: flex;
     min-height: 100vh;
@@ -38,11 +42,15 @@
 
   .main-container {
     flex: 1;
-    margin-left: 240px; /* Width of Sidebar */
+      margin-left: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    transition: margin-left 0.3s ease;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+    .sidebar-open .main-container {
+        margin-left: var(--sidebar-width);
   }
 
   .content {
@@ -61,14 +69,25 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
-    z-index: 250; /* Between header (150) and sidebar (300) is wrong, sidebar is 300, overlay should be 299 */
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 290;
     border: none;
     cursor: default;
     display: none;
+      animation: fadeIn 0.3s ease;
+  }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
   }
 
   @media (max-width: 1024px) {
-    .main-container {
+      .sidebar-open .main-container {
       margin-left: 0;
     }
 

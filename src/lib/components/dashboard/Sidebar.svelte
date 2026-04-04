@@ -35,7 +35,16 @@
 
   <nav class="sidebar-nav">
       {#each navigationConfig as item}
-      <a href={item.path} class="nav-link" class:active={page.url.pathname === item.path} onclick={() => uiState.closeSidebar()}>
+          <a
+                  href={item.path}
+                  class="nav-link"
+                  class:active={page.url.pathname === item.path}
+                  onclick={() => {
+          if (window.innerWidth < 1024) {
+            uiState.closeSidebar();
+          }
+        }}
+          >
           {#if getIcon(item.name)}
               {@const Icon = getIcon(item.name)}
               <Icon size={18}/>
@@ -77,6 +86,11 @@
     top: 0;
     z-index: 300;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+      transform: translateX(0);
   }
 
   /* High-end glass effect */

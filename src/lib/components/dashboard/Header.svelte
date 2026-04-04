@@ -1,13 +1,18 @@
 <script lang="ts">
     import {themeState} from '$lib/services/theme.svelte';
     import {uiState} from '$lib/services/ui.svelte';
-    import {Menu, Monitor, Moon, Sun} from 'lucide-svelte';
+    import {Menu, Monitor, Moon, Sun, X} from 'lucide-svelte';
 </script>
 
 <header class="header">
   <div class="header-left">
-    <button class="menu-button" onclick={() => uiState.toggleSidebar()} aria-label="Toggle Menu">
-        <Menu size={20}/>
+      <button class="menu-button" onclick={() => uiState.toggleSidebar()}
+              aria-label={uiState.isSidebarOpen ? 'Close Menu' : 'Open Menu'}>
+          {#if uiState.isSidebarOpen}
+              <X size={20}/>
+          {:else}
+              <Menu size={20}/>
+          {/if}
     </button>
   </div>
 
@@ -49,7 +54,6 @@
   }
 
   .menu-button {
-    display: none;
       background: var(--bg-base);
     border: none;
     color: var(--text-main);
@@ -61,6 +65,7 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s, filter 0.2s;
+      z-index: 400; /* Ensure it stays above everything when sidebar is open */
   }
 
   .menu-button:hover {
@@ -81,10 +86,6 @@
   @media (max-width: 1024px) {
     .header {
       padding: 0 1rem;
-    }
-    
-    .menu-button {
-      display: flex;
     }
   }
 
