@@ -25,17 +25,28 @@
     'UNKNOWN': 'health-unknown'
   } as const;
 
-  onMount(async () => {
-    const [users, servers, health] = await Promise.all([
-      adminService.getUsers(),
-      serverService.getServers(),
-      healthService.getHealth()
-    ]);
-    userCount = users.length;
-    serverCount = servers.length;
-    systemHealth = health.status;
-    servicesHealth = health.services;
-    isLoading = false;
+  async function refreshData() {
+      try {
+          const [users, servers, health] = await Promise.all([
+              adminService.getUsers(),
+              serverService.getServers(),
+              healthService.getHealth()
+          ]);
+          userCount = users.length;
+          serverCount = servers.length;
+          systemHealth = health.status;
+          servicesHealth = health.services;
+      } catch (err) {
+          console.error('Failed to refresh dashboard data:', err);
+      } finally {
+          isLoading = false;
+      }
+  }
+
+  onMount(() => {
+      refreshData();
+      const interval = setInterval(refreshData, 5000);
+      return () => clearInterval(interval);
   });
 </script>
 <div class="dashboard-header-row">
