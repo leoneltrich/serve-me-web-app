@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { Server } from '$lib/services/interfaces';
-  
+  import type {Server as ServerType} from '$lib/services/interfaces';
+  import {Lock, Pencil, Server, Trash2} from 'lucide-svelte';
+
   let { server, onaccess, onedit, ondelete } = $props<{
-    server: Server;
+    server: ServerType;
     onaccess: () => void;
     onedit: () => void;
     ondelete: () => void;
@@ -12,12 +13,7 @@
 <div class="server-card">
   <div class="card-header">
     <div class="server-icon">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-        <line x1="6" y1="6" x2="6.01" y2="6"></line>
-        <line x1="6" y1="18" x2="6.01" y2="18"></line>
-      </svg>
+      <Server size={20}/>
     </div>
     <div class="server-name">
       <h3>{server.servername}</h3>
@@ -37,24 +33,15 @@
 
   <div class="card-actions">
     <button class="action-btn access" onclick={onaccess} title="Access Status">
-      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-      </svg>
+      <Lock size={18}/>
       <span>Status</span>
     </button>
     <div class="secondary-actions">
       <button class="action-btn edit" onclick={onedit} title="Edit">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-        </svg>
+        <Pencil size={18}/>
       </button>
       <button class="action-btn delete" onclick={ondelete} title="Delete">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-          <polyline points="3 6 5 6 21 6"></polyline>
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-        </svg>
+        <Trash2 size={18}/>
       </button>
     </div>
   </div>

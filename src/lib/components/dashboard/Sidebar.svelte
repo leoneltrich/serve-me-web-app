@@ -1,13 +1,19 @@
 <script lang="ts">
-  import { page } from '$app/state';
-  import { uiState } from '$lib/services/ui.svelte';
-  import { authState } from '$lib/services/auth/auth.state.svelte';
+    import {page} from '$app/state';
+    import {uiState} from '$lib/services/ui.svelte';
+    import {authState} from '$lib/services/auth/auth.state.svelte';
+    import {navigationConfig} from '$lib/config/navigation';
+    import {Layers, LayoutDashboard, LogOut, Server, Users, X} from 'lucide-svelte';
 
-  const navItems = [
-    { name: 'Overview', path: '/dashboard', icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
-    { name: 'Servers', path: '/dashboard/servers', icon: 'M2 20h20M5 20V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12M9 13h6' },
-    { name: 'Users', path: '/dashboard/users', icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' }
-  ];
+    const iconMap = {
+        'Overview': LayoutDashboard,
+        'Servers': Server,
+        'Users': Users
+    };
+
+    function getIcon(name: string) {
+        return iconMap[name as keyof typeof iconMap];
+    }
 
   function handleLogout() {
     uiState.openLogoutConfirmation();
@@ -18,26 +24,22 @@
   <div class="sidebar-brand">
     <div class="brand-info">
       <div class="brand-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-        </svg>
+          <Layers size={22} strokeWidth={2.5}/>
       </div>
       <span>SERVE_ME</span>
     </div>
     <button class="close-sidebar" onclick={() => uiState.closeSidebar()} aria-label="Close sidebar">
-      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+        <X size={20}/>
     </button>
   </div>
 
   <nav class="sidebar-nav">
-    {#each navItems as item}
+      {#each navigationConfig as item}
       <a href={item.path} class="nav-link" class:active={page.url.pathname === item.path} onclick={() => uiState.closeSidebar()}>
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d={item.icon}></path>
-        </svg>
+          {#if getIcon(item.name)}
+              {@const Icon = getIcon(item.name)}
+              <Icon size={18}/>
+          {/if}
         <span>{item.name}</span>
       </a>
     {/each}
@@ -55,11 +57,7 @@
         </div>
       </div>
       <button class="logout-button" onclick={handleLogout} title="Sign Out">
-        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
+          <LogOut size={20}/>
       </button>
     </div>
   {/if}
@@ -108,6 +106,8 @@
     padding: 0.5rem;
     border-radius: 8px;
     transition: all 0.2s;
+      align-items: center;
+      justify-content: center;
   }
 
   .close-sidebar:hover {
@@ -239,7 +239,7 @@
     font-weight: 700;
     font-size: 0.875rem;
     flex-shrink: 0;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
   }
 
   .user-info {

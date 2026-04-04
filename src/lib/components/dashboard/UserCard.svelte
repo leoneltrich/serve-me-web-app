@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { AdminUser } from '$lib/services/interfaces';
-  
+  import type {AdminUser} from '$lib/services/interfaces';
+  import {Pencil, ShieldCheck, Trash2} from 'lucide-svelte';
+
   let { user, onedit, ondelete } = $props<{
     user: AdminUser;
     onedit: () => void;
@@ -18,9 +19,7 @@
       </div>
       {#if user.is_admin}
         <div class="admin-indicator" title="Administrator">
-          <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="3" fill="none">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
+          <ShieldCheck size={12} strokeWidth={3}/>
         </div>
       {/if}
     </div>
@@ -36,17 +35,11 @@
 
   <div class="card-actions">
     <button class="action-btn edit" onclick={onedit} title="Edit User">
-      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-      </svg>
+      <Pencil size={18}/>
       <span>Edit Profile</span>
     </button>
     <button class="action-btn delete" onclick={ondelete} title="Delete User">
-      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-      </svg>
+      <Trash2 size={18}/>
     </button>
   </div>
 </div>

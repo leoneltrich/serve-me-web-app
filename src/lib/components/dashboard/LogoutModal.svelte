@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { uiState } from '$lib/services/ui.svelte';
-  import { authState } from '$lib/services/auth/auth.state.svelte';
-  import { getAuthService } from '$lib/services/context';
-  import { goto } from '$app/navigation';
-  import { fade, scale } from 'svelte/transition';
+  import {uiState} from '$lib/services/ui.svelte';
+  import {authState} from '$lib/services/auth/auth.state.svelte';
+  import {getAuthService} from '$lib/services/context';
+  import {goto} from '$app/navigation';
+  import {fade, scale} from 'svelte/transition';
+  import {LogOut} from 'lucide-svelte';
 
   const authService = getAuthService();
   let isLoggingOut = $state(false);
@@ -55,11 +56,7 @@
         <div class="logout-icon-wrapper">
           <div class="logout-icon-glow"></div>
           <div class="logout-icon-container">
-            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
+            <LogOut size={32}/>
           </div>
         </div>
       </div>

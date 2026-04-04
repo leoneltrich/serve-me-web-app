@@ -3,6 +3,7 @@
     import {invalidateAll} from '$app/navigation';
     import {authState} from '$lib/services/auth/auth.state.svelte';
     import {themeState} from '$lib/services/theme.svelte';
+    import {ArrowRight, Layers, Lock, Monitor, Moon, Sun, User} from 'lucide-svelte';
 
     // 1. Inject the service
     const authService = getAuthService();
@@ -39,34 +40,12 @@
     <!-- Theme Toggle Button -->
     <button class="theme-toggle" onclick={toggleTheme} aria-label="Toggle theme mode" title="Current: {themeState.mode}">
         {#if themeState.mode === 'system'}
-            <!-- System Monitor Icon -->
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
+            <Monitor size={18}/>
         {:else}
             {#if themeState.dark}
-                <!-- Sun Icon for Light Mode -->
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
+                <Sun size={18}/>
             {:else}
-                <!-- Moon Icon for Dark Mode -->
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
+                <Moon size={18}/>
             {/if}
         {/if}
     </button>
@@ -75,10 +54,7 @@
         <div class="card-highlight"></div>
         <header class="login-header">
             <div class="brand-mark">
-                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                </svg>
+                <Layers size={28} strokeWidth={2.5}/>
             </div>
             <h1 class="login-title">Welcome back</h1>
             <p class="login-subtitle">Sign in to your ServeMe account.</p>
@@ -94,11 +70,7 @@
             <div class="form-group">
                 <div class="input-wrapper">
           <span class="input-icon">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            <User size={18}/>
           </span>
                     <input
                             class="form-input"
@@ -116,11 +88,7 @@
             <div class="form-group">
                 <div class="input-wrapper">
           <span class="input-icon">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
+            <Lock size={18}/>
           </span>
                     <input
                             class="form-input"
@@ -138,11 +106,7 @@
             <button type="submit" class="submit-button" disabled={isLoading}>
                 <span>{isLoading ? 'Authenticating...' : 'Sign In'}</span>
                 {#if !isLoading}
-                    <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
-                         fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                    <ArrowRight size={16} class="btn-icon"/>
                 {/if}
             </button>
         </form>
@@ -371,11 +335,7 @@
         box-shadow: var(--primary-shadow);
     }
 
-    .btn-icon {
-        transition: transform 0.3s ease;
-    }
-
-    .submit-button:hover .btn-icon {
+    .submit-button:hover :global(.btn-icon) {
       transform: translateX(3px);
     }
 

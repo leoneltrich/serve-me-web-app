@@ -1,108 +1,80 @@
 <script lang="ts">
-  let { isOpen, title, onclose, children } = $props();
+    import type {Snippet} from 'svelte';
+    import {X} from 'lucide-svelte';
 
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape' && isOpen) {
-      onclose();
-    }
-  }
+    let {title, children, onclose, isOpen = true} = $props<{
+        title: string;
+        children: Snippet;
+        onclose: () => void;
+        isOpen?: boolean;
+    }>();
+
 </script>
 
-<svelte:window onkeydown={handleKeydown}/>
-
 {#if isOpen}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div class="modal-backdrop" onclick={onclose} role="presentation">
-    <div class="modal-container" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-      <header class="modal-header">
-        <h2>{title}</h2>
-        <button class="close-button" onclick={onclose} aria-label="Close modal">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </header>
-      <main class="modal-content">
-        {@render children()}
-      </main>
-    </div>
+      <div class="modal-container" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+          <header class="modal-header">
+              <h2>{title}</h2>
+              <button class="close-button" onclick={onclose} aria-label="Close modal">
+                  <X size={20}/>
+              </button>
+          </header>
+          <main class="modal-content">
+              {@render children()}
+          </main>
+      </div>
   </div>
 {/if}
 
 <style>
   .modal-backdrop {
     position: fixed;
-    inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     padding: 1rem;
-  }
-
-  @media (max-width: 640px) {
-    .modal-backdrop {
-      padding: 0;
-      align-items: flex-end;
-    }
+      box-sizing: border-box;
+      animation: fadeIn 0.2s ease-out;
   }
 
   .modal-container {
     background: var(--card-bg);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
     width: 100%;
     max-width: 500px;
-    border-radius: 16px;
-    border: 1px solid var(--card-border);
-    box-shadow: var(--card-shadow);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
     overflow: hidden;
-    animation: modal-appear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @media (max-width: 640px) {
-    .modal-container {
-      border-radius: 20px 20px 0 0;
-      max-width: 100%;
-      animation: modal-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-  }
-
-  @keyframes modal-appear {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  @keyframes modal-slide-up {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .modal-header {
-    padding: 1.25rem 1.5rem;
+      padding: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--card-border);
   }
 
-  @media (max-width: 640px) {
-    .modal-header {
-      padding: 1rem 1.25rem;
-    }
-
-    .modal-content {
-      padding: 1.25rem !important;
-    }
-  }
-
   .modal-header h2 {
-    font-size: 1.125rem;
-    font-weight: 600;
     margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
     color: var(--text-main);
+      letter-spacing: -0.01em;
   }
 
   .close-button {
@@ -110,10 +82,12 @@
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 6px;
+      padding: 0.5rem;
+      border-radius: 10px;
     transition: all 0.2s;
     display: flex;
+      align-items: center;
+      justify-content: center;
   }
 
   .close-button:hover {
@@ -127,7 +101,27 @@
 
   .modal-content {
     padding: 1.5rem;
-    max-height: 85vh;
+      max-height: 80vh;
     overflow-y: auto;
+  }
+
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+      }
+      to {
+          opacity: 1;
+      }
+  }
+
+  @keyframes slideUp {
+      from {
+          transform: translateY(20px);
+          opacity: 0;
+      }
+      to {
+          transform: translateY(0);
+          opacity: 1;
+      }
   }
 </style>
