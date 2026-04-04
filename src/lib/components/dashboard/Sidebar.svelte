@@ -3,7 +3,7 @@
     import {uiState} from '$lib/services/ui.svelte';
     import {authState} from '$lib/services/auth/auth.state.svelte';
     import {navigationConfig} from '$lib/config/navigation';
-    import {Layers, LayoutDashboard, LogOut, Server, Users, X} from 'lucide-svelte';
+    import {LayoutDashboard, LogOut, Server, Users, X} from 'lucide-svelte';
 
     const iconMap = {
         'Overview': LayoutDashboard,
@@ -24,9 +24,9 @@
   <div class="sidebar-brand">
     <div class="brand-info">
       <div class="brand-icon">
-          <Layers size={22} strokeWidth={2.5}/>
+          <img src="/serve-me-logo.svg" alt="Logo" width="32" height="32"/>
       </div>
-      <span>SERVE_ME</span>
+        <span>ServeMe</span>
     </div>
     <button class="close-sidebar" onclick={() => uiState.closeSidebar()} aria-label="Close sidebar">
         <X size={20}/>
@@ -141,8 +141,14 @@
     width: 40px;
     height: 40px;
     background: var(--brand-bg);
-    color: var(--brand-color);
     border-radius: 10px;
+      overflow: hidden;
+  }
+
+  .brand-icon img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
   }
 
   .sidebar-nav {

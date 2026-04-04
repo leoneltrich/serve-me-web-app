@@ -56,7 +56,7 @@
   </StatCard>
 
   <StatCard
-    title="Active Servers"
+          title="Servers"
     value={serverCount}
     colorClass="servers"
     loading={isLoading}
