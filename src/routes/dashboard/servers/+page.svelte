@@ -426,33 +426,6 @@
     overflow-x: auto;
   }
 
-  .servers-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-
-  .servers-table th {
-    padding: 1rem 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    border-bottom: none;
-  }
-
-  .servers-table td {
-    padding: 1rem 1.5rem;
-    font-size: 0.875rem;
-    color: var(--text-main);
-    border-bottom: none;
-  }
-
-  .servers-table tr:last-child td {
-    border-bottom: none;
-  }
-
   .name-cell {
     display: flex;
     align-items: center;

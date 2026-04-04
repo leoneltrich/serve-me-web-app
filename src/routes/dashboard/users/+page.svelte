@@ -1,13 +1,13 @@
 <script lang="ts">
-  import {onMount} from 'svelte';
-  import {getAdminService} from '$lib/services/context';
-  import type {AdminUser} from '$lib/services/interfaces';
-  import Modal from '$lib/components/dashboard/Modal.svelte';
-  import ConfirmationModal from '$lib/components/dashboard/ConfirmationModal.svelte';
-  import UserCard from '$lib/components/dashboard/UserCard.svelte';
-  import {Pencil, Plus, Trash2} from 'lucide-svelte';
+    import {onMount} from 'svelte';
+    import {getAdminService} from '$lib/services/context';
+    import type {AdminUser} from '$lib/services/interfaces';
+    import Modal from '$lib/components/dashboard/Modal.svelte';
+    import ConfirmationModal from '$lib/components/dashboard/ConfirmationModal.svelte';
+    import UserCard from '$lib/components/dashboard/UserCard.svelte';
+    import {Pencil, Plus, Trash2} from 'lucide-svelte';
 
-  const adminService = getAdminService();
+    const adminService = getAdminService();
 
   let users = $state<AdminUser[]>([]);
   let isLoading = $state(true);
@@ -354,33 +354,6 @@
 
   .table-container {
     overflow-x: auto;
-  }
-
-  .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-
-  .users-table th {
-    padding: 1rem 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    border-bottom: none;
-  }
-
-  .users-table td {
-    padding: 1rem 1.5rem;
-    font-size: 0.875rem;
-    color: var(--text-main);
-    border-bottom: none;
-  }
-
-  .users-table tr:last-child td {
-    border-bottom: none;
   }
 
   .name-cell {

@@ -144,6 +144,42 @@ body {
     overflow: hidden;
 }
 
+/* Glass List Table Styles */
+.glass-list table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.glass-list th {
+    padding: 1rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .glass-list th {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-list td {
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.dark-mode .glass-list td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-list tr:last-child td {
+    border-bottom: none;
+}
+
 /* --- Global Button Classes --- */
 .primary-button {
     background: var(--primary-gradient);
@@ -192,7 +228,7 @@ body {
     color: var(--text-main);
 }
 
-:global(.dark-mode) .modal-btn-cancel {
+.dark-mode .modal-btn-cancel {
     background: rgba(255, 255, 255, 0.06);
 }
 
@@ -200,7 +236,7 @@ body {
     background: rgba(0, 0, 0, 0.08);
 }
 
-:global(.dark-mode) .modal-btn-cancel:hover:not(:disabled) {
+.dark-mode .modal-btn-cancel:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.1);
 }
 
@@ -209,7 +245,7 @@ body {
     color: white;
 }
 
-:global(.dark-mode) .modal-btn-confirm {
+.dark-mode .modal-btn-confirm {
     background: var(--primary-gradient);
     color: white;
 }
@@ -219,7 +255,7 @@ body {
     color: white;
 }
 
-:global(.dark-mode) .modal-btn-confirm.btn-danger {
+.dark-mode .modal-btn-confirm.btn-danger {
     background: #ef4444;
     color: white;
 }
@@ -260,7 +296,7 @@ body {
     color: var(--text-main);
 }
 
-:global(.dark-mode) .action-btn-table:hover {
+.dark-mode .action-btn-table:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
