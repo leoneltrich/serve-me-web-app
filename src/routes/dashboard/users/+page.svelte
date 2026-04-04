@@ -151,7 +151,7 @@
     </div>
 
     <!-- Desktop Table View -->
-    <div class="users-card desktop-only">
+    <div class="glass-list desktop-only">
       <div class="table-container">
         <table class="users-table">
           <thead>
@@ -393,16 +393,6 @@
   @keyframes pulse-bg {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 0.3; }
-  }
-
-  .users-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-    border: none;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
   }
 
   .table-container {

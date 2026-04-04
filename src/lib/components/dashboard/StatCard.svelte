@@ -21,7 +21,7 @@
 
 <div 
   bind:this={cardRef}
-  class="stat-card" 
+  class="glass-card stat-card" 
   role="presentation"
 >
   <div class="stat-icon {colorClass}">
@@ -39,18 +39,10 @@
 
 <style>
   .stat-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     padding: 1.5rem;
-    border-radius: 16px;
-    border: none;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    box-shadow: var(--card-shadow);
-    position: relative;
-    overflow: hidden;
   }
 
   @media (max-width: 640px) {

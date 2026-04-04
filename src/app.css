@@ -131,3 +131,16 @@ body {
         transform: translate(30px, 50px) scale(1.1);
     }
 }
+
+/* --- Global Glass Card & List Classes --- */
+.glass-card, .glass-list {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 25px;
+    border: none;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+

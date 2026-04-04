@@ -11,7 +11,7 @@
   const initials = $derived(user.username.charAt(0).toUpperCase());
 </script>
 
-<div class="user-card">
+<div class="glass-card user-card">
   <div class="card-header">
     <div class="avatar-wrapper">
       <div class="user-avatar">
@@ -46,18 +46,10 @@
 
 <style>
   .user-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: none;
-    border-radius: 20px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    box-shadow: var(--card-shadow);
-    position: relative;
-    overflow: hidden;
   }
 
   @media (max-width: 640px) {

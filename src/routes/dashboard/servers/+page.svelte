@@ -182,7 +182,7 @@
     </div>
 
     <!-- Desktop Table View -->
-    <div class="servers-card desktop-only">
+    <div class="glass-list desktop-only">
       <div class="table-container">
         <table class="servers-table">
           <thead>
@@ -464,16 +464,6 @@
   }
 
   /* Desktop Table Styles */
-  .servers-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-    border: none;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
-  }
-
   .table-container {
     overflow-x: auto;
   }

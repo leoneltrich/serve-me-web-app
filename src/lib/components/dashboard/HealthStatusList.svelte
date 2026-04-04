@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="health-container">
+<div class="glass-card health-container">
   <div class="health-header">
     <h2>Service Dependencies</h2>
     <span class="count">{servicesList.length} monitored</span>
@@ -67,13 +67,7 @@
 <style>
   .health-container {
     margin-top: 2rem;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-    border: none;
     padding: 1.5rem;
-    box-shadow: var(--card-shadow);
   }
 
   .health-header {

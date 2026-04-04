@@ -191,7 +191,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.875rem 1rem;
-    border-radius: 12px;
+      border-radius: 50px;
     text-decoration: none;
     color: inherit;
     font-size: 0.875rem;

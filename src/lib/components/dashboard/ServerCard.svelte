@@ -10,7 +10,7 @@
   }>();
 </script>
 
-<div class="server-card">
+<div class="glass-card server-card">
   <div class="card-header">
     <div class="server-icon">
       <Server size={20}/>
@@ -49,18 +49,10 @@
 
 <style>
   .server-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: none;
-    border-radius: 16px;
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    box-shadow: var(--card-shadow);
-    position: relative;
-    overflow: hidden;
   }
 
   @media (max-width: 640px) {
