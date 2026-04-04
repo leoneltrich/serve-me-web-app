@@ -1,10 +1,10 @@
-import { PUBLIC_API_BASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { ApiClient, ApiResponse } from './api-client.interface';
 
 export class FetchApiClient implements ApiClient {
   private readonly baseUrl: string;
 
-  constructor(baseUrl: string = PUBLIC_API_BASE_URL) {
+  constructor(baseUrl: string = env.PUBLIC_API_BASE_URL || '/api/v1') {
     this.baseUrl = baseUrl;
   }
 
