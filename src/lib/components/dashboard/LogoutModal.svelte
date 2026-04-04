@@ -37,7 +37,7 @@
     onkeydown={(e) => e.key === 'Escape' && handleCancel()}
     role="button"
     tabindex="0"
-    transition:fade={{ duration: 250 }}
+    transition:fade={{ duration: 200 }}
   >
     <div 
       class="logout-card" 
@@ -52,17 +52,17 @@
       tabindex="-1"
     >
       <div class="logout-header">
-        <div class="logout-icon-wrapper">
-          <div class="logout-icon-glow"></div>
-          <div class="logout-icon-container">
-            <LogOut size={32}/>
-          </div>
+        <div class="logout-icon-container">
+          <LogOut size={24}/>
+        </div>
+        <div class="logout-title-area">
+          <h2 id="logout-title">Sign Out</h2>
+          <p>Ready to leave?</p>
         </div>
       </div>
       
       <div class="logout-content">
-        <h2 id="logout-title">Sign Out</h2>
-        <p>Are you sure you want to end your session? You will be redirected to the login page.</p>
+        <p>You'll need to sign back in to access your dashboard.</p>
       </div>
 
       <div class="logout-actions">
@@ -71,7 +71,7 @@
           onclick={handleCancel} 
           disabled={isLoggingOut}
         >
-          Cancel
+          Stay
         </button>
         <button 
           class="confirm-btn" 
@@ -81,7 +81,6 @@
         >
           {#if isLoggingOut}
             <span class="spinner"></span>
-            Signing Out...
           {:else}
             Sign Out
           {/if}
@@ -95,124 +94,111 @@
   .logout-backdrop {
     position: fixed;
     inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
     padding: 1.5rem;
     cursor: default;
-      animation: fadeIn 0.25s ease-out;
+    animation: fadeIn 0.2s ease-out;
   }
 
   .logout-card {
     background: var(--card-bg);
-      background-color: rgba(255, 255, 255, 0.98);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 28px;
+    background-color: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 24px;
     width: 100%;
-    max-width: 420px;
-    padding: 3rem 2.5rem 2.5rem;
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45);
+    max-width: 360px;
+    padding: 1.75rem;
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
     position: relative;
     overflow: hidden;
-      animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: scaleIn 0.25s cubic-bezier(0.2, 1, 0.3, 1);
   }
 
   :global(.dark-mode) .logout-card {
-      background-color: rgba(24, 24, 27, 0.95);
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+    background-color: rgba(24, 24, 27, 0.98);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
   }
 
   @media (max-width: 640px) {
-      .logout-backdrop {
-          align-items: flex-end;
-          padding: 0;
-      }
+    .logout-backdrop {
+      align-items: flex-end;
+      padding: 0;
+    }
 
-      .logout-card {
-          max-width: 100%;
-          border-radius: 28px 28px 0 0;
-          border-bottom: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          padding: 2.5rem 1.5rem 2rem;
-          animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
+    .logout-card {
+      max-width: 100%;
+      border-radius: 24px 24px 0 0;
+      border-bottom: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem 1.5rem 2rem;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
   }
 
   .logout-header {
-    margin-bottom: 2rem;
-  }
-
-  .logout-icon-wrapper {
-    position: relative;
-    width: 80px;
-    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-
-  .logout-icon-glow {
-    position: absolute;
-    inset: 0;
-    background: #ef4444;
-    filter: blur(25px);
-    opacity: 0.2;
-    border-radius: 50%;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .logout-icon-container {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border-radius: 20px;
+    width: 44px;
+    height: 44px;
+    background: var(--brand-bg);
+    color: var(--brand-color);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.2);
+    flex-shrink: 0;
   }
 
-  .logout-content h2 {
-    font-size: 1.75rem;
+  .logout-title-area h2 {
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--text-main);
-    margin: 0 0 1rem 0;
-    letter-spacing: -0.02em;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .logout-title-area p {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin: 0;
+    font-weight: 500;
   }
 
   .logout-content p {
-    font-size: 1rem;
+    font-size: 0.9375rem;
     color: var(--text-muted);
-    line-height: 1.6;
-    margin: 0;
-    max-width: 300px;
+    line-height: 1.5;
+    margin: 0 0 1.75rem 0;
   }
 
   .logout-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     width: 100%;
-    margin-top: 2.5rem;
   }
 
   .logout-actions button {
     flex: 1;
-    padding: 1rem;
-    border-radius: 14px;
-    font-size: 0.9375rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     font-family: inherit;
     display: flex;
     align-items: center;
@@ -221,36 +207,37 @@
   }
 
   .cancel-btn {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.04);
+    border: none;
     color: var(--text-main);
   }
 
   :global(.dark-mode) .cancel-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.06);
   }
 
   .cancel-btn:hover:not(:disabled) {
     background: rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
   }
 
   :global(.dark-mode) .cancel-btn:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .confirm-btn {
-    background: #ef4444;
+    background: #0f172a;
     border: none;
     color: white;
-    box-shadow: 0 8px 20px -6px rgba(239, 68, 68, 0.4);
+  }
+
+  :global(.dark-mode) .confirm-btn {
+    background: #f8fafc;
+    color: #0f172a;
   }
 
   .confirm-btn:hover:not(:disabled) {
-    background: #dc2626;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px -6px rgba(239, 68, 68, 0.5);
+    opacity: 0.9;
+    transform: translateY(-1px);
   }
 
   .confirm-btn:active:not(:disabled) {
@@ -263,12 +250,17 @@
   }
 
   .spinner {
-    width: 18px;
-    height: 18px;
-    border: 2.5px solid rgba(255, 255, 255, 0.3);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-top-color: white;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+  }
+
+  :global(.dark-mode) .spinner {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-top-color: #0f172a;
   }
 
   @keyframes spin {
@@ -276,46 +268,31 @@
   }
 
   @keyframes fadeIn {
-      from {
-          opacity: 0;
-      }
-      to {
-          opacity: 1;
-      }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @keyframes scaleIn {
-      from {
-          opacity: 0;
-          transform: scale(0.9);
-      }
-      to {
-          opacity: 1;
-          transform: scale(1);
-      }
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   @keyframes slideUp {
-      from {
-          transform: translateY(100%);
-      }
-      to {
-          transform: translateY(0);
-      }
-  }
-
-  @media (max-width: 480px) {
-    .logout-actions {
-      flex-direction: column-reverse;
-      gap: 0.75rem;
+    from {
+      transform: translateY(100%);
     }
-    
-    .confirm-btn {
-      width: 100%;
-    }
-
-    .cancel-btn {
-      width: 100%;
+    to {
+      transform: translateY(0);
     }
   }
 </style>
