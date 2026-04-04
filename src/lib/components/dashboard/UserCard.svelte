@@ -34,11 +34,11 @@
   </div>
 
   <div class="card-actions">
-    <button class="action-btn edit" onclick={onedit} title="Edit User">
+      <button class="action-btn action-btn-card btn-edit-primary" onclick={onedit} title="Edit User">
       <Pencil size={18}/>
       <span>Edit Profile</span>
     </button>
-    <button class="action-btn delete" onclick={ondelete} title="Delete User">
+      <button class="action-btn action-btn-card btn-delete" onclick={ondelete} title="Delete User">
       <Trash2 size={18}/>
     </button>
   </div>
@@ -207,61 +207,35 @@
     }
   }
 
-  .action-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.625rem;
-    border-radius: 12px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .action-btn.edit {
-    background: var(--brand-bg);
-    color: var(--brand-color);
+  .btn-edit-primary {
     padding: 0.625rem 1.5rem;
-    font-weight: 600;
     font-size: 0.875rem;
     flex: 1;
   }
 
   @media (max-width: 640px) {
-    .action-btn.edit {
+      .btn-edit-primary {
       padding: 0.45rem 1rem;
       font-size: 0.75rem;
       border-radius: 8px;
     }
 
-    :global(.action-btn.edit svg) {
+      :global(.btn-edit-primary svg) {
       width: 16px;
       height: 16px;
     }
 
-    .action-btn.delete {
+      .btn-delete {
       padding: 0.5rem;
     }
 
-    :global(.action-btn.delete svg) {
+      :global(.btn-delete svg) {
       width: 16px;
       height: 16px;
     }
   }
 
-  .action-btn.edit:hover {
-    filter: brightness(0.95);
-  }
-
-  .action-btn.delete:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-  }
-
-  :global(.dark-mode) .action-btn.edit:hover {
+  :global(.dark-mode) .btn-edit-primary:hover {
     background: rgba(56, 189, 248, 0.15);
   }
 </style>

@@ -137,10 +137,162 @@ body {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 25px;
+    border-radius: 16px;
     border: none;
     box-shadow: var(--card-shadow);
     position: relative;
     overflow: hidden;
 }
+
+/* --- Global Button Classes --- */
+.primary-button {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: var(--primary-shadow);
+    transition: all 0.3s;
+}
+
+.primary-button:hover {
+    filter: brightness(1.05);
+}
+
+.primary-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Modal/Popup Buttons */
+.modal-btn-confirm, .modal-btn-cancel {
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.modal-btn-cancel {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-main);
+}
+
+:global(.dark-mode) .modal-btn-cancel {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.modal-btn-cancel:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark-mode) .modal-btn-cancel:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-btn-confirm {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+:global(.dark-mode) .modal-btn-confirm {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.modal-btn-confirm.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+:global(.dark-mode) .modal-btn-confirm.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.modal-btn-confirm:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.modal-btn-confirm:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.modal-btn-confirm:disabled, .modal-btn-cancel:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Table Style (Normal) */
+.action-btn-table {
+    padding: 0.5rem;
+    border-radius: 50px;
+}
+
+.action-btn-table:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-main);
+}
+
+:global(.dark-mode) .action-btn-table:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Card Style (Mobile) */
+.action-btn-card {
+    padding: 0.625rem;
+    border-radius: 12px;
+    gap: 0.5rem;
+}
+
+/* Shared Action Modifiers */
+.action-btn.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.action-btn.btn-edit-primary,
+.action-btn.btn-access-primary {
+    background: var(--brand-bg);
+    color: var(--brand-color);
+    font-weight: 600;
+}
+
+.action-btn.btn-edit-primary:hover,
+.action-btn.btn-access-primary:hover {
+    filter: brightness(0.95);
+}
+
+.action-btn.btn-access:hover {
+    background: var(--brand-bg);
+    color: var(--brand-color);
+}
+
+
 

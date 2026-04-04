@@ -32,15 +32,15 @@
   </div>
 
   <div class="card-actions">
-    <button class="action-btn access" onclick={onaccess} title="Access Status">
+    <button class="action-btn action-btn-card btn-access-primary" onclick={onaccess} title="Access Status">
       <Lock size={18}/>
       <span>Status</span>
     </button>
     <div class="secondary-actions">
-      <button class="action-btn edit" onclick={onedit} title="Edit">
+      <button class="action-btn action-btn-card" onclick={onedit} title="Edit">
         <Pencil size={18}/>
       </button>
-      <button class="action-btn delete" onclick={ondelete} title="Delete">
+      <button class="action-btn action-btn-card btn-delete" onclick={ondelete} title="Delete">
         <Trash2 size={18}/>
       </button>
     </div>
@@ -196,43 +196,22 @@
     }
   }
 
-  .action-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 10px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .action-btn.access {
-    background: var(--brand-bg);
-    color: var(--brand-color);
+  .btn-access-primary {
     padding: 0.5rem 1rem;
-    font-weight: 600;
     font-size: 0.8125rem;
     flex: 1;
   }
 
   @media (max-width: 640px) {
-    .action-btn.access {
+    .btn-access-primary {
       padding: 0.4rem 0.75rem;
       font-size: 0.75rem;
     }
 
-    :global(.action-btn.access svg) {
+    :global(.btn-access-primary svg) {
       width: 16px;
       height: 16px;
     }
-  }
-
-  .action-btn.access:hover {
-    filter: brightness(0.95);
   }
 
   .secondary-actions {
@@ -240,17 +219,12 @@
     gap: 0.25rem;
   }
 
-  .action-btn.edit:hover {
+  .action-btn-card:hover:not(.btn-access-primary):not(.btn-delete) {
     background: rgba(0, 0, 0, 0.05);
     color: var(--text-main);
   }
 
-  .action-btn.delete:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-  }
-
-  :global(.dark-mode) .action-btn.edit:hover {
+  :global(.dark-mode) .action-btn-card:hover:not(.btn-access-primary):not(.btn-delete) {
     background: rgba(255, 255, 255, 0.05);
   }
 </style>

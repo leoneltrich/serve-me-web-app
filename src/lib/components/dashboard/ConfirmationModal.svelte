@@ -64,15 +64,15 @@
 
             <div class="confirm-actions">
                 <button
-                        class="cancel-btn"
+                        class="modal-btn-cancel"
                         onclick={handleCancel}
                         disabled={isLoading}
                 >
                     {cancelLabel}
                 </button>
                 <button
-                        class="confirm-btn"
-                        class:danger={isDanger}
+                        class="modal-btn-confirm"
+                        class:btn-danger={isDanger}
                         onclick={onconfirm}
                         disabled={isLoading}
                 >
@@ -184,68 +184,6 @@
         display: flex;
         gap: 0.75rem;
         width: 100%;
-    }
-
-    .confirm-actions button {
-        flex: 1;
-        padding: 0.75rem;
-        border-radius: 12px;
-        font-size: 0.875rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-family: inherit;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    .cancel-btn {
-        background: rgba(0, 0, 0, 0.04);
-        border: none;
-        color: var(--text-main);
-    }
-
-    :global(.dark-mode) .cancel-btn {
-        background: rgba(255, 255, 255, 0.06);
-    }
-
-    .cancel-btn:hover:not(:disabled) {
-        background: rgba(0, 0, 0, 0.08);
-    }
-
-    :global(.dark-mode) .cancel-btn:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .confirm-btn {
-        background: #0f172a;
-        border: none;
-        color: white;
-    }
-
-    .confirm-btn.danger {
-        background: #ef4444;
-    }
-
-    :global(.dark-mode) .confirm-btn:not(.danger) {
-        background: #f8fafc;
-        color: #0f172a;
-    }
-
-    .confirm-btn:hover:not(:disabled) {
-        opacity: 0.9;
-        transform: translateY(-1px);
-    }
-
-    .confirm-btn:active:not(:disabled) {
-        transform: translateY(0);
-    }
-
-    .confirm-btn:disabled, .cancel-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
     }
 
     .spinner {

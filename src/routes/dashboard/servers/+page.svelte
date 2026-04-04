@@ -206,13 +206,15 @@
                 <td><span class="badge">{server.protocol}</span></td>
                 <td class="actions-cell">
                   <div class="action-group">
-                    <button class="action-btn access" onclick={() => openAccessModal(server.servername)} title="Access Status">
+                    <button class="action-btn action-btn-table btn-access"
+                            onclick={() => openAccessModal(server.servername)} title="Access Status">
                       <Shield size={16}/>
                     </button>
-                    <button class="action-btn edit" onclick={() => openEditModal(server)} title="Edit">
+                    <button class="action-btn action-btn-table" onclick={() => openEditModal(server)} title="Edit">
                       <Pencil size={16}/>
                     </button>
-                    <button class="action-btn delete" onclick={() => openDeleteModal(server.servername)} title="Delete">
+                    <button class="action-btn action-btn-table btn-delete"
+                            onclick={() => openDeleteModal(server.servername)} title="Delete">
                       <Trash2 size={16}/>
                     </button>
                   </div>
@@ -250,7 +252,9 @@
       </select>
     </div>
     <div class="form-actions">
-      <button type="button" class="secondary-button" onclick={() => { isCreateModalOpen = false; isEditModalOpen = false; }}>Cancel</button>
+      <button type="button" class="modal-btn-cancel"
+              onclick={() => { isCreateModalOpen = false; isEditModalOpen = false; }}>Cancel
+      </button>
       <button type="submit" class="primary-button" disabled={isActionLoading}>
         {isActionLoading ? 'Saving...' : (isCreateModalOpen ? 'Create Server' : 'Save Changes')}
       </button>
@@ -344,52 +348,6 @@
     font-size: 0.9375rem;
     color: var(--text-muted);
     margin: 0.5rem 0 0;
-  }
-
-  .primary-button {
-    background: var(--primary-gradient);
-    color: white;
-    border: none;
-    padding: 0.625rem 1.25rem;
-    border-radius: 10px;
-    font-weight: 500;
-    font-size: 0.875rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: var(--primary-shadow);
-    transition: all 0.3s;
-  }
-
-  .primary-button:hover {
-    filter: brightness(1.05);
-  }
-
-  .primary-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .secondary-button {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-main);
-    border: 1px solid var(--card-border);
-    padding: 0.625rem 1.25rem;
-    border-radius: 10px;
-    font-weight: 500;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  :global(.dark-mode) .secondary-button {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .secondary-button:hover {
-    background: rgba(0, 0, 0, 0.08);
   }
 
   .banner {
@@ -547,36 +505,6 @@
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
-  }
-
-  .action-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.2s;
-    display: flex;
-  }
-
-  .action-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-main);
-  }
-
-  :global(.dark-mode) .action-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .action-btn.delete:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-  }
-
-  .action-btn.access:hover {
-    color: var(--brand-color);
-    background: var(--brand-bg);
   }
 
 
