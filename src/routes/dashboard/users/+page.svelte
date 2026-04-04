@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { getAdminService } from '$lib/services/context';
-  import type { AdminUser } from '$lib/services/interfaces';
+  import {onMount} from 'svelte';
+  import {getAdminService} from '$lib/services/context';
+  import type {AdminUser} from '$lib/services/interfaces';
   import Modal from '$lib/components/dashboard/Modal.svelte';
+  import ConfirmationModal from '$lib/components/dashboard/ConfirmationModal.svelte';
   import UserCard from '$lib/components/dashboard/UserCard.svelte';
+  import {Pencil, Plus, Trash2} from 'lucide-svelte';
 
   const adminService = getAdminService();
 
@@ -15,10 +17,11 @@
   // Modal states
   let isCreateModalOpen = $state(false);
   let isEditModalOpen = $state(false);
+  let isDeleteModalOpen = $state(false);
   
   // Form states
   let currentUser = $state<AdminUser & { password?: string }>({ username: '', is_admin: false, password: '' });
-  let editingUsername = $state('');
+  let userToDelete = $state<string | null>(null);
   let isActionLoading = $state(false);
 
   async function loadUsers() {
@@ -40,9 +43,13 @@
   }
 
   function openEditModal(user: AdminUser) {
-    editingUsername = user.username;
     currentUser = { ...user, password: '' };
     isEditModalOpen = true;
+  }
+
+  function openDeleteModal(username: string) {
+    userToDelete = username;
+    isDeleteModalOpen = true;
   }
 
   async function handleCreate() {
@@ -62,8 +69,6 @@
   async function handleUpdate() {
     isActionLoading = true;
     try {
-      // In the mock we use the username as ID, so if it changed we might have issues 
-      // but the API put /admin/users usually identifies by username in body or path
       await adminService.updateUser(currentUser);
       await loadUsers();
       isEditModalOpen = false;
@@ -75,13 +80,15 @@
     }
   }
 
-  async function handleDelete(username: string) {
-    if (!confirm(`Are you sure you want to delete user ${username}?`)) return;
+  async function handleDelete() {
+    if (!userToDelete) return;
     
     isActionLoading = true;
     try {
-      await adminService.deleteUser(username);
+      await adminService.deleteUser(userToDelete);
       await loadUsers();
+      isDeleteModalOpen = false;
+      userToDelete = null;
       showSuccess('User deleted');
     } catch (err) {
       error = 'Failed to delete user';
@@ -102,10 +109,7 @@
     <p class="subtitle">Manage system users and permissions.</p>
   </div>
   <button class="primary-button" onclick={openCreateModal}>
-    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-    </svg>
+    <Plus size={18}/>
     Add User
   </button>
 </div>
@@ -139,9 +143,9 @@
     <div class="users-grid mobile-only">
       {#each users as user}
         <UserCard 
-          {user} 
-          onedit={() => openEditModal(user)} 
-          ondelete={() => handleDelete(user.username)}
+          {user}
+          onedit={() => openEditModal(user)}
+          ondelete={() => openDeleteModal(user.username)}
         />
       {/each}
     </div>
@@ -174,16 +178,10 @@
                 <td class="actions-cell">
                   <div class="action-group">
                     <button class="action-btn edit" onclick={() => openEditModal(user)} title="Edit">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
+                      <Pencil size={16}/>
                     </button>
-                    <button class="action-btn delete" onclick={() => handleDelete(user.username)} title="Delete">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
+                    <button class="action-btn delete" onclick={() => openDeleteModal(user.username)} title="Delete">
+                      <Trash2 size={16}/>
                     </button>
                   </div>
                 </td>
@@ -232,6 +230,18 @@
     </div>
   </form>
 </Modal>
+
+<!-- Delete Confirmation Modal -->
+<ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        title="Delete User"
+        message="Are you sure you want to delete user {userToDelete}? This action cannot be undone."
+        confirmLabel="Delete User"
+        isDanger={true}
+        isLoading={isActionLoading}
+        onconfirm={handleDelete}
+        onclose={() => { isDeleteModalOpen = false; userToDelete = null; }}
+/>
 
 <style>
   .page-header {

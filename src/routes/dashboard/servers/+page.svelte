@@ -3,7 +3,9 @@
   import {getServerService} from '$lib/services/context';
   import type {AccessStatus, Server} from '$lib/services/interfaces';
   import Modal from '$lib/components/dashboard/Modal.svelte';
+  import ConfirmationModal from '$lib/components/dashboard/ConfirmationModal.svelte';
   import ServerCard from '$lib/components/dashboard/ServerCard.svelte';
+  import {Pencil, Plus, Server as ServerIcon, Shield, Trash2} from 'lucide-svelte';
 
   const serverService = getServerService();
 
@@ -16,10 +18,12 @@
   let isCreateModalOpen = $state(false);
   let isEditModalOpen = $state(false);
   let isAccessModalOpen = $state(false);
+  let isDeleteModalOpen = $state(false);
   
   // Form states
   let currentServer = $state<Server>({ servername: '', port: 8080, protocol: 'TCP' });
   let editingServerName = $state('');
+  let serverToDelete = $state<string | null>(null);
   let accessStatus = $state<AccessStatus | null>(null);
   let isActionLoading = $state(false);
 
@@ -45,6 +49,11 @@
     editingServerName = server.servername;
     currentServer = { ...server };
     isEditModalOpen = true;
+  }
+
+  function openDeleteModal(name: string) {
+    serverToDelete = name;
+    isDeleteModalOpen = true;
   }
 
   async function handleCreate() {
@@ -75,13 +84,15 @@
     }
   }
 
-  async function handleDelete(name: string) {
-    if (!confirm(`Are you sure you want to delete ${name}?`)) return;
+  async function handleDelete() {
+    if (!serverToDelete) return;
     
     isActionLoading = true;
     try {
-      await serverService.deleteServer(name);
+      await serverService.deleteServer(serverToDelete);
       await loadServers();
+      isDeleteModalOpen = false;
+      serverToDelete = null;
       showSuccess('Server deleted');
     } catch (err) {
       error = 'Failed to delete server';
@@ -128,10 +139,7 @@
     <p class="subtitle">Manage firewall rules and server access.</p>
   </div>
   <button class="primary-button" onclick={openCreateModal}>
-    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-    </svg>
+    <Plus size={18}/>
     Add Server
   </button>
 </div>
@@ -166,9 +174,9 @@
       {#each servers as server}
         <ServerCard 
           {server} 
-          onaccess={() => openAccessModal(server.servername)} 
-          onedit={() => openEditModal(server)} 
-          ondelete={() => handleDelete(server.servername)}
+          onaccess={() => openAccessModal(server.servername)}
+          onedit={() => openEditModal(server)}
+          ondelete={() => openDeleteModal(server.servername)}
         />
       {/each}
     </div>
@@ -190,12 +198,7 @@
               <tr>
                 <td class="name-cell">
                   <div class="server-icon">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                      <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                      <line x1="6" y1="18" x2="6.01" y2="18"></line>
-                    </svg>
+                    <ServerIcon size={16}/>
                   </div>
                   {server.servername}
                 </td>
@@ -204,22 +207,13 @@
                 <td class="actions-cell">
                   <div class="action-group">
                     <button class="action-btn access" onclick={() => openAccessModal(server.servername)} title="Access Status">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                      </svg>
+                      <Shield size={16}/>
                     </button>
                     <button class="action-btn edit" onclick={() => openEditModal(server)} title="Edit">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
+                      <Pencil size={16}/>
                     </button>
-                    <button class="action-btn delete" onclick={() => handleDelete(server.servername)} title="Delete">
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
+                    <button class="action-btn delete" onclick={() => openDeleteModal(server.servername)} title="Delete">
+                      <Trash2 size={16}/>
                     </button>
                   </div>
                 </td>
@@ -304,6 +298,18 @@
     </div>
   {/if}
 </Modal>
+
+<!-- Delete Confirmation Modal -->
+<ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        title="Delete Server"
+        message="Are you sure you want to delete {serverToDelete}? This action cannot be undone."
+        confirmLabel="Delete Server"
+        isDanger={true}
+        isLoading={isActionLoading}
+        onconfirm={handleDelete}
+        onclose={() => { isDeleteModalOpen = false; serverToDelete = null; }}
+/>
 
 <style>
   .page-header {
