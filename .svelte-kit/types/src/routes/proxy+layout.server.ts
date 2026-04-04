@@ -1,13 +1,10 @@
 // @ts-nocheck
-import { env } from '$env/dynamic/private';
-import type { LayoutServerLoad } from './$types';
+import type {LayoutServerLoad} from './$types';
 
 export const load = async ({ fetch }: Parameters<LayoutServerLoad>[0]) => {
     try {
-        const backendUrl = env.BACKEND_API_URL || 'http://localhost:2000';
-        // We call the backend directly from the server. 
-        // SvelteKit's fetch automatically forwards cookies for us.
-        const response = await fetch(`${backendUrl}/auth/me`);
+        // Use relative URL to ensure cookies are forwarded and it goes through our proxy
+        const response = await fetch('/auth/me');
         
         if (response.ok) {
             const user = await response.json();

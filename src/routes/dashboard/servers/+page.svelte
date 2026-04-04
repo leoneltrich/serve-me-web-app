@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { getServerService } from '$lib/services/context';
-  import type { Server, AccessStatus } from '$lib/services/interfaces';
+  import {onMount} from 'svelte';
+  import {getServerService} from '$lib/services/context';
+  import type {AccessStatus, Server} from '$lib/services/interfaces';
   import Modal from '$lib/components/dashboard/Modal.svelte';
   import ServerCard from '$lib/components/dashboard/ServerCard.svelte';
 
@@ -291,7 +291,8 @@
       </div>
 
       <div class="modal-actions-full">
-        <button class="primary-button full-width" onclick={() => handleRequestAccess(accessStatus!.server)} disabled={isActionLoading}>
+        <button class="primary-button full-width" onclick={() => handleRequestAccess(accessStatus.server)}
+                disabled={isActionLoading}>
           {isActionLoading ? 'Processing...' : (accessStatus.is_active ? 'Extend Access' : 'Request Access')}
         </button>
       </div>

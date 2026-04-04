@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { getAdminService, getServerService, getHealthService } from '$lib/services/context';
-  import { authState } from '$lib/services/auth/auth.state.svelte';
+  import {onMount} from 'svelte';
+  import {getAdminService, getHealthService, getServerService} from '$lib/services/context';
+  import {authState} from '$lib/services/auth/auth.state.svelte';
+  import type {HealthStatus} from '$lib/services/interfaces';
   import StatCard from '$lib/components/dashboard/StatCard.svelte';
   import HealthStatusList from '$lib/components/dashboard/HealthStatusList.svelte';
 
@@ -11,7 +12,7 @@
 
   let userCount = $state(0);
   let serverCount = $state(0);
-  let systemHealth = $state('UNKNOWN');
+  let systemHealth = $state<HealthStatus>('UNKNOWN');
   let servicesHealth = $state<Record<string, any>>({});
   let isLoading = $state(true);
 
@@ -67,7 +68,7 @@
   <StatCard
     title="System Health"
     value={systemHealth}
-    colorClass={healthColorMap[systemHealth as keyof typeof healthColorMap] || 'health-unknown'}
+    colorClass={healthColorMap[systemHealth] || 'health-unknown'}
     loading={isLoading}
   >
     {#snippet icon()}
