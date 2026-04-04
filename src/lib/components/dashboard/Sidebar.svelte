@@ -67,10 +67,8 @@
   .sidebar {
     width: 240px;
     height: 100vh;
-    background: var(--sidebar-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-    border-right: 1px solid var(--card-border);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
     display: flex;
     flex-direction: column;
     color: var(--text-muted);
@@ -81,17 +79,29 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Glass effect with higher opacity for visibility */
+  /* High-end glass effect */
   :global(:root:not(.dark-mode)) .sidebar {
-      background: rgba(255, 255, 255, 0.9);
+      background: linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 0.85),
+              rgba(255, 255, 255, 0.75)
+      );
+      border-right: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
   }
 
   :global(.dark-mode) .sidebar {
-      background: rgba(15, 15, 20, 0.9);
+      background: linear-gradient(
+              135deg,
+              rgba(15, 15, 20, 0.85),
+              rgba(10, 10, 15, 0.75)
+      );
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 
   .sidebar-brand {
-    padding: 2rem 1.5rem;
+      padding: 2rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
