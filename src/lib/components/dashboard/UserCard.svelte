@@ -105,7 +105,7 @@
     right: -4px;
     width: 20px;
     height: 20px;
-    background: #8b5cf6;
+    background: var(--brand-color);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -184,12 +184,12 @@
   }
 
   .role-status.admin {
-    color: #8b5cf6;
+    color: var(--brand-color);
   }
 
   .role-status.admin .status-dot {
-    background: #8b5cf6;
-    box-shadow: 0 0 8px #8b5cf6;
+    background: var(--brand-color);
+    box-shadow: 0 0 8px var(--brand-color);
   }
 
   .card-actions {

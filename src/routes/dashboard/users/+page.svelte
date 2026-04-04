@@ -460,8 +460,8 @@
   }
 
   .badge.admin {
-    background: rgba(139, 92, 246, 0.1);
-    color: #8b5cf6;
+    background: var(--brand-bg);
+    color: var(--brand-color);
   }
 
   .actions-cell {
