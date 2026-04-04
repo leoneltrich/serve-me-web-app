@@ -61,6 +61,14 @@
     overflow: hidden;
   }
 
+  @media (max-width: 640px) {
+    .user-card {
+      padding: 0.875rem;
+      gap: 0.875rem;
+      border-radius: 14px;
+    }
+  }
+
   .user-card:hover {
     background: rgba(255, 255, 255, 0.95);
     border-color: rgba(37, 99, 235, 0.2);
@@ -76,6 +84,12 @@
     display: flex;
     align-items: center;
     gap: 1.25rem;
+  }
+
+  @media (max-width: 640px) {
+    .card-header {
+      gap: 0.625rem;
+    }
   }
 
   .avatar-wrapper {
@@ -97,6 +111,15 @@
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   }
 
+  @media (max-width: 640px) {
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      font-size: 1rem;
+    }
+  }
+
   .admin-indicator {
     position: absolute;
     bottom: -4px;
@@ -111,6 +134,21 @@
     justify-content: center;
     border: 2px solid var(--card-bg);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 640px) {
+    .admin-indicator {
+      width: 14px;
+      height: 14px;
+      bottom: -2px;
+      right: -2px;
+      border-width: 1.5px;
+    }
+
+    :global(.admin-indicator svg) {
+      width: 8px;
+      height: 8px;
+    }
   }
 
   .user-info {
@@ -128,6 +166,12 @@
     line-height: 1.2;
   }
 
+  @media (max-width: 640px) {
+    .user-info h3 {
+      font-size: 0.9375rem;
+    }
+  }
+
   .role-status {
     display: flex;
     align-items: center;
@@ -142,9 +186,22 @@
     border-radius: 50%;
   }
 
+  @media (max-width: 640px) {
+    .status-dot {
+      width: 5px;
+      height: 5px;
+    }
+  }
+
   .role-text {
     font-size: 0.8125rem;
     font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .role-text {
+      font-size: 0.7rem;
+    }
   }
 
   .role-status.admin {
@@ -163,6 +220,13 @@
     gap: 0.75rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--card-border);
+  }
+
+  @media (max-width: 640px) {
+    .card-actions {
+      padding-top: 0.75rem;
+      gap: 0.5rem;
+    }
   }
 
   .action-btn {
@@ -186,6 +250,28 @@
     font-weight: 600;
     font-size: 0.875rem;
     flex: 1;
+  }
+
+  @media (max-width: 640px) {
+    .action-btn.edit {
+      padding: 0.45rem 1rem;
+      font-size: 0.75rem;
+      border-radius: 8px;
+    }
+
+    :global(.action-btn.edit svg) {
+      width: 16px;
+      height: 16px;
+    }
+
+    .action-btn.delete {
+      padding: 0.5rem;
+    }
+
+    :global(.action-btn.delete svg) {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .action-btn.edit:hover {

@@ -65,6 +65,14 @@
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
+  @media (max-width: 640px) {
+    .stat-card {
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+      border-radius: 12px;
+    }
+  }
+
   /* No translation or border change on hover for a cleaner feel */
   .stat-card:hover {
     background: rgba(255, 255, 255, 0.9);
@@ -92,6 +100,20 @@
     justify-content: center;
     position: relative;
     z-index: 2;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+    }
+
+    :global(.stat-icon svg) {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   .stat-icon.users { background: var(--brand-bg); color: var(--brand-color); }
@@ -123,6 +145,17 @@
     margin: 0.25rem 0 0;
     color: var(--text-main);
     letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 640px) {
+    .stat-info h3 {
+      font-size: 0.65rem;
+    }
+
+    .stat-number {
+      font-size: 1.125rem;
+      margin-top: 0.125rem;
+    }
   }
 
   .value-spinner {

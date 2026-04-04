@@ -64,6 +64,14 @@
     overflow: hidden;
   }
 
+  @media (max-width: 640px) {
+    .server-card {
+      padding: 0.875rem;
+      gap: 0.75rem;
+      border-radius: 12px;
+    }
+  }
+
   .server-card:hover {
     background: rgba(255, 255, 255, 0.95);
     border-color: rgba(37, 99, 235, 0.2);
@@ -81,6 +89,12 @@
     gap: 1rem;
   }
 
+  @media (max-width: 640px) {
+    .card-header {
+      gap: 0.75rem;
+    }
+  }
+
   .server-icon {
     width: 42px;
     height: 42px;
@@ -93,6 +107,19 @@
     flex-shrink: 0;
   }
 
+  @media (max-width: 640px) {
+    .server-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    :global(.server-icon svg) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   .server-name h3 {
     margin: 0;
     font-size: 1.125rem;
@@ -101,10 +128,22 @@
     letter-spacing: -0.01em;
   }
 
+  @media (max-width: 640px) {
+    .server-name h3 {
+      font-size: 0.9375rem;
+    }
+  }
+
   .card-body {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .card-body {
+      gap: 0.375rem;
+    }
   }
 
   .info-row {
@@ -112,6 +151,12 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
+  }
+
+  @media (max-width: 640px) {
+    .info-row {
+      font-size: 0.75rem;
+    }
   }
 
   .label {
@@ -128,6 +173,13 @@
     color: var(--text-main);
   }
 
+  @media (max-width: 640px) {
+    code {
+      font-size: 0.75rem;
+      padding: 0.125rem 0.375rem;
+    }
+  }
+
   :global(.dark-mode) code {
     background: rgba(255, 255, 255, 0.08);
   }
@@ -141,6 +193,13 @@
     border-radius: 8px;
   }
 
+  @media (max-width: 640px) {
+    .badge {
+      font-size: 0.6875rem;
+      padding: 0.125rem 0.5rem;
+    }
+  }
+
   .card-actions {
     display: flex;
     justify-content: space-between;
@@ -148,6 +207,13 @@
     gap: 0.75rem;
     padding-top: 1rem;
     border-top: 1px solid var(--card-border);
+  }
+
+  @media (max-width: 640px) {
+    .card-actions {
+      padding-top: 0.75rem;
+      gap: 0.5rem;
+    }
   }
 
   .action-btn {
@@ -171,6 +237,18 @@
     font-weight: 600;
     font-size: 0.8125rem;
     flex: 1;
+  }
+
+  @media (max-width: 640px) {
+    .action-btn.access {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    :global(.action-btn.access svg) {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .action-btn.access:hover {
