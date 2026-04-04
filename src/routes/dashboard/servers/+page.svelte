@@ -363,7 +363,7 @@
   }
 
   .primary-button:hover {
-    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+    filter: brightness(1.05);
   }
 
   .primary-button:disabled {

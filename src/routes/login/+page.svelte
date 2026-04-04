@@ -141,12 +141,10 @@
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         z-index: 10;
     }
 
     .theme-toggle:hover {
-        transform: scale(1.08) rotate(5deg);
         border-color: var(--brand-color);
         color: var(--brand-color);
     }
@@ -200,7 +198,6 @@
         border-radius: 16px;
         margin-bottom: 1.5rem;
         transition: all 0.3s ease;
-        box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
     }
 
     .login-title {
@@ -278,7 +275,6 @@
         outline: none;
         transition: all 0.2s ease;
         box-sizing: border-box;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
     }
 
     .form-input::placeholder {
@@ -289,11 +285,11 @@
     .form-input:focus {
         border-color: var(--input-border-focus);
         background-color: transparent;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
     }
 
     :global(:root.dark-mode) .form-input:focus {
-        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
     }
 
     .input-wrapper:focus-within .input-icon {
@@ -322,16 +318,10 @@
 
     .submit-button:hover {
         background: var(--primary-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
-    }
-
-    :global(:root.dark-mode) .submit-button:hover {
-        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+        filter: brightness(1.05);
     }
 
     .submit-button:active {
-        transform: translateY(0);
         box-shadow: var(--primary-shadow);
     }
 

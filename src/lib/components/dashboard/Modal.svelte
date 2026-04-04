@@ -56,7 +56,7 @@
       border-radius: 20px;
     width: 100%;
     max-width: 500px;
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
     overflow: hidden;
@@ -66,7 +66,7 @@
   :global(.dark-mode) .modal-container {
       background-color: rgba(24, 24, 27, 0.95);
       border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 640px) {

@@ -111,7 +111,7 @@
         width: 100%;
         max-width: 400px;
         padding: 1.75rem;
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -122,7 +122,7 @@
     :global(.dark-mode) .confirm-card {
         background-color: rgba(24, 24, 27, 0.98);
         border-color: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
     @media (max-width: 640px) {

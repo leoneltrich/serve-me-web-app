@@ -71,8 +71,7 @@
 
   .user-card:hover {
     background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(37, 99, 235, 0.2);
-    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+      border-color: rgba(37, 99, 235, 0.4);
   }
 
   :global(.dark-mode) .user-card:hover {
@@ -102,13 +101,12 @@
     height: 52px;
     background: var(--primary-gradient);
     color: white;
-    border-radius: 14px;
+      border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 1.5rem;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   }
 
   @media (max-width: 640px) {
