@@ -1,15 +1,14 @@
 <script lang="ts">
 	import '../app.css';
-	import { onMount } from 'svelte';
-	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
-	import { setAuthService, setAdminService, setServerService, setHealthService } from '$lib/services/context';
-	import { FetchApiClient } from '$lib/services/api/fetch-api-client';
-	import { BackendAuthService } from '$lib/services/auth/backend-auth.service';
-	import { BackendAdminService } from '$lib/services/auth/backend-admin.service';
-	import { BackendServerService } from '$lib/services/auth/backend-server.service';
-	import { BackendHealthService } from '$lib/services/auth/backend-health.service';
-	import { authState } from '$lib/services/auth/auth.state.svelte';
+	import {page} from '$app/state';
+	import {goto} from '$app/navigation';
+	import {setAdminService, setAuthService, setHealthService, setServerService} from '$lib/services/context';
+	import {FetchApiClient} from '$lib/services/api/fetch-api-client';
+	import {BackendAuthService} from '$lib/services/auth/backend-auth.service';
+	import {BackendAdminService} from '$lib/services/backend-admin.service';
+	import {BackendServerService} from '$lib/services/backend-server.service';
+	import {BackendHealthService} from '$lib/services/backend-health.service';
+	import {authState} from '$lib/services/auth/auth.state.svelte';
 
 	let { data, children } = $props();
 
