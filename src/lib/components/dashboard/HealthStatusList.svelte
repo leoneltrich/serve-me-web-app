@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { ServiceHealth } from '$lib/services/interfaces';
+  import type {ServiceHealth} from '$lib/services/interfaces';
+  import {Activity} from 'lucide-svelte';
 
   let { services = {}, loading = false } = $props();
 
@@ -43,7 +44,7 @@
           <div class="service-meta">
             {#if service.latency_ms !== null}
               <div class="latency">
-                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                  <Activity size={12}/>
                 {service.latency_ms}ms
               </div>
             {/if}
