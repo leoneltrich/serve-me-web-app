@@ -3,7 +3,7 @@
     import {invalidateAll} from '$app/navigation';
     import {authState} from '$lib/services/auth/auth.state.svelte';
     import {themeState} from '$lib/services/theme.svelte';
-    import {ArrowRight, Layers, Lock, Monitor, Moon, Sun, User} from 'lucide-svelte';
+    import {ArrowRight, Lock, Monitor, Moon, Sun, User} from 'lucide-svelte';
 
     // 1. Inject the service
     const authService = getAuthService();
@@ -54,8 +54,7 @@
         <div class="card-highlight"></div>
         <header class="login-header">
             <div class="brand-mark">
-                <Layers size={28} strokeWidth={2.5}/>
-            </div>
+                <img src="/serve-me-logo.svg" alt="Logo" width="32" height="32"/></div>
             <h1 class="login-title">Welcome back</h1>
             <p class="login-subtitle">Sign in to your ServeMe account.</p>
         </header>
@@ -156,7 +155,7 @@
         width: 100%;
         max-width: 450px;
         padding: 2rem 1.8rem;
-        border-radius: 16px;
+        border-radius: 25px;
         border: none;
         box-shadow: var(--card-shadow);
         box-sizing: border-box;
@@ -309,7 +308,7 @@
         color: #ffffff;
         background: var(--primary-gradient);
         border: none;
-        border-radius: 8px;
+        border-radius: 50px;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: var(--primary-shadow);

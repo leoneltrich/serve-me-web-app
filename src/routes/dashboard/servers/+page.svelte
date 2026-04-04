@@ -136,7 +136,7 @@
 <div class="page-header">
   <div>
     <h1>Servers</h1>
-    <p class="subtitle">Manage firewall rules and server access.</p>
+    <p class="subtitle">Manage servers and access to them.</p>
   </div>
   <button class="primary-button" onclick={openCreateModal}>
     <Plus size={18}/>
@@ -289,7 +289,8 @@
       </div>
 
       <div class="modal-actions-full">
-        <button class="primary-button full-width" onclick={() => handleRequestAccess(accessStatus.server)}
+        <button class="primary-button full-width"
+                onclick={() => accessStatus && handleRequestAccess(accessStatus.server)}
                 disabled={isActionLoading}>
           {isActionLoading ? 'Processing...' : (accessStatus.is_active ? 'Extend Access' : 'Request Access')}
         </button>

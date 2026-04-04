@@ -137,7 +137,7 @@
     color: var(--text-muted);
     cursor: pointer;
     padding: 0.5rem;
-    border-radius: 8px;
+      border-radius: 50px;
     transition: all 0.2s;
       align-items: center;
       justify-content: center;
