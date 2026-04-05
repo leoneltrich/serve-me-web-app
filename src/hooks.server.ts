@@ -22,6 +22,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             const clientAddress = event.getClientAddress();
             if (clientAddress) {
                 headers.set('x-forwarded-for', clientAddress);
+                headers.set('x-real-ip', clientAddress);
             }
             headers.set('x-forwarded-host', event.url.host);
             headers.set('x-forwarded-proto', event.url.protocol.replace(':', ''));
