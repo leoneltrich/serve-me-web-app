@@ -19,7 +19,9 @@ export const handle: Handle = async ({ event, resolve }) => {
             headers.delete('accept-encoding');
             
             // Add forwarding headers for the backend to know the real client
-            const clientAddress = event.getClientAddress();
+            const forwardedFor = event.request.headers.get('x-forwarded-for');
+            const clientAddress = forwardedFor ? forwardedFor.split(',')[0].trim() : event.getClientAddress();
+            
             if (clientAddress) {
                 headers.set('x-forwarded-for', clientAddress);
                 headers.set('x-real-ip', clientAddress);
