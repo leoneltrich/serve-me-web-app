@@ -27,6 +27,7 @@ RUN npm ci --omit=dev
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOST=0.0.0.0
 
 # Default backend URL (can be overridden at runtime)
 ENV BACKEND_API_URL=http://localhost:2000

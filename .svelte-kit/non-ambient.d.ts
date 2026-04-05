@@ -43,6 +43,6 @@ declare module "$app/types" {
 		Pathname(): "/" | "/dashboard" | "/dashboard/servers" | "/dashboard/users" | "/login";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 
-        Asset(): "/serve-me-logo.svg" | string & {};
+		Asset(): "/serve-me-logo.svg" | string & {};
 	}
 }
