@@ -3,7 +3,7 @@
   import {authState} from '$lib/services/auth/auth.state.svelte';
   import {getAuthService} from '$lib/services/context';
   import {goto} from '$app/navigation';
-  import {fade} from 'svelte/transition';
+  import Modal from './Modal.svelte';
   import {LogOut} from 'lucide-svelte';
 
   const authService = getAuthService();
@@ -30,124 +30,61 @@
   }
 </script>
 
-{#if uiState.isLogoutConfirmationOpen}
-  <div 
-    class="logout-backdrop" 
-    onclick={handleCancel} 
-    onkeydown={(e) => e.key === 'Escape' && handleCancel()}
-    role="button"
-    tabindex="0"
-    transition:fade={{ duration: 200 }}
-  >
-    <div 
-      class="logout-card" 
-      onclick={(e) => e.stopPropagation()}
-      onkeydown={(e) => {
-        if (e.key === 'Escape') handleCancel();
-        e.stopPropagation();
-      }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="logout-title"
-      tabindex="-1"
-    >
-      <div class="logout-header">
-        <div class="logout-icon-container">
-          <LogOut size={24}/>
-        </div>
-        <div class="logout-title-area">
-          <h2 id="logout-title">Sign Out</h2>
-          <p>Ready to leave?</p>
-        </div>
+<Modal
+        isOpen={uiState.isLogoutConfirmationOpen}
+        title="Sign Out"
+        onclose={handleCancel}
+>
+  <div class="logout-modal-content">
+    <div class="logout-header-custom">
+      <div class="logout-icon-container">
+        <LogOut size={24}/>
       </div>
-      
-      <div class="logout-content">
-        <p>You'll need to sign back in to access your dashboard.</p>
-      </div>
-
-      <div class="logout-actions">
-        <button
-                class="modal-btn-cancel"
-          onclick={handleCancel} 
-          disabled={isLoggingOut}
-        >
-          Stay
-        </button>
-        <button
-                class="modal-btn-confirm"
-          onclick={handleLogout} 
-          disabled={isLoggingOut}
-          class:loading={isLoggingOut}
-        >
-          {#if isLoggingOut}
-            <span class="spinner"></span>
-          {:else}
-            Sign Out
-          {/if}
-        </button>
+      <div class="logout-title-area">
+        <p class="subtitle">Ready to leave?</p>
       </div>
     </div>
+
+    <div class="logout-body">
+      <p>You'll need to sign back in to access your dashboard.</p>
+    </div>
+
+    <div class="logout-actions">
+      <button
+              class="modal-btn-cancel"
+              onclick={handleCancel}
+              disabled={isLoggingOut}
+      >
+        Stay
+      </button>
+      <button
+              class="primary-button logout-btn"
+              onclick={handleLogout}
+              disabled={isLoggingOut}
+              class:loading={isLoggingOut}
+      >
+        {#if isLoggingOut}
+          <span class="spinner"></span>
+        {:else}
+          Sign Out
+        {/if}
+      </button>
+    </div>
   </div>
-{/if}
+</Modal>
 
 <style>
-  .logout-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: 1.5rem;
-    cursor: default;
-    animation: fadeIn 0.2s ease-out;
-  }
-
-  .logout-card {
-    background: var(--card-bg);
-    background-color: rgba(255, 255, 255, 0.98);
-    border: none;
-    border-radius: 24px;
-    width: 100%;
-    max-width: 360px;
-    padding: 1.75rem;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  .logout-modal-content {
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    animation: scaleIn 0.25s cubic-bezier(0.2, 1, 0.3, 1);
+    gap: 1.5rem;
   }
 
-  :global(.dark-mode) .logout-card {
-    background-color: rgba(24, 24, 27, 0.98);
-    border: none;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  }
-  @media (max-width: 640px) {
-    .logout-backdrop {
-      align-items: flex-end;
-      padding: 0;
-    }
-
-    .logout-card {
-      max-width: 100%;
-      border-radius: 24px 24px 0 0;
-      border-bottom: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1.5rem 1.5rem 2rem;
-      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-  }
-
-  .logout-header {
+  .logout-header-custom {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .logout-icon-container {
@@ -162,32 +99,29 @@
     flex-shrink: 0;
   }
 
-  .logout-title-area h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--text-main);
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-
-  .logout-title-area p {
-    font-size: 0.8125rem;
+  .logout-title-area .subtitle {
+    font-size: 0.875rem;
     color: var(--text-muted);
     margin: 0;
     font-weight: 500;
   }
 
-  .logout-content p {
+  .logout-body p {
     font-size: 0.9375rem;
     color: var(--text-muted);
     line-height: 1.5;
-    margin: 0 0 1.75rem 0;
+    margin: 0;
   }
 
   .logout-actions {
     display: flex;
     gap: 0.75rem;
     width: 100%;
+  }
+
+  .logout-actions button {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
   }
 
   .spinner {
@@ -208,32 +142,9 @@
     to { transform: rotate(360deg); }
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
+  @media (max-width: 480px) {
+    .logout-actions {
+      flex-direction: column-reverse;
     }
   }
 </style>

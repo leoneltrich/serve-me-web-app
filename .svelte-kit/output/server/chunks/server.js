@@ -39,6 +39,17 @@ function deferred() {
 		reject
 	};
 }
+
+/**
+ * @template V
+ * @param {V} value
+ * @param {V | (() => V)} fallback
+ * @param {boolean} [lazy]
+ * @returns {V}
+ */
+function fallback(value, fallback, lazy = false) {
+    return value === void 0 ? lazy ? fallback() : fallback : value;
+}
 //#endregion
 //#region node_modules/svelte/src/internal/client/reactivity/equality.js
 /** @import { Equals } from '#client' */
@@ -2632,6 +2643,32 @@ function writable(value, start = noop) {
 }
 //#endregion
 //#region node_modules/svelte/src/utils.js
+var VOID_ELEMENT_NAMES = [
+    "area",
+    "base",
+    "br",
+    "col",
+    "command",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+];
+
+/**
+ * Returns `true` if `name` is of a void element
+ * @param {string} name
+ */
+function is_void(name) {
+    return VOID_ELEMENT_NAMES.includes(name) || name.toLowerCase() === "!doctype";
+}
 /**
 * Attributes that are boolean, i.e. they are present or not present.
 */
@@ -2690,6 +2727,21 @@ var PASSIVE_EVENTS = ["touchstart", "touchmove"];
 function is_passive_event(name) {
 	return PASSIVE_EVENTS.includes(name);
 }
+
+/** List of elements that require raw contents and should not have SSR comments put in them */
+var RAW_TEXT_ELEMENTS = [
+    "textarea",
+    "script",
+    "style",
+    "title"
+];
+
+/** @param {string} name */
+function is_raw_text_element(name) {
+    return RAW_TEXT_ELEMENTS.includes(name);
+}
+
+var REGEX_VALID_TAG_NAME = /^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9.\-_\u00B7\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u037D\u037F-\u1FFF\u200C-\u200D\u203F-\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u{10000}-\u{EFFFF}]+)*$/u;
 //#endregion
 //#region node_modules/svelte/src/escaping.js
 var ATTR_REGEX = /[&"<]/g;
@@ -2856,6 +2908,7 @@ function to_style(value, styles) {
 //#region node_modules/svelte/src/internal/server/hydration.js
 var BLOCK_OPEN = `<!--[-->`;
 var BLOCK_CLOSE = `<!--]-->`;
+var EMPTY_COMMENT = `<!---->`;
 //#endregion
 //#region node_modules/svelte/src/internal/server/abort-signal.js
 /** @type {AbortController | null} */
@@ -2886,6 +2939,17 @@ function await_invalid() {
 	const error = /* @__PURE__ */ new Error(`await_invalid\nEncountered asynchronous work while rendering synchronously.\nhttps://svelte.dev/e/await_invalid`);
 	error.name = "Svelte error";
 	throw error;
+}
+
+/**
+ * `<svelte:element this="%tag%">` is not a valid element name — the element will not be rendered
+ * @param {string} tag
+ * @returns {never}
+ */
+function dynamic_element_invalid_tag(tag) {
+    const error = /* @__PURE__ */ new Error(`dynamic_element_invalid_tag\n\`<svelte:element this="${tag}">\` is not a valid element name — the element will not be rendered\nhttps://svelte.dev/e/dynamic_element_invalid_tag`);
+    error.name = "Svelte error";
+    throw error;
 }
 /**
 * The `html` property of server render results has been deprecated. Use `body` instead.
@@ -3825,6 +3889,29 @@ function get_user_code_location() {
 //#region node_modules/svelte/src/internal/server/index.js
 var INVALID_ATTR_NAME_CHAR_REGEX = /[\s'">/=\u{FDD0}-\u{FDEF}\u{FFFE}\u{FFFF}\u{1FFFE}\u{1FFFF}\u{2FFFE}\u{2FFFF}\u{3FFFE}\u{3FFFF}\u{4FFFE}\u{4FFFF}\u{5FFFE}\u{5FFFF}\u{6FFFE}\u{6FFFF}\u{7FFFE}\u{7FFFF}\u{8FFFE}\u{8FFFF}\u{9FFFE}\u{9FFFF}\u{AFFFE}\u{AFFFF}\u{BFFFE}\u{BFFFF}\u{CFFFE}\u{CFFFF}\u{DFFFE}\u{DFFFF}\u{EFFFE}\u{EFFFF}\u{FFFFE}\u{FFFFF}\u{10FFFE}\u{10FFFF}]/u;
 /**
+ * @param {Renderer} renderer
+ * @param {string} tag
+ * @param {() => void} attributes_fn
+ * @param {() => void} children_fn
+ * @returns {void}
+ */
+function element(renderer, tag, attributes_fn = noop, children_fn = noop) {
+    renderer.push("<!---->");
+    if (tag) {
+        if (!REGEX_VALID_TAG_NAME.test(tag)) dynamic_element_invalid_tag(tag);
+        renderer.push(`<${tag}`);
+        attributes_fn();
+        renderer.push(`>`);
+        if (!is_void(tag)) {
+            children_fn();
+            if (!is_raw_text_element(tag)) renderer.push(EMPTY_COMMENT);
+            renderer.push(`</${tag}>`);
+        }
+    }
+    renderer.push("<!---->");
+}
+
+/**
 * Only available on the server and when compiling with the `server` option.
 * Takes a component and returns an object with `body` and `head` properties on it, which you can use to populate the HTML when server-rendering your app.
 * @template {Record<string, any>} Props
@@ -3872,6 +3959,26 @@ function attributes(attrs, css_hash, classes, styles, flags = 0) {
 	return attr_str;
 }
 /**
+ * @param {Record<string, unknown>[]} props
+ * @returns {Record<string, unknown>}
+ */
+function spread_props(props) {
+    /** @type {Record<string, unknown>} */
+    const merged_props = {};
+    let key;
+    for (let i = 0; i < props.length; i++) {
+        const obj = props[i];
+        if (obj == null) continue;
+        for (key of Object.keys(obj)) {
+            const desc = Object.getOwnPropertyDescriptor(obj, key);
+            if (desc) Object.defineProperty(merged_props, key, desc);
+            else merged_props[key] = obj[key];
+        }
+    }
+    return merged_props;
+}
+
+/**
 * @param {unknown} value
 * @returns {string}
 */
@@ -3894,6 +4001,57 @@ function attr_class(value, hash, directives) {
 function attr_style(value, directives) {
 	var result = to_style(value, directives);
 	return result ? ` style="${escape_html(result, true)}"` : "";
+}
+
+/**
+ * @param {Renderer} renderer
+ * @param {Record<string, any>} $$props
+ * @param {string} name
+ * @param {Record<string, unknown>} slot_props
+ * @param {null | (() => void)} fallback_fn
+ * @returns {void}
+ */
+function slot(renderer, $$props, name, slot_props, fallback_fn) {
+    var slot_fn = $$props.$$slots?.[name];
+    if (slot_fn === true) slot_fn = $$props[name === "default" ? "children" : name];
+    if (slot_fn !== void 0) slot_fn(renderer, slot_props);
+    else fallback_fn?.();
+}
+
+/**
+ * @param {Record<string, unknown>} props
+ * @param {string[]} rest
+ * @returns {Record<string, unknown>}
+ */
+function rest_props(props, rest) {
+    /** @type {Record<string, unknown>} */
+    const rest_props = {};
+    let key;
+    for (key of Object.keys(props)) if (!rest.includes(key)) rest_props[key] = props[key];
+    return rest_props;
+}
+
+/**
+ * @param {Record<string, unknown>} props
+ * @returns {Record<string, unknown>}
+ */
+function sanitize_props(props) {
+    const {children, $$slots, ...sanitized} = props;
+    return sanitized;
+}
+
+/**
+ * Legacy mode: If the prop has a fallback and is bound in the
+ * parent component, propagate the fallback value upwards.
+ * @param {Record<string, unknown>} props_parent
+ * @param {Record<string, unknown>} props_now
+ */
+function bind_props(props_parent, props_now) {
+    for (const key of Object.keys(props_now)) {
+        const initial_value = props_parent[key];
+        const value = props_now[key];
+        if (initial_value === void 0 && value !== void 0 && Object.getOwnPropertyDescriptor(props_parent, key)?.set) props_parent[key] = value;
+    }
 }
 /** @param {any} array_like_or_iterator */
 function ensure_array_like(array_like_or_iterator) {
@@ -3927,4 +4085,72 @@ function derived(fn) {
 	};
 }
 //#endregion
-export { LEGACY_PROPS as $, clear_text_content as A, pop$1 as B, writable as C, set_active_effect as D, get as E, mutable_source as F, set_hydrate_node as G, async_mode_flag as H, set as I, lifecycle_double_unmount as J, set_hydrating as K, boundary as L, get_first_child as M, get_next_sibling as N, set_active_reaction as O, init_operations as P, experimental_async_required as Q, flushSync as R, readable as S, active_reaction as T, hydrate_node as U, push$1 as V, hydrating as W, HYDRATION_ERROR as X, state_proxy_unmount as Y, hydration_failed as Z, lifecycle_function_unavailable as _, render as a, escape_html as b, get_render_context as c, getContext as d, STATE_SYMBOL as et, hasContext as f, hydratable_serialization_failed as g, hydratable_clobbering as h, ensure_array_like as i, run as it, create_text as j, component_root as k, createContext as l, ssr_context as m, attr_style as n, define_property as nt, stringify as o, setContext as p, hydration_mismatch as q, derived as r, noop as rt, get_user_code_location as s, attr_class as t, array_from as tt, getAllContexts as u, getAbortSignal as v, active_effect as w, is_passive_event as x, attr as y, component_context as z };
+export {
+    set_hydrate_node as $,
+    readable as A,
+    get_first_child as B,
+    hydratable_serialization_failed as C,
+    clsx$1 as D,
+    attr as E,
+    set_active_effect as F,
+    boundary as G,
+    init_operations as H,
+    set_active_reaction as I,
+    pop$1 as J,
+    flushSync as K,
+    component_root as L,
+    active_effect as M,
+    active_reaction as N,
+    escape_html as O,
+    get as P,
+    hydrating as Q,
+    clear_text_content as R,
+    hydratable_clobbering as S,
+    getAbortSignal as T,
+    mutable_source as U,
+    get_next_sibling as V,
+    set as W,
+    async_mode_flag as X,
+    push$1 as Y,
+    hydrate_node as Z,
+    getAllContexts as _,
+    derived as a,
+    hydration_failed as at,
+    setContext as b,
+    render as c,
+    STATE_SYMBOL as ct,
+    slot as d,
+    fallback as dt,
+    set_hydrating as et,
+    spread_props as f,
+    noop as ft,
+    createContext as g,
+    get_render_context as h,
+    bind_props as i,
+    HYDRATION_ERROR as it,
+    writable as j,
+    is_passive_event as k,
+    rest_props as l,
+    array_from as lt,
+    get_user_code_location as m,
+    attr_style as n,
+    lifecycle_double_unmount as nt,
+    element as o,
+    experimental_async_required as ot,
+    stringify as p,
+    run as pt,
+    component_context as q,
+    attributes as r,
+    state_proxy_unmount as rt,
+    ensure_array_like as s,
+    LEGACY_PROPS as st,
+    attr_class as t,
+    hydration_mismatch as tt,
+    sanitize_props as u,
+    define_property as ut,
+    getContext as v,
+    lifecycle_function_unavailable as w,
+    ssr_context as x,
+    hasContext as y,
+    create_text as z
+};

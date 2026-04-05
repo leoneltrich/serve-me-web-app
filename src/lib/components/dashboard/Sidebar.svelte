@@ -16,6 +16,7 @@
     }
 
   function handleLogout() {
+      uiState.closeSidebar();
     uiState.openLogoutConfirmation();
   }
 </script>

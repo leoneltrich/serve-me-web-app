@@ -1,18 +1,15 @@
-import "../../chunks/index-server.js";
-import { n as attr_style, o as stringify } from "../../chunks/server.js";
+import {r as public_env} from "../../chunks/shared-server.js";
+import {n as attr_style, p as stringify} from "../../chunks/server.js";
 import "../../chunks/state.js";
 import "../../chunks/navigation.js";
 import { a as setAdminService, c as setServerService, o as setAuthService, s as setHealthService } from "../../chunks/context.js";
 import "../../chunks/auth.state.svelte.js";
-//#region \0virtual:env/static/public
-/** @type {import('$env/static/public').PUBLIC_API_BASE_URL} */
-var PUBLIC_API_BASE_URL = "/api/v1";
-//#endregion
 //#region src/lib/services/api/fetch-api-client.ts
 var FetchApiClient = class {
 	baseUrl;
-	constructor(baseUrl = PUBLIC_API_BASE_URL) {
-		this.baseUrl = baseUrl;
+
+    constructor(baseUrl = public_env.PUBLIC_API_BASE_URL || "/api/v1") {
+        this.baseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 	}
 	async post(path, body) {
 		try {
@@ -101,113 +98,130 @@ var FetchApiClient = class {
 	}
 };
 //#endregion
-//#region src/lib/services/auth/backend-auth.service.ts
-var BackendAuthService = class {
+//#region src/lib/services/base.service.ts
+var BaseService = class {
 	client;
 	constructor(client) {
 		this.client = client;
 	}
+
+    /**
+     * Performs an API request and handles basic error conditions.
+     * @param method The API method to call on the client
+     * @param path The API endpoint path
+     * @param body Optional request body
+     * @param options Configuration for response handling
+     */
+    async request(method, path, body, options = {unwrapData: false}) {
+        const response = await this.client[method](path, body);
+        if (response.error) throw new Error(response.error);
+        if (response.data === void 0 && response.status !== 204) {
+            if (method !== "delete") throw new Error("No data received from server");
+        }
+        if (options.unwrapData && response.data && typeof response.data === "object" && "data" in response.data) return response.data.data;
+        return response.data;
+    }
+
+    async get(path, options) {
+        return this.request("get", path, void 0, options);
+    }
+
+    async post(path, body, options) {
+        return this.request("post", path, body, options);
+    }
+
+    async put(path, body, options) {
+        return this.request("put", path, body, options);
+    }
+
+    async delete(path, options) {
+        return this.request("delete", path, void 0, options);
+    }
+};
+//#endregion
+//#region src/lib/services/auth/backend-auth.service.ts
+var BackendAuthService = class extends BaseService {
+    constructor(client) {
+        super(client);
+    }
 	async login(username, password) {
-		const response = await this.client.post("/auth/login", {
-			username,
-			password
-		});
-		if (response.error || !response.data) throw new Error(response.error || "Authentication failed");
-		return {
-			...response.data,
+        return {
+            ...await this.post("/auth/login", {
+                username,
+                password
+            }),
 			username
 		};
 	}
 	async logout() {
-		await this.client.post("/auth/logout", {});
+        await this.post("/auth/logout", {});
 	}
 	async getCurrentUser() {
-		const response = await this.client.get("/auth/me");
-		if (response.status === 200 && response.data) return response.data;
-		return null;
+        try {
+            return await this.get("/auth/me");
+        } catch (error) {
+            return null;
+        }
 	}
 };
 //#endregion
-//#region src/lib/services/auth/backend-admin.service.ts
-var BackendAdminService = class {
-	client;
+//#region src/lib/services/backend-admin.service.ts
+var BackendAdminService = class extends BaseService {
 	constructor(client) {
-		this.client = client;
+        super(client);
 	}
 	async getUsers() {
-		const response = await this.client.get("/admin/users");
-		if (response.error || !response.data) throw new Error(response.error || "Failed to fetch users");
-		return response.data.data;
+        return this.get("/admin/users", {unwrapData: true});
 	}
 	async createUser(user) {
-		const response = await this.client.post("/admin/users", user);
-		if (response.error) throw new Error(response.error);
+        await this.post("/admin/users", user);
 	}
 	async updateUser(user) {
-		const response = await this.client.put("/admin/users", user);
-		if (response.error) throw new Error(response.error);
+        await this.put("/admin/users", user);
 	}
 	async deleteUser(username) {
-		const response = await this.client.delete(`/admin/users/${username}`);
-		if (response.error) throw new Error(response.error);
+        await this.delete(`/admin/users/${username}`);
 	}
 };
 //#endregion
-//#region src/lib/services/auth/backend-server.service.ts
-var BackendServerService = class {
-	client;
+//#region src/lib/services/backend-server.service.ts
+var BackendServerService = class extends BaseService {
 	constructor(client) {
-		this.client = client;
+        super(client);
 	}
 	async getServers() {
-		const response = await this.client.get("/admin/servers");
-		if (response.error || !response.data) throw new Error(response.error || "Failed to fetch servers");
-		return response.data;
+        return this.get("/admin/servers");
 	}
 	async getServer(name) {
-		const response = await this.client.get(`/admin/servers/${name}`);
-		if (response.error || !response.data) throw new Error(response.error || "Failed to fetch server");
-		return response.data;
+        return this.get(`/admin/servers/${name}`);
 	}
 	async createServer(server) {
-		const response = await this.client.post("/admin/servers", server);
-		if (response.error) throw new Error(response.error);
+        await this.post("/admin/servers", server);
 	}
 	async updateServer(name, server) {
-		const response = await this.client.put(`/admin/servers/${name}`, server);
-		if (response.error) throw new Error(response.error);
+        await this.put(`/admin/servers/${name}`, server);
 	}
 	async deleteServer(name) {
-		const response = await this.client.delete(`/admin/servers/${name}`);
-		if (response.error) throw new Error(response.error);
+        await this.delete(`/admin/servers/${name}`);
 	}
 	async requestAccess(serverId) {
-		const response = await this.client.post("/users/access", { server_id: serverId });
-		if (response.error || !response.data) throw new Error(response.error || "Failed to request access");
-		return response.data;
+        return this.post("/users/access", {server_id: serverId});
 	}
 	async checkAccessStatus(server) {
-		const response = await this.client.get(`/users/access/${server}/status`);
-		if (response.error || !response.data) throw new Error(response.error || "Failed to check access status");
-		return response.data;
+        return this.get(`/users/access/${server}/status`);
 	}
 };
 //#endregion
-//#region src/lib/services/auth/backend-health.service.ts
-var BackendHealthService = class {
-	client;
+//#region src/lib/services/backend-health.service.ts
+var BackendHealthService = class extends BaseService {
 	constructor(client) {
-		this.client = client;
+        super(client);
 	}
 	async getHealth() {
-		const response = await this.client.get("/health");
-		if (response.error || !response.data) throw new Error(response.error || "Failed to fetch system health");
-		return response.data;
+        return this.get("/health");
 	}
 	async getServicesHealth() {
-		const response = await this.client.get("/health/services");
-		if (response.error || !response.data) throw new Error(response.error || "Failed to fetch detailed services health");
-		return response.data;
+        return this.get("/health/services");
 	}
 };
 //#endregion
@@ -215,8 +229,11 @@ var BackendHealthService = class {
 function _layout($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		let { data, children } = $$props;
-		const apiClient = new FetchApiClient();
-		const authService = new BackendAuthService(new FetchApiClient(""));
+        const apiBaseUrl = public_env.PUBLIC_API_BASE_URL || "";
+        const isFullUrl = apiBaseUrl.startsWith("http");
+        const authApiClient = new FetchApiClient(isFullUrl ? apiBaseUrl : "");
+        const apiClient = new FetchApiClient(isFullUrl ? `${apiBaseUrl}/api/v1` : "/api/v1");
+        const authService = new BackendAuthService(authApiClient);
 		const adminService = new BackendAdminService(apiClient);
 		const serverService = new BackendServerService(apiClient);
 		const healthService = new BackendHealthService(apiClient);

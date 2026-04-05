@@ -1,12 +1,52 @@
 import "../../../../chunks/index-server.js";
-import { b as escape_html, i as ensure_array_like, t as attr_class, y as attr } from "../../../../chunks/server.js";
+import {
+    E as attr,
+    O as escape_html,
+    d as slot,
+    f as spread_props,
+    p as stringify,
+    s as ensure_array_like,
+    t as attr_class,
+    u as sanitize_props
+} from "../../../../chunks/server.js";
 import { i as getServerService } from "../../../../chunks/context.js";
+import {t as Icon} from "../../../../chunks/Icon.js";
+import {t as Lock} from "../../../../chunks/lock.js";
+import {i as Pencil, n as Trash_2, r as Plus, t as ConfirmationModal} from "../../../../chunks/ConfirmationModal.js";
+import {t as Server} from "../../../../chunks/server2.js";
 import { t as Modal } from "../../../../chunks/Modal.js";
+
+//#region node_modules/lucide-svelte/dist/icons/shield.svelte
+function Shield($$renderer, $$props) {
+    Icon($$renderer, spread_props([
+        {name: "shield"},
+        sanitize_props($$props),
+        {
+            iconNode: [["path", {"d": "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"}]],
+            children: ($$renderer) => {
+                $$renderer.push(`<!--[-->`);
+                slot($$renderer, $$props, "default", {}, null);
+                $$renderer.push(`<!--]-->`);
+            },
+            $$slots: {default: true}
+        }
+    ]));
+}
+
+//#endregion
 //#region src/lib/components/dashboard/ServerCard.svelte
 function ServerCard($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		let { server, onaccess, onedit, ondelete } = $$props;
-		$$renderer.push(`<div class="server-card svelte-ldnpbc"><div class="card-header svelte-ldnpbc"><div class="server-icon svelte-ldnpbc"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></div> <div class="server-name svelte-ldnpbc"><h3 class="svelte-ldnpbc">${escape_html(server.servername)}</h3></div></div> <div class="card-body svelte-ldnpbc"><div class="info-row svelte-ldnpbc"><span class="label svelte-ldnpbc">Port</span> <code class="svelte-ldnpbc">${escape_html(server.port)}</code></div> <div class="info-row svelte-ldnpbc"><span class="label svelte-ldnpbc">Protocol</span> <span class="badge svelte-ldnpbc">${escape_html(server.protocol)}</span></div></div> <div class="card-actions svelte-ldnpbc"><button class="action-btn access svelte-ldnpbc" title="Access Status"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <span>Status</span></button> <div class="secondary-actions svelte-ldnpbc"><button class="action-btn edit svelte-ldnpbc" title="Edit"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button> <button class="action-btn delete svelte-ldnpbc" title="Delete"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div></div></div>`);
+        $$renderer.push(`<div class="glass-card server-card svelte-ldnpbc"><div class="card-header svelte-ldnpbc"><div class="server-icon svelte-ldnpbc">`);
+        Server($$renderer, {size: 20});
+        $$renderer.push(`<!----></div> <div class="server-name svelte-ldnpbc"><h3 class="svelte-ldnpbc">${escape_html(server.servername)}</h3></div></div> <div class="card-body svelte-ldnpbc"><div class="info-row svelte-ldnpbc"><span class="label svelte-ldnpbc">Port</span> <code class="svelte-ldnpbc">${escape_html(server.port)}</code></div> <div class="info-row svelte-ldnpbc"><span class="label svelte-ldnpbc">Protocol</span> <span class="badge svelte-ldnpbc">${escape_html(server.protocol)}</span></div></div> <div class="card-actions svelte-ldnpbc"><button class="action-btn action-btn-card btn-access-primary svelte-ldnpbc" title="Access Status">`);
+        Lock($$renderer, {size: 18});
+        $$renderer.push(`<!----> <span>Status</span></button> <div class="secondary-actions svelte-ldnpbc"><button class="action-btn action-btn-card svelte-ldnpbc" title="Edit">`);
+        Pencil($$renderer, {size: 18});
+        $$renderer.push(`<!----></button> <button class="action-btn action-btn-card btn-delete svelte-ldnpbc" title="Delete">`);
+        Trash_2($$renderer, {size: 18});
+        $$renderer.push(`<!----></button></div></div></div>`);
 	});
 }
 //#endregion
@@ -21,11 +61,13 @@ function _page($$renderer, $$props) {
 		let isCreateModalOpen = false;
 		let isEditModalOpen = false;
 		let isAccessModalOpen = false;
+        let isDeleteModalOpen = false;
 		let currentServer = {
 			servername: "",
 			port: 8080,
 			protocol: "TCP"
 		};
+        let serverToDelete = null;
 		let accessStatus = null;
 		let isActionLoading = false;
 		async function loadServers() {
@@ -43,12 +85,20 @@ function _page($$renderer, $$props) {
 			currentServer = { ...server };
 			isEditModalOpen = true;
 		}
-		async function handleDelete(name) {
-			if (!confirm(`Are you sure you want to delete ${name}?`)) return;
+
+        function openDeleteModal(name) {
+            serverToDelete = name;
+            isDeleteModalOpen = true;
+        }
+
+        async function handleDelete() {
+            if (!serverToDelete) return;
 			isActionLoading = true;
 			try {
-				await serverService.deleteServer(name);
+                await serverService.deleteServer(serverToDelete);
 				await loadServers();
+                isDeleteModalOpen = false;
+                serverToDelete = null;
 				showSuccess("Server deleted");
 			} catch (err) {
 				error = "Failed to delete server";
@@ -69,7 +119,10 @@ function _page($$renderer, $$props) {
 			successMessage = msg;
 			setTimeout(() => successMessage = null, 3e3);
 		}
-		$$renderer.push(`<div class="page-header svelte-ue5lhs"><div class="svelte-ue5lhs"><h1 class="svelte-ue5lhs">Servers</h1> <p class="subtitle svelte-ue5lhs">Manage firewall rules and server access.</p></div> <button class="primary-button svelte-ue5lhs"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="svelte-ue5lhs"><line x1="12" y1="5" x2="12" y2="19" class="svelte-ue5lhs"></line><line x1="5" y1="12" x2="19" y2="12" class="svelte-ue5lhs"></line></svg> Add Server</button></div> `);
+
+        $$renderer.push(`<div class="page-header svelte-ue5lhs"><div class="svelte-ue5lhs"><h1 class="svelte-ue5lhs">Servers</h1> <p class="subtitle svelte-ue5lhs">Manage servers and access to them.</p></div> <button class="primary-button svelte-ue5lhs">`);
+        Plus($$renderer, {size: 18});
+        $$renderer.push(`<!----> Add Server</button></div> `);
 		if (error) {
 			$$renderer.push("<!--[0-->");
 			$$renderer.push(`<div class="banner error svelte-ue5lhs">${escape_html(error)} <button class="svelte-ue5lhs">×</button></div>`);
@@ -102,14 +155,22 @@ function _page($$renderer, $$props) {
 					server,
 					onaccess: () => openAccessModal(server.servername),
 					onedit: () => openEditModal(server),
-					ondelete: () => handleDelete(server.servername)
+                    ondelete: () => openDeleteModal(server.servername)
 				});
 			}
-			$$renderer.push(`<!--]--></div> <div class="servers-card desktop-only svelte-ue5lhs"><div class="table-container svelte-ue5lhs"><table class="servers-table svelte-ue5lhs"><thead class="svelte-ue5lhs"><tr class="svelte-ue5lhs"><th class="svelte-ue5lhs">Server Name</th><th class="svelte-ue5lhs">Port</th><th class="svelte-ue5lhs">Protocol</th><th class="actions-cell svelte-ue5lhs">Actions</th></tr></thead><tbody class="svelte-ue5lhs"><!--[-->`);
+            $$renderer.push(`<!--]--></div> <div class="glass-list desktop-only svelte-ue5lhs"><div class="table-container svelte-ue5lhs"><table class="servers-table svelte-ue5lhs"><thead class="svelte-ue5lhs"><tr class="svelte-ue5lhs"><th class="svelte-ue5lhs">Server Name</th><th class="svelte-ue5lhs">Port</th><th class="svelte-ue5lhs">Protocol</th><th class="actions-cell svelte-ue5lhs">Actions</th></tr></thead><tbody class="svelte-ue5lhs"><!--[-->`);
 			const each_array_2 = ensure_array_like(servers);
 			for (let $$index_2 = 0, $$length = each_array_2.length; $$index_2 < $$length; $$index_2++) {
 				let server = each_array_2[$$index_2];
-				$$renderer.push(`<tr class="svelte-ue5lhs"><td class="name-cell svelte-ue5lhs"><div class="server-icon svelte-ue5lhs"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="svelte-ue5lhs"><rect x="2" y="2" width="20" height="8" rx="2" ry="2" class="svelte-ue5lhs"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2" class="svelte-ue5lhs"></rect><line x1="6" y1="6" x2="6.01" y2="6" class="svelte-ue5lhs"></line><line x1="6" y1="18" x2="6.01" y2="18" class="svelte-ue5lhs"></line></svg></div> ${escape_html(server.servername)}</td><td class="svelte-ue5lhs"><code class="svelte-ue5lhs">${escape_html(server.port)}</code></td><td class="svelte-ue5lhs"><span class="badge svelte-ue5lhs">${escape_html(server.protocol)}</span></td><td class="actions-cell svelte-ue5lhs"><div class="action-group svelte-ue5lhs"><button class="action-btn access svelte-ue5lhs" title="Access Status"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="svelte-ue5lhs"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" class="svelte-ue5lhs"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4" class="svelte-ue5lhs"></path></svg></button> <button class="action-btn edit svelte-ue5lhs" title="Edit"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="svelte-ue5lhs"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" class="svelte-ue5lhs"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" class="svelte-ue5lhs"></path></svg></button> <button class="action-btn delete svelte-ue5lhs" title="Delete"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="svelte-ue5lhs"><polyline points="3 6 5 6 21 6" class="svelte-ue5lhs"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" class="svelte-ue5lhs"></path></svg></button></div></td></tr>`);
+                $$renderer.push(`<tr class="svelte-ue5lhs"><td class="name-cell svelte-ue5lhs"><div class="server-icon svelte-ue5lhs">`);
+                Server($$renderer, {size: 16});
+                $$renderer.push(`<!----></div> ${escape_html(server.servername)}</td><td class="svelte-ue5lhs"><code class="svelte-ue5lhs">${escape_html(server.port)}</code></td><td class="svelte-ue5lhs"><span class="badge svelte-ue5lhs">${escape_html(server.protocol)}</span></td><td class="actions-cell svelte-ue5lhs"><div class="action-group svelte-ue5lhs"><button class="action-btn action-btn-table btn-access svelte-ue5lhs" title="Access Status">`);
+                Shield($$renderer, {size: 16});
+                $$renderer.push(`<!----></button> <button class="action-btn action-btn-table svelte-ue5lhs" title="Edit">`);
+                Pencil($$renderer, {size: 16});
+                $$renderer.push(`<!----></button> <button class="action-btn action-btn-table btn-delete svelte-ue5lhs" title="Delete">`);
+                Trash_2($$renderer, {size: 16});
+                $$renderer.push(`<!----></button></div></td></tr>`);
 			}
 			$$renderer.push(`<!--]--></tbody></table></div></div>`);
 		}
@@ -148,7 +209,7 @@ function _page($$renderer, $$props) {
 						$$renderer.push(`TCP/UDP`);
 					}, "svelte-ue5lhs");
 				}, "svelte-ue5lhs");
-				$$renderer.push(`</div> <div class="form-actions svelte-ue5lhs"><button type="button" class="secondary-button svelte-ue5lhs">Cancel</button> <button type="submit" class="primary-button svelte-ue5lhs"${attr("disabled", isActionLoading, true)}>${escape_html(isActionLoading ? "Saving..." : isCreateModalOpen ? "Create Server" : "Save Changes")}</button></div></form>`);
+                $$renderer.push(`</div> <div class="form-actions svelte-ue5lhs"><button type="button" class="modal-btn-cancel svelte-ue5lhs">Cancel</button> <button type="submit" class="primary-button svelte-ue5lhs"${attr("disabled", isActionLoading, true)}>${escape_html(isActionLoading ? "Saving..." : isCreateModalOpen ? "Create Server" : "Save Changes")}</button></div></form>`);
 			},
 			$$slots: { default: true }
 		});
@@ -174,6 +235,20 @@ function _page($$renderer, $$props) {
 			},
 			$$slots: { default: true }
 		});
+        $$renderer.push(`<!----> `);
+        ConfirmationModal($$renderer, {
+            isOpen: isDeleteModalOpen,
+            title: "Delete Server",
+            message: `Are you sure you want to delete ${stringify(serverToDelete)}? This action cannot be undone.`,
+            confirmLabel: "Delete Server",
+            isDanger: true,
+            isLoading: isActionLoading,
+            onconfirm: handleDelete,
+            onclose: () => {
+                isDeleteModalOpen = false;
+                serverToDelete = null;
+            }
+        });
 		$$renderer.push(`<!---->`);
 	});
 }

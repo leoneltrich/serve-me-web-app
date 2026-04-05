@@ -9,9 +9,6 @@ var AuthState = class {
 	get isAuthenticated() {
 		return !!this._user;
 	}
-	get isInitialized() {
-		return this._initialized;
-	}
 	setUser(user) {
 		this._user = user;
 		this._initialized = true;
