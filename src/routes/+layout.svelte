@@ -3,6 +3,7 @@
 	import {page} from '$app/state';
 	import {goto} from '$app/navigation';
 	import {setAdminService, setAuthService, setHealthService, setServerService} from '$lib/services/context';
+	import {env} from '$env/dynamic/public';
 	import {FetchApiClient} from '$lib/services/api/fetch-api-client';
 	import {BackendAuthService} from '$lib/services/auth/backend-auth.service';
 	import {BackendAdminService} from '$lib/services/backend-admin.service';
@@ -12,9 +13,12 @@
 
 	let { data, children } = $props();
 
-	// Composition Root
-	const apiClient = new FetchApiClient(); // Defaults to /api/v1 from .env
-	const authApiClient = new FetchApiClient(''); // Uses root for /auth endpoints
+	const apiBaseUrl = env.PUBLIC_API_BASE_URL || '';
+
+	const isFullUrl = apiBaseUrl.startsWith('http');
+
+	const authApiClient = new FetchApiClient(isFullUrl ? apiBaseUrl : '');
+	const apiClient = new FetchApiClient(isFullUrl ? `${apiBaseUrl}/api/v1` : '/api/v1');
 
 	const authService = new BackendAuthService(authApiClient);
 	const adminService = new BackendAdminService(apiClient);

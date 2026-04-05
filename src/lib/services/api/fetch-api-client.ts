@@ -1,11 +1,12 @@
-import { env } from '$env/dynamic/public';
-import type { ApiClient, ApiResponse } from './api-client.interface';
+import {env} from '$env/dynamic/public';
+import type {ApiClient, ApiResponse} from './api-client.interface';
 
 export class FetchApiClient implements ApiClient {
   private readonly baseUrl: string;
 
   constructor(baseUrl: string = env.PUBLIC_API_BASE_URL || '/api/v1') {
-    this.baseUrl = baseUrl;
+    // Remove trailing slash from base URL
+    this.baseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
   }
 
   async post<T>(path: string, body: unknown): Promise<ApiResponse<T>> {

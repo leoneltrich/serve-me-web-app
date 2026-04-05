@@ -1,5 +1,5 @@
-import { env } from '$env/dynamic/private';
-import type { Handle } from '@sveltejs/kit';
+import {env} from '$env/dynamic/private';
+import type {Handle} from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
     const { pathname } = event.url;
@@ -16,6 +16,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             const headers = new Headers(event.request.headers);
             headers.delete('host');
             headers.delete('connection');
+            headers.delete('accept-encoding');
             
             // Add forwarding headers for the backend to know the real client
             const clientAddress = event.getClientAddress();
@@ -37,7 +38,16 @@ export const handle: Handle = async ({ event, resolve }) => {
                 redirect: 'manual'
             });
 
-            return response;
+            const responseHeaders = new Headers(response.headers);
+            responseHeaders.delete('content-encoding');
+            responseHeaders.delete('content-length');
+            responseHeaders.delete('transfer-encoding');
+
+            return new Response(response.body, {
+                status: response.status,
+                statusText: response.statusText,
+                headers: responseHeaders
+            });
         } catch (error) {
             console.error(`Proxy error for ${pathname}:`, error);
             return new Response('Internal Server Error', { status: 500 });
